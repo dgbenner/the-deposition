@@ -1,0 +1,8 @@
+{
+  "name": "the-deposition",
+  "version": "1.0.0",
+  "description": "A fictional psychological analytical construct.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  }
+}
