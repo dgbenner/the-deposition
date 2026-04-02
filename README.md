@@ -1,5 +1,5 @@
-# The Deposition
-### An Unguarded Account
+# The Desposition of Record
+### The unguarded version of himself he has never been.
 
 A fictional analytical construct for understanding political psychology. Not a real person or real record.
 
