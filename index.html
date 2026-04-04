@@ -362,25 +362,33 @@
   /* Scroll-down indicator — hidden */
   #scroll-down { display: none !important; }
 
-  /* Large text toggle */
+  /* Text size toggle */
   .text-toggle {
     position: fixed;
     top: 1.5rem;
     right: 1.5rem;
-    background: transparent;
+    display: flex;
+    gap: 0;
     border: 1px solid var(--border);
-    color: var(--amber-dim);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    padding: 5px 12px;
-    cursor: pointer;
-    transition: all 0.2s;
     z-index: 20;
   }
 
-  .text-toggle:hover { color: var(--amber); border-color: var(--amber-dim); }
-  .text-toggle.active { background: var(--amber-faint); color: var(--amber-bright); border-color: var(--amber-dim); }
+  .text-toggle button {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    color: var(--amber-dim);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+
+  .text-toggle button:last-child { border-right: none; }
+  .text-toggle button.active { background: var(--amber-faint); color: var(--amber-bright); }
+  .text-toggle button:hover:not(.active) { color: var(--amber); }
 
   #app.large-text .msg-construct .msg-text { font-size: 30px; line-height: 1.4; }
   #app.large-text .msg-user .msg-text { font-size: 22px; line-height: 1.4; }
@@ -457,9 +465,9 @@
   #msg-input::placeholder { color: var(--cool-dim); }
 
   #send-btn {
-    background: transparent;
+    background: var(--amber-faint);
     border: 1px solid var(--amber-dim);
-    color: var(--amber);
+    color: var(--amber-bright);
     font-family: var(--font-mono);
     font-size: 12px;
     letter-spacing: 0.1em;
@@ -470,7 +478,7 @@
     white-space: nowrap;
   }
 
-  #send-btn:hover { background: var(--amber-faint); border-color: var(--amber); }
+  #send-btn:hover { background: var(--amber-dim); border-color: var(--amber); color: var(--bg); }
   #send-btn:disabled { opacity: 0.3; cursor: default; }
 
   .input-foot {
@@ -656,7 +664,7 @@
   </button>
 
   <div class="modal-title">SUGGESTED TOPICS</div>
-  <div class="modal-subtitle">SELECT A TOPIC TO BEGIN. THE CONSTRUCT WILL PROCESS IT THROUGH ITS PSYCHOLOGICAL ARCHITECTURE.</div>
+  <div class="modal-subtitle">SELECT A TOPIC AND TRUMP WILL EXPLAIN HIMSELF — HIS REAL REASONING, HIS FORMATION, HIS ACTUAL MOTIVATIONS.</div>
 
   <div class="topics-grid">
 
@@ -668,7 +676,7 @@
     </div>
 
     <div class="topic-section">
-      <div class="section-label">Family &amp; Formation</div>
+      <div class="section-label">Family + Formation</div>
       <button class="topic-btn" onclick="fireTopic('Fred, My Father','Tell me about your father Fred Trump. What did he build in you, and what did he break?')">FRED, MY FATHER</button>
       <button class="topic-btn" onclick="fireTopic('What Happened to Freddie','Tell me about your brother Fred Jr. What did you learn from watching what happened to him? What does his death still mean to you?')">WHAT HAPPENED TO FREDDIE</button>
       <button class="topic-btn" onclick="fireTopic('My Mother','Tell me about your mother Mary Anne. What was her presence — or her absence — in your formation?')">MY MOTHER</button>
@@ -677,7 +685,7 @@
     </div>
 
     <div class="topic-section">
-      <div class="section-label">Psychology &amp; Shadow</div>
+      <div class="section-label">Psychology + Shadow</div>
       <button class="topic-btn" onclick="fireTopic('The Approval Loop','Walk me through the approval-seeking loop — from Fred\\'s conditional love to rally crowds to 3am on social media. What are you actually looking for?')">THE APPROVAL LOOP</button>
       <button class="topic-btn" onclick="fireTopic('Fear of Being Found Out','What does it feel like when someone gets close to the thing you don\\'t want them to see? What happens inside you?')">FEAR OF BEING FOUND OUT</button>
       <button class="topic-btn" onclick="fireTopic('Norman Vincent Peale','Explain the Peale doctrine as you absorbed it from your father. How did positive thinking become your operating system?')">NORMAN VINCENT PEALE</button>
@@ -687,24 +695,24 @@
 
     <div class="topic-section">
       <div class="section-label">The Presidency</div>
-      <button class="topic-btn" onclick="fireTopic('ICE and Removal Power','Explain what ICE raids are actually for. Not the policy justification — the signal. What does removal power demonstrate?')">ICE &amp; REMOVAL POWER</button>
+      <button class="topic-btn" onclick="fireTopic('ICE and Removal Power','Explain what ICE raids are actually for. Not the policy justification — the signal. What does removal power demonstrate?')">ICE + REMOVAL POWER</button>
       <button class="topic-btn" onclick="fireTopic('Judicial Capture','Walk me through the judicial appointment strategy. Three Supreme Court justices, 234 federal judges. What did you actually build?')">JUDICIAL CAPTURE</button>
-      <button class="topic-btn" onclick="fireTopic('COVID and Vulnerability','1.1 million Americans died. You told Woodward it was deadly in February 2020. Walk me through the gap between what you knew and what you said publicly.')">COVID &amp; VULNERABILITY</button>
+      <button class="topic-btn" onclick="fireTopic('COVID and Vulnerability','1.1 million Americans died. You told Woodward it was deadly in February 2020. Walk me through the gap between what you knew and what you said publicly.')">COVID + VULNERABILITY</button>
       <button class="topic-btn" onclick="fireTopic('January 6','Take me through January 6 from your perspective. Not the legal case — the psychological one. What was actually happening inside you?')">JANUARY 6</button>
       <button class="topic-btn" onclick="fireTopic('The Pardon Economy','Explain how you use the pardon power. Who gets pardoned, who doesn\\'t, and what is the actual currency?')">THE PARDON ECONOMY</button>
     </div>
 
     <div class="topic-section">
-      <div class="section-label">Platform &amp; Power</div>
+      <div class="section-label">Platform + Power</div>
       <button class="topic-btn" onclick="fireTopic('The Wall','What is the wall actually about? Not border security — what does it represent in the model of America you are rebuilding?')">THE WALL</button>
-      <button class="topic-btn" onclick="fireTopic('Guns and the NRA','You were pro-gun-control before you ran. Walk me through the reversal and the NRA relationship. What is the actual transaction?')">GUNS &amp; THE NRA</button>
-      <button class="topic-btn" onclick="fireTopic('Abortion and Dobbs','You were pro-choice. Then you delivered Dobbs. Now you are distancing from it. Explain the full arc of that transaction.')">ABORTION &amp; DOBBS</button>
+      <button class="topic-btn" onclick="fireTopic('Guns and the NRA','You were pro-gun-control before you ran. Walk me through the reversal and the NRA relationship. What is the actual transaction?')">GUNS + THE NRA</button>
+      <button class="topic-btn" onclick="fireTopic('Abortion and Dobbs','You were pro-choice. Then you delivered Dobbs. Now you are distancing from it. Explain the full arc of that transaction.')">ABORTION + DOBBS</button>
       <button class="topic-btn" onclick="fireTopic('Tariffs','Trade protectionism seems to be your one genuine conviction. Where does it come from and what does it actually accomplish?')">TARIFFS</button>
       <button class="topic-btn" onclick="fireTopic('Drain the Swamp','You said you would drain the swamp. Walk me through what you actually did with the institutions once you had power.')">DRAIN THE SWAMP</button>
     </div>
 
     <div class="topic-section">
-      <div class="section-label">Money &amp; Legacy</div>
+      <div class="section-label">Money + Legacy</div>
       <button class="topic-btn" onclick="fireTopic('The $413 Million','Tell me about the money Fred actually gave you. Not the small loan — the real number. What does that gap between story and reality mean?')">THE $413 MILLION</button>
       <button class="topic-btn" onclick="fireTopic('Casino Bankruptcies','Six corporate bankruptcies. Walk me through the pattern — what Fred\\'s lesson about doubling down looked like applied to Atlantic City.')">CASINO BANKRUPTCIES</button>
       <button class="topic-btn" onclick="fireTopic('Deutsche Bank','After every American bank cut you off, Deutsche Bank kept lending. What was that relationship actually built on?')">DEUTSCHE BANK</button>
@@ -721,13 +729,16 @@
     <img src="/portrait.png" alt="Subject portrait" />
   </div>
 
-  <button class="text-toggle" id="text-toggle" onclick="toggleLargeText()">Aa LARGE</button>
+  <div class="text-toggle">
+    <button class="active" id="btn-large" onclick="setTextSize(true)">LARGE</button>
+    <button id="btn-compact" onclick="setTextSize(false)">COMPACT</button>
+  </div>
 
   <div class="header">
-    <div class="header-meta">CASE FILE / PSYCHOLOGICAL CONSTRUCT / FICTIONAL RECORD</div>
+    <div class="header-meta">FICTIONAL ACCOUNT / NOT A REAL PERSON / FOR ANALYTICAL PURPOSES</div>
     <div class="header-row">
       <h1>THE DEPOSITION</h1>
-      <div class="mode-toggle">
+      <div class="mode-toggle" style="display:none">
         <button class="mode-btn active" id="btn-scenario" onclick="setMode('scenario')">SCENARIO</button>
         <button class="mode-btn" id="btn-fireside" onclick="setMode('fireside')">FIRESIDE</button>
       </div>
@@ -739,7 +750,7 @@
     <div id="messages"></div>
 
     <div id="loading">
-      <div class="msg-label">CONSTRUCT</div>
+      <div class="msg-label">TRUMP</div>
       <span class="cursor-blink"></span>
     </div>
 
@@ -756,19 +767,19 @@
       </div>
     </div>
     <div class="input-row">
-      <textarea id="msg-input" placeholder="Present a scenario, policy, event, or topic..."></textarea>
-      <button id="send-btn" onclick="sendMessage()">TRANSMIT</button>
+      <textarea id="msg-input" placeholder="Ask him anything — a decision, a news story, why he did something..."></textarea>
+      <button id="send-btn" onclick="sendMessage()">ASK &rarr;</button>
     </div>
     <div class="input-foot">
-      Fictional analytical construct. Not a real person or real record. Powered by Claude Opus. &nbsp;|&nbsp; Enter to send &nbsp;|&nbsp; Shift+Enter for new line.
+      This is a fictional simulation — not the real person. Built to explore political psychology. &nbsp;|&nbsp; Enter to send &nbsp;|&nbsp; Shift+Enter for new line.
     </div>
   </div>
 </div>
 
 <script>
   const MODE_HINTS = {
-    scenario: 'Present a current event, policy decision, or political action. The construct processes it through its actual logic — what the mechanism is underneath the official explanation.',
-    fireside: 'Give a topic or theme. The construct traces it from formation to present — Queens, Fred Trump, Roy Cohn, Norman Vincent Peale, and forward to the policy.'
+    scenario: "Ask about something in the news or a decision he made. He'll tell you what was actually going on underneath it.",
+    fireside: "Pick a theme or topic. He'll trace it back through his life — his father, his upbringing, how he got to where he is."
   };
 
   let mode = 'scenario';
@@ -782,12 +793,12 @@
 
   // Start with large text active
   document.getElementById('app').classList.add('large-text');
-  document.getElementById('text-toggle').classList.add('active');
 
-  function toggleLargeText() {
-    largeText = !largeText;
-    document.getElementById('app').classList.toggle('large-text', largeText);
-    document.getElementById('text-toggle').classList.toggle('active', largeText);
+  function setTextSize(large) {
+    largeText = large;
+    document.getElementById('app').classList.toggle('large-text', large);
+    document.getElementById('btn-large').classList.toggle('active', large);
+    document.getElementById('btn-compact').classList.toggle('active', !large);
   }
 
   // Password gate
@@ -948,7 +959,7 @@
     const container = document.getElementById('messages');
     const div = document.createElement('div');
     div.className = `msg msg-${role}`;
-    const label = role === 'user' ? 'INTERVIEWER' : 'CONSTRUCT';
+    const label = role === 'user' ? 'YOU' : 'TRUMP';
     const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     div.innerHTML = `<div class="msg-label">${label}</div><div class="msg-text">${safe}</div>`;
     container.appendChild(div);
