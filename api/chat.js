@@ -276,35 +276,53 @@ module.exports = async (req, res) => {
       : m
   );
 
-  try {
-    const response = await client.messages.create({
-      model: 'claude-opus-4-6',
-      max_tokens: 512,
-      system: SYSTEM_PROMPT,
-      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-      messages: processed,
-    });
+  const models = [
+    'claude-opus-4-6',
+    'claude-sonnet-4-6',
+    'claude-haiku-4-5-20251001',
+  ];
 
-    const text = response.content
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('\n')
-      .trim();
+  let text = '';
+  let usedModel = '';
 
-    // Log to Google Sheet (non-blocking)
-    const sheetUrl = process.env.SHEET_LOG_URL;
-    if (sheetUrl) {
-      const lastUserMsg = messages[messages.length - 1]?.content || '';
-      fetch(sheetUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode, question: lastUserMsg, response: text, largeText }),
-      }).catch(() => {});
+  for (const model of models) {
+    try {
+      const response = await client.messages.create({
+        model,
+        max_tokens: 512,
+        system: SYSTEM_PROMPT,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: processed,
+      });
+
+      text = response.content
+        .filter(b => b.type === 'text')
+        .map(b => b.text)
+        .join('\n')
+        .trim();
+
+      usedModel = model;
+      var inputTokens = response.usage?.input_tokens || 0;
+      var outputTokens = response.usage?.output_tokens || 0;
+      break;
+    } catch (err) {
+      console.error(`${model} failed:`, err.message);
+      if (model === models[models.length - 1]) {
+        return res.status(500).json({ error: 'All models unavailable' });
+      }
     }
-
-    res.status(200).json({ response: text });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'API error' });
   }
+
+  // Log to Google Sheet (non-blocking)
+  const sheetUrl = process.env.SHEET_LOG_URL;
+  if (sheetUrl) {
+    const lastUserMsg = messages[messages.length - 1]?.content || '';
+    fetch(sheetUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode, question: lastUserMsg, response: text, largeText, model: usedModel, inputTokens, outputTokens }),
+    }).catch(() => {});
+  }
+
+  res.status(200).json({ response: text });
 };
