@@ -133,6 +133,30 @@
     opacity: 0.5;
   }
 
+  /* Portrait */
+  .portrait {
+    position: fixed;
+    top: 2rem;
+    right: calc(50% + 430px);
+    width: 150px;
+    cursor: pointer;
+    transition: opacity 0.4s ease;
+    z-index: 10;
+  }
+
+  .portrait img {
+    width: 100%;
+    display: block;
+  }
+
+  .portrait.faded {
+    opacity: 0.1;
+  }
+
+  @media (max-width: 1100px) {
+    .portrait { display: none; }
+  }
+
   /* MAIN APP */
   #app {
     display: none;
@@ -356,6 +380,9 @@
 
 <!-- MAIN APP -->
 <div id="app">
+  <div class="portrait" id="portrait" onclick="this.classList.toggle('faded')">
+    <img src="/portrait.png" alt="Subject portrait" />
+  </div>
   <div class="header">
     <div class="header-meta">CASE FILE / PSYCHOLOGICAL CONSTRUCT / FICTIONAL RECORD</div>
     <div class="header-row">
