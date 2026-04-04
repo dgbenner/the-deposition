@@ -276,12 +276,10 @@ module.exports = async (req, res) => {
       : m
   );
 
-  const tokenLimit = largeText ? 220 : 512;
-
   try {
     const response = await client.messages.create({
       model: 'claude-opus-4-6',
-      max_tokens: tokenLimit,
+      max_tokens: 512,
       system: SYSTEM_PROMPT,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
       messages: processed,
@@ -292,6 +290,17 @@ module.exports = async (req, res) => {
       .map(b => b.text)
       .join('\n')
       .trim();
+
+    // Log to Google Sheet (non-blocking)
+    const sheetUrl = process.env.SHEET_LOG_URL;
+    if (sheetUrl) {
+      const lastUserMsg = messages[messages.length - 1]?.content || '';
+      fetch(sheetUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode, question: lastUserMsg, response: text, largeText }),
+      }).catch(() => {});
+    }
 
     res.status(200).json({ response: text });
   } catch (err) {

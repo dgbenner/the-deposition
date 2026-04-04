@@ -233,20 +233,69 @@
     position: relative;
   }
 
-  /* Chunky Atari scrollbar */
-  .messages-pane::-webkit-scrollbar { width: 14px; }
+  /* CRT-style scrollbar */
+  .messages-pane::-webkit-scrollbar { width: 28px; }
   .messages-pane::-webkit-scrollbar-track {
-    background: var(--bg-2);
-    border-left: 2px solid var(--border);
-    border-right: 2px solid var(--border);
+    background: var(--bg);
+    border-left: 3px solid var(--amber-dim);
+    border-right: 3px solid var(--amber-dim);
   }
   .messages-pane::-webkit-scrollbar-thumb {
     background: var(--amber-dim);
-    border: 2px solid var(--bg-2);
-    min-height: 40px;
+    border: 3px solid var(--bg);
+    min-height: 50px;
   }
   .messages-pane::-webkit-scrollbar-thumb:hover { background: var(--amber); }
-  .messages-pane { scrollbar-width: auto; scrollbar-color: var(--amber-dim) var(--bg-2); }
+  .messages-pane::-webkit-scrollbar-button:single-button { height: 28px; display: block; background: var(--bg); }
+  .messages-pane::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background:
+      linear-gradient(var(--amber-dim), var(--amber-dim)) 50% 50% / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 4px) calc(50% + 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 4px) calc(50% + 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 8px) calc(50% + 8px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 8px) calc(50% + 8px) / 4px 4px no-repeat,
+      var(--bg);
+    border-left: 3px solid var(--amber-dim);
+    border-right: 3px solid var(--amber-dim);
+    border-top: 3px solid var(--amber-dim);
+  }
+  .messages-pane::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+    background:
+      linear-gradient(var(--amber), var(--amber)) 50% 50% / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% - 4px) calc(50% + 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% + 4px) calc(50% + 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% - 8px) calc(50% + 8px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% + 8px) calc(50% + 8px) / 4px 4px no-repeat,
+      var(--bg);
+    border-left: 3px solid var(--amber);
+    border-right: 3px solid var(--amber);
+    border-top: 3px solid var(--amber);
+  }
+  .messages-pane::-webkit-scrollbar-button:single-button:vertical:increment {
+    background:
+      linear-gradient(var(--amber-dim), var(--amber-dim)) 50% 50% / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 4px) calc(50% - 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 4px) calc(50% - 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 8px) calc(50% - 8px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 8px) calc(50% - 8px) / 4px 4px no-repeat,
+      var(--bg);
+    border-left: 3px solid var(--amber-dim);
+    border-right: 3px solid var(--amber-dim);
+    border-bottom: 3px solid var(--amber-dim);
+  }
+  .messages-pane::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+    background:
+      linear-gradient(var(--amber), var(--amber)) 50% 50% / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% - 4px) calc(50% - 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% + 4px) calc(50% - 4px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% - 8px) calc(50% - 8px) / 4px 4px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) calc(50% + 8px) calc(50% - 8px) / 4px 4px no-repeat,
+      var(--bg);
+    border-left: 3px solid var(--amber);
+    border-right: 3px solid var(--amber);
+    border-bottom: 3px solid var(--amber);
+  }
+  .messages-pane { scrollbar-width: auto; scrollbar-color: var(--amber-dim) var(--bg); }
 
   .msg { margin-bottom: 2rem; }
 
@@ -310,42 +359,8 @@
 
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-  /* Scroll-down indicator */
-  #scroll-down {
-    display: none;
-    position: sticky;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    padding: 10px 20px;
-    z-index: 5;
-    background: rgba(0, 0, 0, 0.8);
-    border: 2px solid var(--amber-dim);
-    width: fit-content;
-  }
-
-  #scroll-down.visible { display: flex; opacity: 1; }
-
-  #scroll-down .arrow {
-    font-family: var(--font-display);
-    font-size: 22px;
-    color: var(--amber);
-    line-height: 1;
-    text-shadow: 0 0 8px rgba(232,160,32,0.3);
-  }
-
-  #scroll-down .arrow-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--amber-dim);
-  }
+  /* Scroll-down indicator — hidden */
+  #scroll-down { display: none !important; }
 
   /* Large text toggle */
   .text-toggle {
@@ -367,8 +382,8 @@
   .text-toggle:hover { color: var(--amber); border-color: var(--amber-dim); }
   .text-toggle.active { background: var(--amber-faint); color: var(--amber-bright); border-color: var(--amber-dim); }
 
-  #app.large-text .msg-construct .msg-text { font-size: 40px; line-height: 1.4; }
-  #app.large-text .msg-user .msg-text { font-size: 30px; line-height: 1.4; }
+  #app.large-text .msg-construct .msg-text { font-size: 30px; line-height: 1.4; }
+  #app.large-text .msg-user .msg-text { font-size: 22px; line-height: 1.4; }
   #app.large-text .msg-label { font-size: 14px; }
 
   /* Input area */
@@ -378,15 +393,18 @@
   }
 
   .input-spacer {
-    height: 20px;
+    height: 48px;
     border-top: 1px solid var(--border);
     position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
   }
 
   /* Suggested Topics tab */
   .topics-tab {
     position: absolute;
-    top: -1px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     height: 36px;
@@ -394,10 +412,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-top: 1px solid var(--bg);
-    border-radius: 0 0 8px 8px;
+    background: var(--amber);
+    border: none;
+    border-radius: 8px 8px 0 0;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -406,13 +423,13 @@
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.25em;
-    color: var(--amber-dim);
+    color: var(--bg);
     text-transform: uppercase;
     transition: color 0.2s;
   }
 
-  .topics-tab:hover { border-color: var(--amber-dim); }
-  .topics-tab:hover span { color: var(--amber); }
+  .topics-tab:hover { background: var(--amber-dim); }
+  .topics-tab:hover span { color: var(--bg); }
 
   .input-row {
     display: flex;
