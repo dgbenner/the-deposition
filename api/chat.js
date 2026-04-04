@@ -261,24 +261,27 @@ Sources informing this construct: Mary L. Trump, Too Much and Never Enough (2020
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { messages, mode, password } = req.body;
+  const { messages, mode, password, largeText } = req.body;
   const correct = process.env.DEPOSITION_PASSWORD || 'deposition';
   if (password !== correct) return res.status(401).json({ error: 'Unauthorized' });
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   const modePrefix = mode === 'fireside' ? '[FIRESIDE MODE] ' : '[SCENARIO MODE] ';
+  const brevity = largeText ? ' Respond very briefly — two to three sentences maximum.' : '';
 
   const processed = messages.map((m, i) =>
     i === messages.length - 1 && m.role === 'user'
-      ? { ...m, content: modePrefix + m.content }
+      ? { ...m, content: modePrefix + m.content + brevity }
       : m
   );
+
+  const tokenLimit = largeText ? 220 : 512;
 
   try {
     const response = await client.messages.create({
       model: 'claude-opus-4-6',
-      max_tokens: 512,
+      max_tokens: tokenLimit,
       system: SYSTEM_PROMPT,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
       messages: processed,
