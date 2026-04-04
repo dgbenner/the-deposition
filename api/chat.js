@@ -313,15 +313,20 @@ module.exports = async (req, res) => {
     }
   }
 
-  // Log to Google Sheet (non-blocking)
+  // Log to Google Sheet (awaited so serverless doesn't terminate the request)
   const sheetUrl = process.env.SHEET_LOG_URL;
   if (sheetUrl) {
     const lastUserMsg = messages[messages.length - 1]?.content || '';
-    fetch(sheetUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode, question: lastUserMsg, response: text, largeText, model: usedModel, inputTokens, outputTokens }),
-    }).catch(() => {});
+    try {
+      await fetch(sheetUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode, question: lastUserMsg, response: text, largeText, model: usedModel, inputTokens, outputTokens }),
+        redirect: 'follow',
+      });
+    } catch (logErr) {
+      console.error('Sheet log failed:', logErr.message);
+    }
   }
 
   res.status(200).json({ response: text });
