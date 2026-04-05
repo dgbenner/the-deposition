@@ -4,8 +4,11 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
 
   const { password } = req.body;
-  const correct = process.env.DEPOSITION_PASSWORD || 'deposition';
-  if (password !== correct) return res.status(401).json({ error: 'Unauthorized' });
+  const input = (password || '').trim().toLowerCase();
+  const active = (process.env.DEPOSITION_PASSWORD || 'deposition').split(',').map(p => p.trim().toLowerCase()).filter(Boolean);
+  const disabled = (process.env.DEPOSITION_DISABLED || '').split(',').map(p => p.trim().toLowerCase()).filter(Boolean);
+  if (disabled.includes(input)) return res.status(403).json({ error: 'Daily limit reached' });
+  if (!active.includes(input)) return res.status(401).json({ error: 'Unauthorized' });
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
