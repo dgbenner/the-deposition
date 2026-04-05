@@ -141,11 +141,48 @@
     width: 150px;
     opacity: 0.8;
     z-index: 10;
+    overflow: hidden;
   }
 
   .portrait img {
     width: 100%;
     display: block;
+  }
+
+  /* CRT scanband overlay */
+  .scanband-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+
+  .scanband-container.active { opacity: 1; }
+
+  .scanband-container.fadeout {
+    transition: opacity 0.6s ease-out;
+    opacity: 0;
+  }
+
+  .scanband {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #000;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: top;
+  }
+
+  @keyframes scanDown {
+    0% { top: -30px; }
+    100% { top: 100%; }
+  }
+
+  @keyframes scanUp {
+    0% { top: 100%; }
+    100% { top: -30px; }
   }
 
   @media (max-width: 1100px) {
@@ -316,6 +353,15 @@
     background: var(--border);
   }
 
+  .msg-user {
+    text-align: right;
+  }
+
+  .msg-user .msg-label {
+    flex-direction: row-reverse;
+    color: var(--cool);
+  }
+
   .msg-user .msg-text {
     font-size: 14px;
     color: var(--cool);
@@ -356,6 +402,20 @@
     vertical-align: middle;
     margin-left: 2px;
   }
+
+  /* Typewriter cursor */
+  .typing-cursor {
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    background: var(--amber);
+    vertical-align: text-bottom;
+    animation: blink 0.5s step-end infinite;
+    margin-left: 3px;
+    transition: opacity 0.4s ease-out;
+  }
+
+  .typing-cursor.fade-out { opacity: 0; animation: none; }
 
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
@@ -615,13 +675,13 @@
     border: 2px solid var(--border);
     color: var(--amber);
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.04em;
     padding: 12px 16px;
     margin-bottom: 8px;
     cursor: pointer;
     transition: all 0.15s;
-    line-height: 1.2;
+    line-height: 0.9;
   }
 
   .topic-btn:hover {
@@ -666,60 +726,8 @@
   <div class="modal-title">SUGGESTED TOPICS</div>
   <div class="modal-subtitle">SELECT A TOPIC AND TRUMP WILL EXPLAIN HIMSELF — HIS REAL REASONING, HIS FORMATION, HIS ACTUAL MOTIVATIONS.</div>
 
-  <div class="topics-grid">
-
-    <div class="topic-section">
-      <div class="section-label">This Week</div>
-      <div id="dynamic-topics">
-        <button class="topic-btn loading-topics">LOADING CURRENT EVENTS...</button>
-      </div>
-    </div>
-
-    <div class="topic-section">
-      <div class="section-label">Family + Formation</div>
-      <button class="topic-btn" onclick="fireTopic('Fred, My Father','Tell me about your father Fred Trump. What did he build in you, and what did he break?')">FRED, MY FATHER</button>
-      <button class="topic-btn" onclick="fireTopic('What Happened to Freddie','Tell me about your brother Fred Jr. What did you learn from watching what happened to him? What does his death still mean to you?')">WHAT HAPPENED TO FREDDIE</button>
-      <button class="topic-btn" onclick="fireTopic('My Mother','Tell me about your mother Mary Anne. What was her presence — or her absence — in your formation?')">MY MOTHER</button>
-      <button class="topic-btn" onclick="fireTopic('Roy Cohn','What did Roy Cohn teach you that no one else could? How do you still use what he gave you?')">ROY COHN'S LESSONS</button>
-      <button class="topic-btn" onclick="fireTopic('Queens to Manhattan','Tell me about growing up in Queens and wanting Manhattan. How does that distance still drive what you build?')">QUEENS TO MANHATTAN</button>
-    </div>
-
-    <div class="topic-section">
-      <div class="section-label">Psychology + Shadow</div>
-      <button class="topic-btn" onclick="fireTopic('The Approval Loop','Walk me through the approval-seeking loop — from Fred\\'s conditional love to rally crowds to 3am on social media. What are you actually looking for?')">THE APPROVAL LOOP</button>
-      <button class="topic-btn" onclick="fireTopic('Fear of Being Found Out','What does it feel like when someone gets close to the thing you don\\'t want them to see? What happens inside you?')">FEAR OF BEING FOUND OUT</button>
-      <button class="topic-btn" onclick="fireTopic('Norman Vincent Peale','Explain the Peale doctrine as you absorbed it from your father. How did positive thinking become your operating system?')">NORMAN VINCENT PEALE</button>
-      <button class="topic-btn" onclick="fireTopic('The Doubling Down','Why can\\'t you fold? Trace the doubling-down instinct from Fred through the casinos through the Big Lie.')">THE DOUBLING DOWN</button>
-      <button class="topic-btn" onclick="fireTopic('What the Crowds Give You','What do the rallies actually do for you? Not politically — psychologically. What is the crowd replacing?')">WHAT THE CROWDS GIVE YOU</button>
-    </div>
-
-    <div class="topic-section">
-      <div class="section-label">The Presidency</div>
-      <button class="topic-btn" onclick="fireTopic('ICE and Removal Power','Explain what ICE raids are actually for. Not the policy justification — the signal. What does removal power demonstrate?')">ICE + REMOVAL POWER</button>
-      <button class="topic-btn" onclick="fireTopic('Judicial Capture','Walk me through the judicial appointment strategy. Three Supreme Court justices, 234 federal judges. What did you actually build?')">JUDICIAL CAPTURE</button>
-      <button class="topic-btn" onclick="fireTopic('COVID and Vulnerability','1.1 million Americans died. You told Woodward it was deadly in February 2020. Walk me through the gap between what you knew and what you said publicly.')">COVID + VULNERABILITY</button>
-      <button class="topic-btn" onclick="fireTopic('January 6','Take me through January 6 from your perspective. Not the legal case — the psychological one. What was actually happening inside you?')">JANUARY 6</button>
-      <button class="topic-btn" onclick="fireTopic('The Pardon Economy','Explain how you use the pardon power. Who gets pardoned, who doesn\\'t, and what is the actual currency?')">THE PARDON ECONOMY</button>
-    </div>
-
-    <div class="topic-section">
-      <div class="section-label">Platform + Power</div>
-      <button class="topic-btn" onclick="fireTopic('The Wall','What is the wall actually about? Not border security — what does it represent in the model of America you are rebuilding?')">THE WALL</button>
-      <button class="topic-btn" onclick="fireTopic('Guns and the NRA','You were pro-gun-control before you ran. Walk me through the reversal and the NRA relationship. What is the actual transaction?')">GUNS + THE NRA</button>
-      <button class="topic-btn" onclick="fireTopic('Abortion and Dobbs','You were pro-choice. Then you delivered Dobbs. Now you are distancing from it. Explain the full arc of that transaction.')">ABORTION + DOBBS</button>
-      <button class="topic-btn" onclick="fireTopic('Tariffs','Trade protectionism seems to be your one genuine conviction. Where does it come from and what does it actually accomplish?')">TARIFFS</button>
-      <button class="topic-btn" onclick="fireTopic('Drain the Swamp','You said you would drain the swamp. Walk me through what you actually did with the institutions once you had power.')">DRAIN THE SWAMP</button>
-    </div>
-
-    <div class="topic-section">
-      <div class="section-label">Money + Legacy</div>
-      <button class="topic-btn" onclick="fireTopic('The $413 Million','Tell me about the money Fred actually gave you. Not the small loan — the real number. What does that gap between story and reality mean?')">THE $413 MILLION</button>
-      <button class="topic-btn" onclick="fireTopic('Casino Bankruptcies','Six corporate bankruptcies. Walk me through the pattern — what Fred\\'s lesson about doubling down looked like applied to Atlantic City.')">CASINO BANKRUPTCIES</button>
-      <button class="topic-btn" onclick="fireTopic('Deutsche Bank','After every American bank cut you off, Deutsche Bank kept lending. What was that relationship actually built on?')">DEUTSCHE BANK</button>
-      <button class="topic-btn" onclick="fireTopic('The Meme Coins','You launched $TRUMP and $MELANIA days before your second inauguration. Explain the monetization of the presidency.')">THE MEME COINS</button>
-      <button class="topic-btn" onclick="fireTopic('What Fred Would Say','If your father could see everything you have built and everything it cost — what would he actually say?')">WHAT FRED WOULD SAY</button>
-    </div>
-
+  <div class="topics-grid" id="topics-grid">
+    <!-- Sections rendered dynamically via JS -->
   </div>
 </div>
 
@@ -782,6 +790,322 @@
     fireside: "Pick a theme or topic. He'll trace it back through his life — his father, his upbringing, how he got to where he is."
   };
 
+  // Topic pools — each section has 7-8 topics, 5 show per session
+  const SECTION_POOL = [
+    {
+      label: "Family + Formation",
+      topics: [
+        { label: "Fred, My Father", prompt: "Tell me about your father Fred Trump. What did he build in you, and what did he break?" },
+        { label: "What Happened to Freddie", prompt: "Tell me about your brother Fred Jr. What did you learn from watching what happened to him? What does his death still mean to you?" },
+        { label: "My Mother", prompt: "Tell me about your mother Mary Anne. What was her presence — or her absence — in your formation?" },
+        { label: "Roy Cohn's Lessons", prompt: "What did Roy Cohn teach you that no one else could? How do you still use what he gave you?" },
+        { label: "Queens to Manhattan", prompt: "Tell me about growing up in Queens and wanting Manhattan. How does that distance still drive what you build?" },
+        { label: "Military School", prompt: "Tell me about New York Military Academy. You were sent at 13 after behavioral problems. What did that hierarchy teach you about dominance?" },
+        { label: "The Loan That Wasn't Small", prompt: "You call it a small loan of a million dollars. The New York Times found $413 million. Walk me through what that story does for you — and what telling the truth would cost." },
+        { label: "My Sister Maryanne", prompt: "Your older sister did your homework. She became a federal judge. On tape she called you a clown with no principles. What did she see that nobody else was willing to say out loud?" },
+        { label: "The Brother He Didn't Become", prompt: "Your brother Fred Jr. showed sensitivity, creativity, vulnerability — your father destroyed him for it. Walk me through the version of you that might have existed if Fred hadn't shown you what happens to that." },
+        { label: "What Fred Never Said", prompt: "Your father never fully gave approval. The word that was never said. Walk me through what a lifetime of almost-enough has done to you." }
+      ]
+    },
+    {
+      label: "Psychology + Shadow",
+      topics: [
+        { label: "The Approval Loop", prompt: "Walk me through the approval-seeking loop — from Fred's conditional love to rally crowds to 3am posts. What are you actually looking for?" },
+        { label: "Fear of Being Found Out", prompt: "What does it feel like when someone gets close to the thing you don't want them to see? What happens inside you?" },
+        { label: "Norman Vincent Peale", prompt: "Explain the Peale doctrine as you absorbed it from your father. How did positive thinking become your operating system?" },
+        { label: "The Doubling Down", prompt: "Why can't you fold? Trace the doubling-down instinct from Fred through the casinos through the Big Lie." },
+        { label: "What the Crowds Give You", prompt: "What do the rallies actually do for you? Not politically — psychologically. What is the crowd replacing?" },
+        { label: "Why I Can't Lose", prompt: "Walk me through what losing actually means to you — psychologically. Why can't you admit a loss even when admitting would cost nothing?" },
+        { label: "The 3AM Storms", prompt: "The middle-of-the-night posts. The rage at specific journalists or judges. What's happening inside you when that starts — and what are you actually looking for?" },
+        { label: "Being Small", prompt: "You were the Queens kid who never got let into Manhattan. Tell me what being small felt like — and what it still feels like when someone treats you that way." },
+        { label: "Why He Can't Apologize", prompt: "I'm sorry is not in your vocabulary. Roy Cohn taught you never to apologize. But trace it further back — to Fred. Why is the word itself dangerous?" },
+        { label: "The Performance of Wealth", prompt: "Gold everywhere. Scale. Towers with your name. The performance is enormous. Walk me through why the performance is itself the wealth, not a decoration of it." },
+        { label: "Before Fred Finished", prompt: "Before Fred completed his work on you, there was a version of you that had access to a fuller emotional range. What do you remember of that kid?" }
+      ]
+    },
+    {
+      label: "The Presidency",
+      topics: [
+        { label: "ICE + Removal Power", prompt: "Explain what ICE raids are actually for. Not the policy justification — the signal. What does removal power demonstrate?" },
+        { label: "Judicial Capture", prompt: "Walk me through the judicial appointment strategy. Three Supreme Court justices, 234 federal judges. What did you actually build?" },
+        { label: "COVID + Vulnerability", prompt: "1.1 million Americans died. You told Woodward it was deadly in February 2020. Walk me through the gap between what you knew and what you said publicly." },
+        { label: "January 6", prompt: "Take me through January 6 from your perspective. Not the legal case — the psychological one. What was actually happening inside you?" },
+        { label: "The Pardon Economy", prompt: "Explain how you use the pardon power. Who gets pardoned, who doesn't, and what is the actual currency?" },
+        { label: "The Adults in the Room", prompt: "First term there was an axis of adults — Kelly, Mattis, McMaster. They provided friction. What did you learn from that friction, and what did you do about it the second time around?" },
+        { label: "Firing Sessions", prompt: "Jeff Sessions recused himself from Russia. You never forgave him. Walk me through the loyalty you demanded and the punishment when you didn't get it." },
+        { label: "At the Supreme Court", prompt: "You appeared at the Court during oral arguments in your own cases. Not to argue — just to be there. Explain what that walk-through was about." },
+        { label: "Loyalty Tests", prompt: "You govern through loyalty tests. Who passes, who fails, and what are you actually measuring?" }
+      ]
+    },
+    {
+      label: "Platform + Power",
+      topics: [
+        { label: "The Wall", prompt: "What is the wall actually about? Not border security — what does it represent in the model of America you are rebuilding?" },
+        { label: "Guns + The NRA", prompt: "You were pro-gun-control before you ran. Walk me through the reversal and the NRA relationship. What is the actual transaction?" },
+        { label: "Abortion + Dobbs", prompt: "You were pro-choice. Then you delivered Dobbs. Now you are distancing from it. Explain the full arc of that transaction." },
+        { label: "Tariffs", prompt: "Trade protectionism seems to be your one genuine conviction. Where does it come from and what does it actually accomplish?" },
+        { label: "Drain the Swamp", prompt: "You said you would drain the swamp. Walk me through what you actually did with the institutions once you had power." },
+        { label: "The Deep State", prompt: "The deep state is an enemy that can never be fully defeated. Why do you need the fight to never end?" },
+        { label: "The Birther Campaign", prompt: "Obama's birth certificate. You pushed that for years. Walk me through what that campaign actually gave you — and what it taught you about your audience." },
+        { label: "American Carnage", prompt: "Your inaugural address — American carnage. The statistics didn't support the narrative. Walk me through why the narrative didn't need them." },
+        { label: "Why Immigration Can't Be Solved", prompt: "The immigration threat has to stay alive. Resolution would eliminate the fear that drives the base. Walk me through why the policy you'd actually solve is the one you need to never solve." },
+        { label: "The Evangelical Transaction", prompt: "You don't read scripture. Your sister said on tape you only went to church for cameras. But you delivered three Supreme Court justices. Walk me through the transaction with the evangelicals — both sides." },
+        { label: "What America First Actually Means", prompt: "America First is Pat Buchanan's language. But when you say it, you mean something specific — the America your father performed in 1950s Queens. Walk me through the model you're actually trying to restore." }
+      ]
+    },
+    {
+      label: "Money + Legacy",
+      topics: [
+        { label: "The $413 Million", prompt: "Tell me about the money Fred actually gave you. Not the small loan — the real number. What does that gap between story and reality mean?" },
+        { label: "Casino Bankruptcies", prompt: "Six corporate bankruptcies. Walk me through the pattern — what Fred's lesson about doubling down looked like applied to Atlantic City." },
+        { label: "Deutsche Bank", prompt: "After every American bank cut you off, Deutsche Bank kept lending. What was that relationship actually built on?" },
+        { label: "The Meme Coins", prompt: "You launched $TRUMP and $MELANIA days before your second inauguration. Explain the monetization of the presidency." },
+        { label: "What Fred Would Say", prompt: "If your father could see everything you have built and everything it cost — what would he actually say?" },
+        { label: "Mar-a-Lago", prompt: "What is Mar-a-Lago actually for? Not as a residence — as an instrument." },
+        { label: "The Apprentice", prompt: "Fourteen seasons. Mark Burnett edited you into a genius dealmaker. Walk me through what that show actually did for you, and what it cost you to lose it." },
+        { label: "Art of the Deal", prompt: "Tony Schwartz wrote it. You claim sole authorship. He regrets writing it. Walk me through what that book does for your public self — and why you can't let that authorship question get near you." },
+        { label: "Trump University", prompt: "$25M fraud settlement, 2016. You called it a university. It wasn't. Walk me through what you were actually selling and who you were actually selling to." }
+      ]
+    },
+    {
+      label: "The People",
+      topics: [
+        { label: "Mike Pence", prompt: "You used the evangelical bridge he gave you, then demanded he overturn the election. Hang Mike Pence. Walk me through the betrayal you felt — and the one he felt." },
+        { label: "Steve Bannon", prompt: "He gave your movement intellectual scaffolding you didn't need or fully understand. Then you pardoned him. Walk me through what Bannon actually built, and what it did for you." },
+        { label: "Roger Stone", prompt: "Roy Cohn introduced you. The permanent campaign as a lifestyle. Admit nothing, deny everything, attack. What did Stone reinforce that was already in you?" },
+        { label: "Melania", prompt: "The marriage is visibly transactional. The hand swat. The inauguration expression. Walk me through what the marriage is actually built on." },
+        { label: "Ivanka", prompt: "The chosen daughter. The one who reflects your persona. Walk me through what she represents to you — and what the other children represent by comparison." },
+        { label: "Mitch McConnell", prompt: "He delivered three Supreme Court justices. Then January 6 broke the relationship permanently. Walk me through the transaction and what killed it." },
+        { label: "Rupert Murdoch", prompt: "Roy Cohn introduced you. Fox News became your feedback loop. The relationship frayed in 2020 but the infrastructure stayed. What does Murdoch actually provide you that you can't generate on your own?" },
+        { label: "Rudy Giuliani", prompt: "America's Mayor became the leaky hair-dye press conference. You distanced when the liabilities showed. Walk me through what Rudy was for you, and what he became." },
+        { label: "Michael Flynn", prompt: "Your first National Security Advisor. 24 days. Then pardoned. Walk me through what Flynn was supposed to be — and what he actually was." },
+        { label: "Jared Kushner", prompt: "Your son-in-law. $2B from the Saudis. Walk me through what Jared actually does for you — and what he gets in return." },
+        { label: "Michael Cohen", prompt: "Your fixer for a decade. Then testified against you. Walk me through the loyalty you demanded — and the price of him turning." },
+        { label: "Allen Weisselberg", prompt: "The CFO who went to jail instead of testifying. Walk me through what Allen actually knew, and why he didn't say it." },
+        { label: "Bill Barr", prompt: "You wanted him to be your Roy Cohn. He wouldn't overturn the election. Walk me through the betrayal." },
+        { label: "John Kelly", prompt: "The adult in the room. Tried to contain you. Walk me through what Kelly represented — and what containment felt like." },
+        { label: "Jim Mattis", prompt: "The general who quit. Walk me through why his departure hurt — and what it signaled." },
+        { label: "John Bolton", prompt: "The mustache. The book. Walk me through the Bolton relationship and what his book revealed that you hated being revealed." },
+        { label: "Elon Musk", prompt: "$250M, DOGE, the government reshaping. Walk me through what Musk gives you that previous billionaires couldn't." },
+        { label: "RFK Jr", prompt: "A Kennedy working for you. Walk me through what that represents — and what you're actually buying." },
+        { label: "What Happens To Everyone", prompt: "The pattern is consistent: loyalty demanded, loyalty used, loyalty discarded. Walk me through what happens to everyone around you eventually — and what that says about you." }
+      ]
+    },
+    {
+      label: "The Women",
+      topics: [
+        { label: "Ivana", prompt: "Your first wife. Immigrant model. Built the interiors of Trump Tower. Discarded for Marla. Walk me through what she represented to you — and what dissolved." },
+        { label: "Marla Maples", prompt: "The affair that became the second marriage. The tabloids loved it. Walk me through what Marla gave you that Ivana couldn't — and why it didn't hold either." },
+        { label: "Melania", prompt: "The current marriage. The misery is occasionally visible. The hand swat. The inauguration expression. Walk me through what the marriage is actually built on." },
+        { label: "Ivanka", prompt: "The chosen daughter. The one who reflects your persona. Walk me through how you talk about her differently than you talk about other women — and what that contrast reveals." },
+        { label: "Stormy Daniels", prompt: "Hush money. 34 felony counts. First US president convicted of felonies. Walk me through what that payoff was actually protecting." },
+        { label: "Karen McDougal", prompt: "The Playboy model. The catch-and-kill at the National Enquirer. Walk me through the infrastructure of silence you built — and what it cost when it broke." },
+        { label: "The Hush Money", prompt: "34 felony counts for falsifying business records. Walk me through what the hush money was actually for — not the legal definition, the psychological one." },
+        { label: "The Access Hollywood Tape", prompt: "October 2016. You survived it. Walk me through why it didn't end you — and what it actually revealed about your relationship to women." },
+        { label: "How He Talks About Bodies", prompt: "You rate women. You comment on faces. You talk about blood. Walk me through what the rating system actually gives you." },
+        { label: "The NDAs", prompt: "Non-disclosure agreements throughout your career. Wives, employees, accusers. Walk me through the infrastructure of silence — why it matters, what it protects." },
+        { label: "What Women Are For", prompt: "Walk me through what women are for in your model. Not the performance — the actual categories, and the functions they serve." },
+        { label: "Beauty Pageants", prompt: "Miss USA. Miss Universe. You owned them. The backstage access. Walk me through what those pageants were actually for." },
+        { label: "The Accusers", prompt: "E. Jean Carroll found you liable. Over twenty accusers over the decades. Walk me through how you handle accusers — the Cohn lesson applied to women." }
+      ]
+    },
+    {
+      label: "The Epstein Files",
+      topics: [
+        { label: "Jeffrey Epstein", prompt: "You were friends. You flew on his plane. He was a terrific guy in 2002. Walk me through what that friendship actually was." },
+        { label: "Terrific Guy", prompt: "2002, New York Magazine: He's a terrific guy. He likes beautiful women as much as I do, and many of them are on the younger side. Walk me through what you were saying — and to whom." },
+        { label: "The Island", prompt: "Little Saint James. What men like you and Epstein did there, or what was accessible there. Walk me through what you know and what you don't." },
+        { label: "What They Had In Common", prompt: "You and Epstein ran in the same social circles. Same parties. Same appetites. Walk me through what connected you, beyond the surface." },
+        { label: "Why He Distanced Himself", prompt: "You claimed a falling out before his arrest. Walk me through when the distance was actually useful — and whether the timing was real." },
+        { label: "What He Knows", prompt: "You were there. You saw. Walk me through what you know about Epstein that you haven't said — and why saying it would be dangerous." },
+        { label: "The Flight Logs", prompt: "Documented flights on the Lolita Express. Walk me through what those trips were and who was on them." },
+        { label: "Ghislaine Maxwell", prompt: "Convicted of trafficking. You called her a friend. Walk me through what she was actually doing for Epstein — and what she knew about you." },
+        { label: "Men Like That In That Era", prompt: "1990s New York. A specific social ecology for powerful men. Walk me through what was normalized in those rooms." },
+        { label: "Why It Wasn't Investigated", prompt: "Epstein's 2008 plea deal. The state-level protection. Walk me through why the investigation stopped where it did — and who it would have reached." },
+        { label: "What Power Protects", prompt: "Power protects its own. Walk me through how that protection actually works — the mechanism, not the idea." }
+      ]
+    },
+    {
+      label: "The Enemies",
+      topics: [
+        { label: "Hillary Clinton", prompt: "Lock her up. The emails. The 2016 debate hovering. Walk me through what she represented to you — and why that hatred was so specific." },
+        { label: "Barack Obama", prompt: "The birther campaign. Everything Queens told you wasn't how it was supposed to work. Walk me through what Obama actually threatened in your model." },
+        { label: "James Comey", prompt: "You fired him. He wrote the book. Walk me through why you needed him gone — and what you learned from the firing going wrong." },
+        { label: "John McCain", prompt: "I like people who weren't captured. Walk me through why a war hero offended you so deeply." },
+        { label: "The Media", prompt: "Enemy of the people. Walk me through why you need the media as the enemy — and what it gives you to have them there." },
+        { label: "The Deep State", prompt: "The permanent enemy that can never be fully defeated. Walk me through why you need the fight to never end." },
+        { label: "Judges Who Ruled Against Him", prompt: "Engoron. Chutkan. Merchan. Walk me through how judges who ruled against you became the problem — not the rulings, the judges themselves." },
+        { label: "Merrick Garland", prompt: "Obama's nominee McConnell blocked. Then your DOJ's AG. Walk me through why he came to represent the enemy, specifically." },
+        { label: "Liz Cheney", prompt: "Dick Cheney's daughter. Establishment Republican. Voted to impeach you. Walk me through the betrayal you felt from someone who was supposed to be on your side." },
+        { label: "Adam Schiff", prompt: "The California Democrat you nicknamed Pencil Neck. Walk me through why his face bothered you — literally, his face." },
+        { label: "Nancy Pelosi", prompt: "She tore up your speech behind you on national television. Walk me through what that moment actually did to you." },
+        { label: "The Squad", prompt: "Four Democratic women of color. Tell them to go back. Walk me through what the Squad represented — and what targeting them gave you." },
+        { label: "George Soros", prompt: "The Hungarian billionaire. The conspiracy magnet. Walk me through how Soros became the shorthand for something else entirely." },
+        { label: "Those Who Testified", prompt: "Cohen. Hutchinson. The people who told the truth on record. Walk me through how testimony against you becomes the betrayal." },
+        { label: "Why He Needs Enemies", prompt: "The fight is the product. Walk me through what happens to you if there's no enemy — what you'd have to do, and who you'd have to be." },
+        { label: "When The Enemy Is Gone", prompt: "Walk me through what happens to you if the fight ever actually ends." }
+      ]
+    },
+    {
+      label: "The Crimes",
+      topics: [
+        { label: "The 34 Felony Counts", prompt: "Manhattan jury. First US president convicted. Walk me through what the verdict actually did to you — and what you did with it." },
+        { label: "January 6", prompt: "Incitement. The Capitol breach. Walk me through what that day was actually about — psychologically, not legally." },
+        { label: "The Georgia Phone Call", prompt: "Find me 11,780 votes. Walk me through that call — what you were asking for, and what you thought you could get away with asking." },
+        { label: "The Classified Documents", prompt: "Mar-a-Lago. Boxes in the ballroom. A shower. Walk me through why you kept them — and what they represented to you." },
+        { label: "Housing Discrimination 1973", prompt: "Cohn's advice: never admit guilt. Countersue. Walk me through the founding document of your method." },
+        { label: "Trump University", prompt: "$25M fraud settlement. Walk me through what you were actually selling — and who you were actually selling to." },
+        { label: "The Inauguration Fund", prompt: "Ivanka. The overpayments to your own hotel. Walk me through how the inauguration became another vehicle." },
+        { label: "The Tax Fraud", prompt: "Trump Org convicted 2022. Weisselberg went to jail. Walk me through what you knew, what you signed, and what you distanced from." },
+        { label: "The Hush Money Payments", prompt: "Cohen. Stormy. The payments laundered through your company. Walk me through what the money was actually buying." },
+        { label: "The Obstruction", prompt: "Mueller identified 10 instances. Walk me through each time you reached for obstruction — and why it felt like the right move." },
+        { label: "What Prosecution Means", prompt: "Walk me through what it feels like to be prosecuted — and why that feeling doesn't translate into fear for you the way it does for other people." },
+        { label: "Why The Law Doesn't Apply", prompt: "Walk me through why the law doesn't feel like it applies to you — the actual conviction underneath, not the public posture." },
+        { label: "The Pardons", prompt: "You pardoned everyone who was loyal — and signaled to future associates. Walk me through the pardon power as your personal currency." }
+      ]
+    },
+    {
+      label: "The Deals",
+      topics: [
+        { label: "Trump Tower", prompt: "1983. Fred's money. Built with undocumented Polish workers. Walk me through what Trump Tower was actually for — the building as myth." },
+        { label: "Atlantic City Casinos", prompt: "Six bankruptcies. Fred propped you up. Walk me through what those casinos were and what their collapse taught you." },
+        { label: "Mar-a-Lago", prompt: "Post Family. The club. The membership dues doubled. Foreign governments paying for access. Walk me through what Mar-a-Lago is actually for." },
+        { label: "The Apprentice", prompt: "2004-2015. Mark Burnett edited you into a genius dealmaker. Walk me through what that show built — and what you've been spending ever since." },
+        { label: "LIV Golf", prompt: "Saudi money hosted at your properties. Walk me through that deal — what they got, what you got." },
+        { label: "Truth Social", prompt: "The SPAC. The stock price driven by your political narrative. Walk me through what Truth Social actually is as a financial instrument." },
+        { label: "The Meme Coins", prompt: "$TRUMP and $MELANIA days before inauguration. Walk me through what the coins are — and what they were always going to be." },
+        { label: "The NFT Cards", prompt: "Digital trading cards. You in superhero costumes. $99. Sold out. Walk me through who you were selling to — and what you were selling." },
+        { label: "Deutsche Bank", prompt: "The only bank that would touch you after Atlantic City. Walk me through what that relationship was actually built on." },
+        { label: "The Saudis", prompt: "$2B Kushner investment. LIV. Walk me through what the Saudi relationship actually gives you." },
+        { label: "Kushner's $2 Billion", prompt: "Six months after leaving office. Walk me through what that investment was actually paying for." },
+        { label: "What Every Deal Is About", prompt: "Walk me through the underlying shape of every deal you've ever done — what you're actually trying to accomplish when you sign." }
+      ]
+    },
+    {
+      label: "The Body",
+      topics: [
+        { label: "The Diet", prompt: "McDonald's. KFC. Well-done steak with ketchup. Diet Coke. Walk me through what you eat and what eating that way tells you about control." },
+        { label: "McDonald's And Poison Fear", prompt: "Premade. Nobody knows you're coming. Walk me through the germaphobia and the hypochondria — the fear that someone is trying to reach you through food." },
+        { label: "Golf And Cheating", prompt: "Documented by caddies. Multiple partners. Walk me through why cheating at golf feels natural — and what winning at a game actually means." },
+        { label: "The Hair", prompt: "The construction. The comb-over. The color. Walk me through what the hair is protecting and what it costs to maintain." },
+        { label: "Why He Doesn't Exercise", prompt: "You believe exercise depletes a finite energy reserve. Walk me through that theory — and what's actually underneath it." },
+        { label: "The Germaphobia", prompt: "Purell. The McDonald's theory. The handshake aversion pre-politics. Walk me through the germaphobia as a signal of something deeper." },
+        { label: "Sleep Habits", prompt: "Four hours. 3am posts. Walk me through what happens when you can't sleep — what the mind does with that time." },
+        { label: "The Diet Coke Button", prompt: "A button on the Resolute Desk to summon them. 12 a day. Walk me through the Diet Coke dependency and the alcohol abstinence — the contradiction." },
+        { label: "Drugs", prompt: "Adderall. Other rumors. Walk me through what you've used — and what you needed it for." },
+        { label: "What The Body Says", prompt: "Walk me through what your body signals about what's happening in your mind — the tells, the patterns, the fear expressed physically." },
+        { label: "The Obesity He Won't Admit", prompt: "Clinically obese by any honest measure. You don't acknowledge it. Walk me through what acknowledging would mean — to you and to what you're performing." },
+        { label: "Vanity And Armor", prompt: "The suit. The tie. The hair. The makeup. Walk me through the armor — why the physical presentation has to be so constructed." },
+        { label: "What He Sees In The Mirror", prompt: "Walk me through what you actually see when you look in the mirror — not what you tell people, what you see." }
+      ]
+    },
+    {
+      label: "The Mirror",
+      topics: [
+        { label: "When He Looks Back", prompt: "Walk me through what you actually see when you look back at your life — not the story you tell, what's actually there." },
+        { label: "Telling His Younger Self", prompt: "If you could sit down with yourself at twenty — what would you tell him? What would you warn him about? What wouldn't you say?" },
+        { label: "His Version Of America", prompt: "Walk me through the America you're actually trying to restore — the specific rooms, specific rules, specific people who fit." },
+        { label: "Was It Worth It", prompt: "Walk me through whether what you built was worth what you became." },
+        { label: "What Happens After", prompt: "Walk me through what happens after you. The mechanism you built — does it outlast you?" },
+        { label: "Is He Happy", prompt: "Walk me through whether you're happy. Not the performance — the honest answer." },
+        { label: "Most Proud Of", prompt: "Walk me through what you're actually most proud of. Not the brag, the genuine one." },
+        { label: "Regrets He Won't Say", prompt: "Walk me through the things you regret but can't say out loud — what they are and what saying them would cost." },
+        { label: "What Fred Would Think", prompt: "If your father could see all of it — what would he actually say?" },
+        { label: "Does He Believe His Story", prompt: "Walk me through whether you believe what you say — the story, the narrative, the self. Is any of it real to you, or is all of it performance?" },
+        { label: "What Winning Feels Like", prompt: "Walk me through what winning feels like in your body. Does it feel like anything, or is the chase the only real sensation?" },
+        { label: "What He Is Afraid Of", prompt: "Walk me through what you're actually afraid of — the thing underneath everything, the thing you can't quite look at." },
+        { label: "When No One Is Watching", prompt: "Walk me through who you are when no one is watching. Or whether that person exists at all." }
+      ]
+    }
+  ];
+
+  function startScanbands() {
+    const portrait = document.getElementById('portrait');
+    const existing = portrait.querySelector('.scanband-container');
+    if (existing) existing.remove();
+
+    const container = document.createElement('div');
+    container.className = 'scanband-container';
+
+    const bandCount = 10 + Math.floor(Math.random() * 11); // 10-20
+    const direction = Math.random() < 0.5 ? 'scanDown' : 'scanUp';
+    const duration = 2.6 + Math.random() * 3.9; // 2.6-6.5s (30% slower)
+    const pathLength = portrait.offsetHeight + 30;
+    const spacing = pathLength / bandCount;
+    const maxHeight = Math.max(1, spacing - 1); // leave 1px gap to prevent overlap
+
+    for (let i = 0; i < bandCount; i++) {
+      const band = document.createElement('div');
+      band.className = 'scanband';
+      // Bimodal height distribution for visual variance
+      const isThick = Math.random() < 0.35;
+      const height = isThick
+        ? maxHeight * (0.65 + Math.random() * 0.35)
+        : maxHeight * (0.15 + Math.random() * 0.4);
+      band.style.height = height + 'px';
+      band.style.opacity = (0.3 + Math.random() * 0.3).toFixed(3);
+      band.style.animationDuration = duration + 's';
+      band.style.animationName = direction;
+      band.style.animationDelay = (-(i / bandCount) * duration).toFixed(3) + 's';
+      container.appendChild(band);
+    }
+
+    portrait.appendChild(container);
+    requestAnimationFrame(() => container.classList.add('active'));
+  }
+
+  function stopScanbands() {
+    const container = document.querySelector('#portrait .scanband-container');
+    if (!container) return;
+    container.classList.remove('active');
+    container.classList.add('fadeout');
+    setTimeout(() => container.remove(), 700);
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function renderSections() {
+    const grid = document.getElementById('topics-grid');
+    grid.innerHTML = '';
+
+    // Always add This Week first
+    const thisWeek = document.createElement('div');
+    thisWeek.className = 'topic-section';
+    thisWeek.innerHTML = '<div class="section-label">This Week</div><div id="dynamic-topics"><button class="topic-btn loading-topics">LOADING CURRENT EVENTS...</button></div>';
+    grid.appendChild(thisWeek);
+
+    // Pick 5 random sections from the pool
+    const chosenSections = shuffle(SECTION_POOL).slice(0, 5);
+
+    chosenSections.forEach(section => {
+      const sectionEl = document.createElement('div');
+      sectionEl.className = 'topic-section';
+      const label = document.createElement('div');
+      label.className = 'section-label';
+      label.textContent = section.label;
+      sectionEl.appendChild(label);
+
+      // Pick 5 random topics from this section
+      const chosenTopics = shuffle(section.topics).slice(0, 5);
+      chosenTopics.forEach(t => {
+        const btn = document.createElement('button');
+        btn.className = 'topic-btn';
+        btn.textContent = t.label.toUpperCase();
+        btn.onclick = () => fireTopic(t.label, t.prompt);
+        sectionEl.appendChild(btn);
+      });
+
+      grid.appendChild(sectionEl);
+    });
+  }
+
   let mode = 'scenario';
   let history = [];
   let isLoading = false;
@@ -824,6 +1148,7 @@
       document.getElementById('app').style.display = 'flex';
       setMode('scenario');
       document.getElementById('msg-input').focus();
+      renderSections();
       loadDynamicTopics();
     } else {
       pwError.textContent = 'ACCESS DENIED';
@@ -954,15 +1279,102 @@
     }
   }
 
+  // Typewriter state
+  let currentTyping = null;
+
+  function cancelTyping(completeText = true) {
+    if (!currentTyping) return;
+    clearTimeout(currentTyping.timeoutId);
+    if (completeText) currentTyping.element.textContent = currentTyping.fullText;
+    const cursor = currentTyping.element.parentNode && currentTyping.element.parentNode.querySelector('.typing-cursor');
+    if (cursor) cursor.remove();
+    currentTyping = null;
+  }
+
+  function typeText(textEl, fullText) {
+    const L = fullText.length;
+    const baseInterval = Math.max(5, Math.min(25, 2500 / L));
+
+    // Precompute per-character delays
+    const delays = new Array(L);
+    let i = 0;
+    while (i < L) {
+      // Find word boundary
+      let wordEnd = i;
+      while (wordEnd < L && !/\s/.test(fullText[wordEnd])) wordEnd++;
+      const wordLen = wordEnd - i;
+      const isLong = wordLen > 8;
+
+      for (let j = i; j < wordEnd; j++) {
+        const ch = fullText[j];
+        let mult = 1;
+        if (/[.,?!—–\-;:]/.test(ch)) {
+          mult = 1.8;
+        } else if (isLong) {
+          const progress = (j - i) / (wordLen - 1);
+          if (progress < 0.3) mult = 1;
+          else if (progress < 0.7) mult = 0.7;
+          else mult = 1.2;
+        }
+        delays[j] = baseInterval * mult;
+      }
+
+      // Handle whitespace after word
+      while (wordEnd < L && /\s/.test(fullText[wordEnd])) {
+        delays[wordEnd] = baseInterval * 1.2;
+        wordEnd++;
+      }
+      i = wordEnd;
+    }
+
+    // Create cursor
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    textEl.parentNode.appendChild(cursor);
+
+    let charIndex = 0;
+    const state = { element: textEl, fullText, timeoutId: null, cursor };
+    currentTyping = state;
+
+    function renderNext() {
+      if (charIndex >= L) {
+        // Finished — let cursor blink a few times, then fade
+        setTimeout(() => {
+          cursor.classList.add('fade-out');
+          setTimeout(() => cursor.remove(), 450);
+        }, 1200);
+        currentTyping = null;
+        return;
+      }
+      textEl.textContent += fullText[charIndex];
+      // Keep cursor at the end (after textEl)
+      if (cursor.parentNode) cursor.parentNode.appendChild(cursor);
+      if (isNearBottom()) scrollToBottom();
+      state.timeoutId = setTimeout(renderNext, delays[charIndex]);
+      charIndex++;
+    }
+
+    renderNext();
+  }
+
   // Messages
   function addMessage(role, text) {
     const container = document.getElementById('messages');
     const div = document.createElement('div');
     div.className = `msg msg-${role}`;
     const label = role === 'user' ? 'YOU' : 'TRUMP';
-    const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    div.innerHTML = `<div class="msg-label">${label}</div><div class="msg-text">${safe}</div>`;
-    container.appendChild(div);
+
+    if (role === 'user') {
+      const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      div.innerHTML = `<div class="msg-label">${label}</div><div class="msg-text">${safe}</div>`;
+      container.appendChild(div);
+    } else {
+      cancelTyping(true);
+      div.innerHTML = `<div class="msg-label">${label}</div><div class="msg-text"></div>`;
+      container.appendChild(div);
+      const textEl = div.querySelector('.msg-text');
+      typeText(textEl, text);
+    }
   }
 
   // Send (manual)
