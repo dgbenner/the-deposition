@@ -16,8 +16,8 @@
     --amber-dim: #a06810;
     --amber-bright: #ffbf40;
     --amber-faint: #3a2608;
-    --cool: #8a9aaa;
-    --cool-dim: #4a5a6a;
+    --cool: #a8b8c8;
+    --cool-dim: #6a7a8a;
     --border: #2a2010;
     --font-display: 'VT323', monospace;
     --font-mono: 'Share Tech Mono', monospace;
@@ -203,7 +203,7 @@
   .header {
     flex-shrink: 0;
     border-bottom: 1px solid var(--border);
-    padding: 1.5rem 0 1.25rem;
+    padding: 1.5rem 0 0.6rem;
   }
 
   .header-meta {
@@ -223,7 +223,7 @@
 
   .header h1 {
     font-family: var(--font-display);
-    font-size: clamp(32px, 6vw, 52px);
+    font-size: clamp(16px, 3vw, 26px);
     letter-spacing: 0.12em;
     color: var(--amber-bright);
     text-shadow: 0 0 12px rgba(232,160,32,0.2);
@@ -266,73 +266,126 @@
   .messages-pane {
     flex: 1;
     overflow-y: auto;
-    padding: 1.5rem 0;
+    padding: 0.375rem 36px 1.5rem 0;
     position: relative;
   }
 
-  /* CRT-style scrollbar */
-  .messages-pane::-webkit-scrollbar { width: 28px; }
-  .messages-pane::-webkit-scrollbar-track {
+  /* Hide native scrollbar on messages pane — we use custom */
+  .messages-pane { scrollbar-width: none; -ms-overflow-style: none; }
+  .messages-pane::-webkit-scrollbar { display: none; }
+
+  /* Custom CRT scrollbar */
+  .crt-scrollbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 16px;
+    display: none;
+    z-index: 10;
+    user-select: none;
+  }
+
+  .crt-scrollbar.visible { display: block; }
+
+  .crt-scrollbar-track {
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 0;
+    right: 0;
     background: var(--bg);
-    border-left: 3px solid var(--amber-dim);
-    border-right: 3px solid var(--amber-dim);
+    border-left: 1px solid var(--amber-dim);
+    border-right: 1px solid var(--amber-dim);
   }
-  .messages-pane::-webkit-scrollbar-thumb {
-    background: var(--amber-dim);
-    border: 3px solid var(--bg);
-    min-height: 50px;
+
+  .crt-scrollbar-thumb {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: var(--amber-dim);
+    background-image:
+      linear-gradient(45deg, var(--bg) 1px, transparent 1px),
+      linear-gradient(-45deg, var(--bg) 1px, transparent 1px);
+    background-size: 2px 2px;
+    min-height: 30px;
+    cursor: pointer;
+    transition: background-color 0.15s;
   }
-  .messages-pane::-webkit-scrollbar-thumb:hover { background: var(--amber); }
-  .messages-pane::-webkit-scrollbar-button:single-button { height: 28px; display: block; background: var(--bg); }
-  .messages-pane::-webkit-scrollbar-button:single-button:vertical:decrement {
-    background:
-      linear-gradient(var(--amber-dim), var(--amber-dim)) 50% 50% / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 4px) calc(50% + 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 4px) calc(50% + 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 8px) calc(50% + 8px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 8px) calc(50% + 8px) / 4px 4px no-repeat,
-      var(--bg);
-    border-left: 3px solid var(--amber-dim);
-    border-right: 3px solid var(--amber-dim);
-    border-top: 3px solid var(--amber-dim);
+
+  .crt-scrollbar-thumb:hover { background-color: var(--amber); }
+
+  .crt-scrollbar-btn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 16px;
+    background: var(--bg);
+    border: 1px solid var(--amber);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s;
   }
-  .messages-pane::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
-    background:
-      linear-gradient(var(--amber), var(--amber)) 50% 50% / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% - 4px) calc(50% + 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% + 4px) calc(50% + 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% - 8px) calc(50% + 8px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% + 8px) calc(50% + 8px) / 4px 4px no-repeat,
-      var(--bg);
-    border-left: 3px solid var(--amber);
-    border-right: 3px solid var(--amber);
-    border-top: 3px solid var(--amber);
+
+  .crt-scrollbar-btn:hover { border-color: var(--amber-bright); }
+  .crt-scrollbar-btn.up { top: 0; }
+  .crt-scrollbar-btn.down { bottom: 0; }
+
+  .crt-arrow {
+    width: 10px;
+    height: 6px;
+    position: relative;
   }
-  .messages-pane::-webkit-scrollbar-button:single-button:vertical:increment {
-    background:
-      linear-gradient(var(--amber-dim), var(--amber-dim)) 50% 50% / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 4px) calc(50% - 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 4px) calc(50% - 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% - 8px) calc(50% - 8px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber-dim), var(--amber-dim)) calc(50% + 8px) calc(50% - 8px) / 4px 4px no-repeat,
-      var(--bg);
-    border-left: 3px solid var(--amber-dim);
-    border-right: 3px solid var(--amber-dim);
-    border-bottom: 3px solid var(--amber-dim);
+
+  /* Pixel-built chevrons: 2x2 amber blocks */
+  .crt-arrow::before,
+  .crt-arrow::after {
+    content: '';
+    position: absolute;
+    background: var(--amber);
+    width: 2px;
+    height: 2px;
   }
-  .messages-pane::-webkit-scrollbar-button:single-button:vertical:increment:hover {
-    background:
-      linear-gradient(var(--amber), var(--amber)) 50% 50% / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% - 4px) calc(50% - 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% + 4px) calc(50% - 4px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% - 8px) calc(50% - 8px) / 4px 4px no-repeat,
-      linear-gradient(var(--amber), var(--amber)) calc(50% + 8px) calc(50% - 8px) / 4px 4px no-repeat,
-      var(--bg);
-    border-left: 3px solid var(--amber);
-    border-right: 3px solid var(--amber);
-    border-bottom: 3px solid var(--amber);
+
+  /* Up chevron */
+  .crt-arrow.up-chevron::before {
+    top: 0; left: 4px;
+    box-shadow:
+      -2px 2px 0 var(--amber),
+      2px 2px 0 var(--amber),
+      -4px 4px 0 var(--amber),
+      4px 4px 0 var(--amber);
   }
-  .messages-pane { scrollbar-width: auto; scrollbar-color: var(--amber-dim) var(--bg); }
+  .crt-arrow.up-chevron::after { display: none; }
+
+  /* Down chevron */
+  .crt-arrow.down-chevron::before {
+    bottom: 0; left: 4px;
+    box-shadow:
+      -2px -2px 0 var(--amber),
+      2px -2px 0 var(--amber),
+      -4px -4px 0 var(--amber),
+      4px -4px 0 var(--amber);
+  }
+  .crt-arrow.down-chevron::after { display: none; }
+
+  .crt-scrollbar-btn:hover .crt-arrow::before {
+    background: var(--amber-bright);
+    box-shadow:
+      -2px 2px 0 var(--amber-bright),
+      2px 2px 0 var(--amber-bright),
+      -4px 4px 0 var(--amber-bright),
+      4px 4px 0 var(--amber-bright);
+  }
+  .crt-scrollbar-btn.down:hover .crt-arrow::before {
+    box-shadow:
+      -2px -2px 0 var(--amber-bright),
+      2px -2px 0 var(--amber-bright),
+      -4px -4px 0 var(--amber-bright),
+      4px -4px 0 var(--amber-bright);
+  }
 
   .msg { margin-bottom: 2rem; }
 
@@ -475,7 +528,7 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    height: 36px;
+    height: 25px;
     padding: 0 24px;
     display: flex;
     align-items: center;
@@ -501,7 +554,7 @@
 
   .input-row {
     display: flex;
-    gap: 10px;
+    gap: 0;
     align-items: flex-end;
   }
 
@@ -536,19 +589,57 @@
     cursor: pointer;
     transition: all 0.1s;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: -1px;
+    position: relative;
+    z-index: 2;
   }
 
   #send-btn:hover { background: var(--amber-dim); border-color: var(--amber); color: var(--bg); }
   #send-btn:disabled { opacity: 0.3; cursor: default; }
 
+  /* Right-pointing pixel arrow with middle line */
+  .ask-arrow {
+    width: 14px;
+    height: 10px;
+    position: relative;
+  }
+  .ask-arrow::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: currentColor;
+    top: 4px;
+    left: 0;
+    box-shadow:
+      2px 0 0 currentColor,
+      4px 0 0 currentColor,
+      6px 0 0 currentColor,
+      8px 0 0 currentColor,
+      6px -4px 0 currentColor,
+      8px -2px 0 currentColor,
+      6px 4px 0 currentColor,
+      8px 2px 0 currentColor,
+      10px 0 0 currentColor;
+  }
+
   .input-foot {
     font-size: 10px;
     color: var(--amber-dim);
     letter-spacing: 0.08em;
-    margin-top: 0.6rem;
+    margin-top: 0.45rem;
     opacity: 0.6;
-    line-height: 1.5;
+    line-height: 1.125;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
   }
+
+  .foot-right { text-align: right; }
 
   .blink-cursor::after {
     content: '_';
@@ -754,6 +845,7 @@
     <div class="mode-hint" id="mode-hint"></div>
   </div>
 
+  <div class="messages-pane-wrap" style="position:relative;flex:1;display:flex;overflow:hidden">
   <div class="messages-pane" id="messages-pane">
     <div id="messages"></div>
 
@@ -767,6 +859,14 @@
       <div class="arrow">&#9660;</div>
     </div>
   </div>
+  <div class="crt-scrollbar" id="crt-scrollbar">
+    <div class="crt-scrollbar-btn up" id="crt-btn-up"><div class="crt-arrow up-chevron"></div></div>
+    <div class="crt-scrollbar-track" id="crt-track">
+      <div class="crt-scrollbar-thumb" id="crt-thumb"></div>
+    </div>
+    <div class="crt-scrollbar-btn down" id="crt-btn-down"><div class="crt-arrow down-chevron"></div></div>
+  </div>
+  </div>
 
   <div class="input-area">
     <div class="input-spacer">
@@ -776,17 +876,24 @@
     </div>
     <div class="input-row">
       <textarea id="msg-input" placeholder="Ask him anything — a decision, a news story, why he did something..."></textarea>
-      <button id="send-btn" onclick="sendMessage()">ASK &rarr;</button>
+      <button id="send-btn" onclick="sendMessage()"><span>ASK</span><span class="ask-arrow"></span></button>
     </div>
     <div class="input-foot">
-      This is a fictional simulation — not the real person. Built to explore political psychology. &nbsp;|&nbsp; Enter to send &nbsp;|&nbsp; Shift+Enter for new line.
+      <div class="foot-left">
+        This is a fictional simulation — not the real person.<br>
+        Built to explore political psychology.
+      </div>
+      <div class="foot-right">
+        Enter to send<br>
+        Shift+Enter for new line
+      </div>
     </div>
   </div>
 </div>
 
 <script>
   const MODE_HINTS = {
-    scenario: "Ask about something in the news or a decision he made. He'll tell you what was actually going on underneath it.",
+    scenario: "Ask about a recent event, or a decision he made. He'll tell you what was actually going on underneath it.",
     fireside: "Pick a theme or topic. He'll trace it back through his life — his father, his upbringing, how he got to where he is."
   };
 
@@ -1019,6 +1126,70 @@
     }
   ];
 
+  // Custom CRT scrollbar
+  (function initScrollbar() {
+    const pane = document.getElementById('messages-pane');
+    const bar = document.getElementById('crt-scrollbar');
+    const track = document.getElementById('crt-track');
+    const thumb = document.getElementById('crt-thumb');
+    const btnUp = document.getElementById('crt-btn-up');
+    const btnDown = document.getElementById('crt-btn-down');
+    if (!pane || !bar) return;
+
+    function update() {
+      const ratio = pane.clientHeight / pane.scrollHeight;
+      if (ratio >= 1) {
+        // Content fits — show scrollbar as full-height disabled state
+        bar.classList.add('visible');
+        thumb.style.height = track.clientHeight + 'px';
+        thumb.style.top = '0px';
+        return;
+      }
+      bar.classList.add('visible');
+      const trackH = track.clientHeight;
+      const thumbH = Math.max(40, trackH * ratio);
+      thumb.style.height = thumbH + 'px';
+      const scrollRatio = pane.scrollTop / (pane.scrollHeight - pane.clientHeight);
+      thumb.style.top = (scrollRatio * (trackH - thumbH)) + 'px';
+    }
+
+    pane.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+    new MutationObserver(update).observe(pane, { childList: true, subtree: true, characterData: true });
+
+    btnUp.addEventListener('click', () => { pane.scrollBy({ top: -60, behavior: 'smooth' }); });
+    btnDown.addEventListener('click', () => { pane.scrollBy({ top: 60, behavior: 'smooth' }); });
+
+    // Drag thumb
+    let dragging = false, dragStartY = 0, dragStartTop = 0;
+    thumb.addEventListener('mousedown', (e) => {
+      dragging = true;
+      dragStartY = e.clientY;
+      dragStartTop = pane.scrollTop;
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      const trackH = track.clientHeight;
+      const thumbH = thumb.offsetHeight;
+      const delta = e.clientY - dragStartY;
+      const ratio = delta / (trackH - thumbH);
+      pane.scrollTop = dragStartTop + ratio * (pane.scrollHeight - pane.clientHeight);
+    });
+    window.addEventListener('mouseup', () => { dragging = false; });
+
+    // Click track to page-jump
+    track.addEventListener('mousedown', (e) => {
+      if (e.target === thumb) return;
+      const rect = track.getBoundingClientRect();
+      const click = e.clientY - rect.top;
+      const thumbTop = thumb.offsetTop;
+      pane.scrollBy({ top: click < thumbTop ? -pane.clientHeight * 0.8 : pane.clientHeight * 0.8, behavior: 'smooth' });
+    });
+
+    setTimeout(update, 50);
+  })();
+
   function startScanbands() {
     const portrait = document.getElementById('portrait');
     const existing = portrait.querySelector('.scanband-container');
@@ -1150,6 +1321,10 @@
       document.getElementById('msg-input').focus();
       renderSections();
       loadDynamicTopics();
+    } else if (res.status === 403) {
+      pwError.textContent = 'DAILY LIMIT REACHED — TRY AGAIN TOMORROW';
+      pwInput.value = '';
+      setTimeout(() => { pwError.textContent = '\u00a0'; }, 3500);
     } else {
       pwError.textContent = 'ACCESS DENIED';
       pwInput.value = '';
@@ -1349,7 +1524,6 @@
       textEl.textContent += fullText[charIndex];
       // Keep cursor at the end (after textEl)
       if (cursor.parentNode) cursor.parentNode.appendChild(cursor);
-      if (isNearBottom()) scrollToBottom();
       state.timeoutId = setTimeout(renderNext, delays[charIndex]);
       charIndex++;
     }
