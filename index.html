@@ -802,7 +802,7 @@
   <div class="subtitle">AN UNGUARDED ACCOUNT</div>
   <div class="divider"></div>
   <div class="prompt">ENTER ACCESS CODE</div>
-  <input type="password" id="pw-input" placeholder="_ _ _ _ _ _" autocomplete="off" />
+  <input type="text" id="pw-input" placeholder="_ _ _ _ _ _" autocomplete="off" />
   <div id="pw-error">&nbsp;</div>
   <div id="pw-hint">Press Enter to continue</div>
 </div>
@@ -1137,20 +1137,22 @@
     if (!pane || !bar) return;
 
     function update() {
+      const trackH = track.clientHeight;
+      if (!trackH) return;
       const ratio = pane.clientHeight / pane.scrollHeight;
       if (ratio >= 1) {
-        // Content fits — show scrollbar as full-height disabled state
         bar.classList.add('visible');
-        thumb.style.height = track.clientHeight + 'px';
+        thumb.style.height = trackH + 'px';
         thumb.style.top = '0px';
         return;
       }
       bar.classList.add('visible');
-      const trackH = track.clientHeight;
-      const thumbH = Math.max(40, trackH * ratio);
+      const thumbH = Math.max(40, Math.floor(trackH * ratio));
       thumb.style.height = thumbH + 'px';
-      const scrollRatio = pane.scrollTop / (pane.scrollHeight - pane.clientHeight);
-      thumb.style.top = (scrollRatio * (trackH - thumbH)) + 'px';
+      const maxScroll = pane.scrollHeight - pane.clientHeight;
+      const scrollRatio = maxScroll > 0 ? pane.scrollTop / maxScroll : 0;
+      const maxTop = trackH - thumbH;
+      thumb.style.top = Math.min(maxTop, Math.max(0, Math.floor(scrollRatio * maxTop))) + 'px';
     }
 
     pane.addEventListener('scroll', update);
