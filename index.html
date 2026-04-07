@@ -514,22 +514,17 @@
   }
 
   .input-spacer {
-    height: 48px;
     border-top: 1px solid var(--border);
-    position: relative;
+    padding-top: 8px;
     display: flex;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   /* Suggested Topics tab */
   .topics-tab {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
     height: 25px;
-    padding: 0 24px;
+    padding: 0 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -645,6 +640,109 @@
     content: '_';
     animation: blink 1s step-end infinite;
     color: var(--amber);
+  }
+
+  /* Psychological profile selector */
+  .profile-selector {
+    text-align: right;
+    position: relative;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 4px 0;
+    user-select: none;
+  }
+
+  .profile-toggle-arrow {
+    font-family: var(--font-display);
+    font-size: 12px;
+    color: var(--amber-dim);
+    transition: transform 0.2s;
+  }
+
+  .profile-selector.open .profile-toggle-arrow {
+    transform: rotate(90deg);
+  }
+
+  .profile-header-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--amber-dim);
+    text-transform: uppercase;
+  }
+
+  .profile-header-current {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+  }
+
+  .profile-options {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    width: 340px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    text-align: left;
+    z-index: 30;
+  }
+
+  .profile-selector.open .profile-options {
+    display: block;
+  }
+
+  .profile-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    cursor: pointer;
+  }
+
+  .profile-radio {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--amber-dim);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .profile-option.selected .profile-radio {
+    background: var(--amber-bright);
+    border-color: var(--amber-bright);
+  }
+
+  .profile-option-text {
+    line-height: 1;
+  }
+
+  .profile-option-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--amber-dim);
+  }
+
+  .profile-option.selected .profile-option-label {
+    color: var(--amber-bright);
+  }
+
+  .profile-option-desc {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--amber-dim);
+    opacity: 0.6;
+    margin-top: 2px;
+    line-height: 1.3;
   }
 
   /* ========== TOPICS MODAL ========== */
@@ -873,6 +971,43 @@
       <div class="topics-tab" onclick="openTopics()">
         <span>Suggested Topics</span>
       </div>
+      <div class="profile-selector" id="profile-selector">
+      <div class="profile-header" onclick="toggleProfileSelector()">
+        <span class="profile-toggle-arrow">&#9654;</span>
+        <span class="profile-header-label">PSYCHOLOGICAL PROFILE:</span>
+        <span class="profile-header-current" id="profile-current">UNDISCLOSED</span>
+      </div>
+      <div class="profile-options" id="profile-options">
+        <div class="profile-option selected" onclick="selectProfile(this, 'UNDISCLOSED', '')">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">UNDISCLOSED</div>
+            <div class="profile-option-desc">No psychological lens applied.</div>
+          </div>
+        </div>
+        <div class="profile-option" onclick="selectProfile(this, 'NARCISSISTIC ADAPTATION', 'A deeply ingrained pattern rooted in formation and upbringing. Apply this lens: blind spots rather than deliberate concealment. The mechanisms are automatic — built by Fred, reinforced by Cohn, never examined. He does not see what he does because the architecture was designed to prevent seeing.')">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">NARCISSISTIC ADAPTATION</div>
+            <div class="profile-option-desc">A deeply ingrained pattern rooted in formation and upbringing. Blind spots rather than deliberate concealment.</div>
+          </div>
+        </div>
+        <div class="profile-option" onclick="selectProfile(this, 'MALIGNANT NARCISSISM', 'The documented clinical profile: NPD with antisocial features, paranoia, and sadism. Apply this lens: rules don\'t apply because they genuinely never registered as real. Other people exist as instruments. The cruelty is not a byproduct — it is a feature that produces pleasure.')">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">MALIGNANT NARCISSISM</div>
+            <div class="profile-option-desc">The documented clinical profile. NPD, antisocial features, paranoia, sadism. Rules don't apply because they genuinely never registered as real.</div>
+          </div>
+        </div>
+        <div class="profile-option" onclick="selectProfile(this, 'TERMINAL POWER PATHOLOGY', 'No clinical precedent. Apply this lens: unchecked power has severed consequence, legacy, and reality friction. Other people have ceased to register as fully real. The feedback loops that once connected action to outcome are broken. What remains is pure mechanism — appetite and execution with nothing in between.')">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">TERMINAL POWER PATHOLOGY</div>
+            <div class="profile-option-desc">No clinical precedent. Unchecked power has severed consequence, legacy, and reality friction. Other people have ceased to register as fully real.</div>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
     <div class="input-row">
       <textarea id="msg-input" placeholder="Ask him anything — a decision, a news story, why he did something..."></textarea>
@@ -1286,6 +1421,21 @@
   let largeText = true;
   let lastPrompt = '';
   let topicsLoaded = false;
+  let activeProfile = '';
+  let activeProfileLabel = 'UNDISCLOSED';
+
+  function toggleProfileSelector() {
+    document.getElementById('profile-selector').classList.toggle('open');
+  }
+
+  function selectProfile(el, label, prefix) {
+    document.querySelectorAll('.profile-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    activeProfileLabel = label;
+    activeProfile = prefix;
+    document.getElementById('profile-current').textContent = label;
+    document.getElementById('profile-selector').classList.remove('open');
+  }
   const messagesPane = document.getElementById('messages-pane');
 
   // Start with large text active
@@ -1399,8 +1549,9 @@
 
     // Show short label in the chat
     addMessage('user', label);
-    // But send the full prompt to the API
-    history.push({ role: 'user', content: prompt });
+    // But send the full prompt to the API, with profile prefix if active
+    const profilePrefix = activeProfile ? '[PSYCHOLOGICAL PROFILE: ' + activeProfileLabel + '] ' + activeProfile + '\n\n' : '';
+    history.push({ role: 'user', content: profilePrefix + prompt });
 
     document.getElementById('loading').style.display = 'block';
     scrollToBottom();
@@ -1565,7 +1716,8 @@
     isLoading = true;
     document.getElementById('send-btn').disabled = true;
     addMessage('user', text);
-    history.push({ role: 'user', content: text });
+    const profilePrefix = activeProfile ? '[PSYCHOLOGICAL PROFILE: ' + activeProfileLabel + '] ' + activeProfile + '\n\n' : '';
+    history.push({ role: 'user', content: profilePrefix + text });
     document.getElementById('loading').style.display = 'block';
     scrollToBottom();
 
