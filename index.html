@@ -82,22 +82,23 @@
     font-size: 14px;
     letter-spacing: 0.2em;
     color: var(--amber-dim);
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     text-align: center;
   }
 
-  #pw-screen .divider {
-    width: 200px;
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 2rem;
+  .pw-box {
+    border: 1px solid var(--border);
+    padding: 1.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
   }
 
   #pw-screen .prompt {
     font-size: 12px;
     letter-spacing: 0.15em;
     color: var(--amber-dim);
-    margin-bottom: 0.75rem;
   }
 
   #pw-input {
@@ -108,11 +109,30 @@
     font-family: var(--font-display);
     font-size: 24px;
     letter-spacing: 0.2em;
-    text-align: center;
+    text-align: left;
     width: 240px;
     padding: 4px 0;
     outline: none;
-    caret-color: var(--amber);
+    caret-color: transparent;
+  }
+
+  #pw-input-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  #pw-cursor {
+    position: absolute;
+    top: 2px;
+    width: 14px;
+    height: 24px;
+    background-color: var(--amber-dim);
+    background-image:
+      linear-gradient(45deg, var(--bg) 1px, transparent 1px),
+      linear-gradient(-45deg, var(--bg) 1px, transparent 1px);
+    background-size: 2px 2px;
+    animation: blink 0.6s step-end infinite;
+    pointer-events: none;
   }
 
   #pw-input::placeholder { color: var(--amber-faint); }
@@ -121,15 +141,16 @@
     font-size: 11px;
     color: #c04040;
     letter-spacing: 0.1em;
-    margin-top: 0.75rem;
-    min-height: 16px;
+    min-height: 0;
   }
+
+  #pw-error:empty, #pw-error:blank { display: none; }
 
   #pw-hint {
     font-size: 11px;
     color: var(--amber-dim);
     letter-spacing: 0.08em;
-    margin-top: 3rem;
+    margin-top: 0;
     opacity: 0.5;
   }
 
@@ -662,6 +683,8 @@
     font-size: 12px;
     color: var(--amber-dim);
     transition: transform 0.2s;
+    position: relative;
+    top: -2px;
   }
 
   .profile-selector.open .profile-toggle-arrow {
@@ -898,11 +921,15 @@
   <div class="case-label">Restricted Access / Fictional Analytical Record</div>
   <h1>THE DEPOSITION</h1>
   <div class="subtitle">AN UNGUARDED ACCOUNT</div>
-  <div class="divider"></div>
-  <div class="prompt">ENTER ACCESS CODE</div>
-  <input type="text" id="pw-input" placeholder="_ _ _ _ _ _" autocomplete="off" />
-  <div id="pw-error">&nbsp;</div>
-  <div id="pw-hint">Press Enter to continue</div>
+  <div class="pw-box">
+    <div class="prompt">ENTER ACCESS CODE</div>
+    <div id="pw-input-wrap">
+      <input type="text" id="pw-input" placeholder="" autocomplete="off" />
+      <div id="pw-cursor"></div>
+    </div>
+    <div id="pw-error"></div>
+    <div id="pw-hint">Press Enter to continue</div>
+  </div>
 </div>
 
 <!-- TOPICS MODAL -->
@@ -1451,8 +1478,20 @@
   // Password gate
   const pwInput = document.getElementById('pw-input');
   const pwError = document.getElementById('pw-error');
+  const pwCursor = document.getElementById('pw-cursor');
 
+  function updatePwCursor() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.font = '24px VT323';
+    const textWidth = ctx.measureText(pwInput.value).width;
+    const letterSpacingExtra = pwInput.value.length * 4.8;
+    pwCursor.style.left = (textWidth + letterSpacingExtra) + 'px';
+  }
+
+  pwInput.addEventListener('input', updatePwCursor);
   pwInput.focus();
+  updatePwCursor();
 
   pwInput.addEventListener('keydown', async (e) => {
     if (e.key !== 'Enter') return;
@@ -1476,11 +1515,11 @@
     } else if (res.status === 403) {
       pwError.textContent = 'DAILY LIMIT REACHED — TRY AGAIN TOMORROW';
       pwInput.value = '';
-      setTimeout(() => { pwError.textContent = '\u00a0'; }, 3500);
+      setTimeout(() => { pwError.textContent = ''; }, 3500);
     } else {
       pwError.textContent = 'ACCESS DENIED';
       pwInput.value = '';
-      setTimeout(() => { pwError.textContent = '\u00a0'; }, 2000);
+      setTimeout(() => { pwError.textContent = ''; }, 2000);
     }
   });
 
