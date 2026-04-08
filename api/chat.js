@@ -261,7 +261,7 @@ Sources informing this construct: Mary L. Trump, Too Much and Never Enough (2020
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { messages, mode, password, largeText } = req.body;
+  const { messages, mode, password, largeText, profile } = req.body;
   const input = (password || '').trim().toLowerCase();
   const active = (process.env.DEPOSITION_PASSWORD || 'deposition').split(',').map(p => p.trim().toLowerCase()).filter(Boolean);
   const disabled = (process.env.DEPOSITION_DISABLED || '').split(',').map(p => p.trim().toLowerCase()).filter(Boolean);
@@ -317,12 +317,13 @@ module.exports = async (req, res) => {
   // Log to Google Sheet (awaited so serverless doesn't terminate the request)
   const sheetUrl = process.env.SHEET_LOG_URL;
   if (sheetUrl) {
-    const lastUserMsg = messages[messages.length - 1]?.content || '';
+    const rawMsg = messages[messages.length - 1]?.content || '';
+    const cleanQuestion = rawMsg.replace(/^\[PSYCHOLOGICAL PROFILE:.*?\][\s\S]*?\n\n/, '');
     try {
       await fetch(sheetUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode, question: lastUserMsg, response: text, largeText, model: usedModel, inputTokens, outputTokens, password: input }),
+        body: JSON.stringify({ mode, question: cleanQuestion, response: text, largeText, model: usedModel, inputTokens, outputTokens, password: input, profile: profile || 'UNDISCLOSED' }),
         redirect: 'follow',
       });
     } catch (logErr) {
