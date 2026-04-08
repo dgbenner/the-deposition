@@ -12,13 +12,13 @@
   :root {
     --bg: #0a0a08;
     --bg-2: #0f0f0c;
-    --amber: #e8a020;
-    --amber-dim: #a06810;
-    --amber-bright: #ffbf40;
-    --amber-faint: #3a2608;
-    --cool: #a8b8c8;
-    --cool-dim: #6a7a8a;
-    --border: #2a2010;
+    --amber: #f0b840;
+    --amber-dim: #c07d13;
+    --amber-bright: #ffcc66;
+    --amber-faint: #4a3210;
+    --cool: #c0d0e0;
+    --cool-dim: #8090a0;
+    --border: #3a3018;
     --font-display: 'VT323', monospace;
     --font-mono: 'Share Tech Mono', monospace;
   }
@@ -87,8 +87,8 @@
   }
 
   .pw-box {
-    border: 1px solid var(--border);
-    padding: 1.25rem 2rem;
+    border: none;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,7 +109,7 @@
     font-family: var(--font-display);
     font-size: 24px;
     letter-spacing: 0.2em;
-    text-align: left;
+    text-align: center;
     width: 240px;
     padding: 4px 0;
     outline: none;
@@ -912,13 +912,339 @@
     pointer-events: none;
     animation: blink 1.5s step-end infinite;
   }
+
+  /* ========== MOBILE ========== */
+  @media (max-width: 640px) {
+
+    /* App layout */
+    #app { padding: 0 0.75rem; }
+
+    /* Hide portrait, text size toggle, custom scrollbar */
+    .portrait { display: none !important; }
+    .text-toggle { display: none !important; }
+    .crt-scrollbar { display: none !important; }
+
+    /* Native scrollbar for mobile */
+    .messages-pane {
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.5rem 0 0.75rem 0 !important;
+    }
+    .messages-pane::-webkit-scrollbar { display: none; }
+
+    /* Header — compact, no meta line, left-aligned */
+    .header { padding: 0.75rem 0 0.4rem; padding-left: 70px; }
+    .header-meta { display: none; }
+    .header h1 { font-size: 18px !important; }
+    .header-row { justify-content: flex-start; }
+
+    /* Mobile portrait — small, top-left */
+    .portrait {
+      display: block !important;
+      position: fixed !important;
+      top: 0.75rem !important;
+      left: 0.75rem !important;
+      right: auto !important;
+      width: 60px !important;
+      opacity: 0.8;
+    }
+    .mode-hint { font-size: 10px; min-height: 0; margin-top: 0.3rem; }
+
+    /* Messages — same size for both, reduced 20% from 18px = ~14px */
+    .msg { margin-bottom: 0.75rem; }
+    .msg-label { font-size: 8px; margin-bottom: 3px; }
+    .msg-construct .msg-text {
+      font-size: 14px !important;
+      line-height: 1.4 !important;
+    }
+    .msg-user .msg-text {
+      font-size: 14px !important;
+      line-height: 1.4 !important;
+    }
+    .msg-construct { padding-left: 0.75rem; }
+
+    /* Large text mode disabled on mobile */
+    #app.large-text .msg-construct .msg-text { font-size: 14px !important; line-height: 1.4 !important; }
+    #app.large-text .msg-user .msg-text { font-size: 14px !important; line-height: 1.4 !important; }
+    #app.large-text .msg-label { font-size: 8px !important; }
+
+    /* Loading cursor */
+    .cursor-blink { width: 8px; height: 14px; }
+
+    /* Input spacer — centered topics tab, no profile here */
+    .input-spacer {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0;
+      padding-top: 6px;
+      height: auto;
+    }
+
+    /* Hide profile from spacer on mobile — moves below textarea */
+    .input-spacer .profile-selector { display: none !important; }
+
+    .topics-tab {
+      height: 22px;
+      padding: 0 16px;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .topics-tab span { font-size: 8px; }
+
+    /* Profile selector — below textarea, right-aligned, underlined */
+    .mobile-profile {
+      display: flex !important;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
+    .mobile-profile .profile-header {
+      gap: 4px;
+    }
+
+    .mobile-profile .profile-toggle-arrow { display: none; }
+
+    .mobile-profile .profile-header-label {
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      text-decoration: underline;
+      text-decoration-color: var(--amber-dim);
+      text-underline-offset: 2px;
+    }
+
+    .mobile-profile .profile-header-current {
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      text-decoration: underline;
+      text-decoration-color: var(--amber);
+      text-underline-offset: 2px;
+    }
+
+    /* Profile bottom sheet options */
+    .mobile-profile .profile-options {
+      display: none;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 12px !important;
+      right: 12px !important;
+      top: auto !important;
+      width: auto !important;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 1.25rem 1rem 2rem;
+      background: var(--bg);
+      border-top: 2px solid var(--amber-dim);
+      border-left: 2px solid var(--amber-dim);
+      border-right: 2px solid var(--amber-dim);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      z-index: 500;
+      text-align: left;
+    }
+
+    .mobile-profile.open .profile-options {
+      display: block;
+    }
+
+    .profile-sheet-close {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .profile-sheet-close-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: var(--amber-dim);
+    }
+
+    .profile-sheet-close-x {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .mobile-profile .profile-option { padding: 8px 0; }
+    .mobile-profile .profile-option-label { font-size: 11px; }
+    .mobile-profile .profile-option-desc { font-size: 10px; line-height: 1.4; }
+
+    /* Bottom sheet backdrop */
+    .profile-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 499;
+    }
+    .profile-backdrop.visible { display: block; }
+
+    /* Input area */
+    .input-area { padding: 0 0 0.5rem; }
+
+    .input-row { gap: 0; }
+
+    #msg-input {
+      font-size: 13px;
+      height: 50px;
+      padding: 8px 10px;
+    }
+
+    #msg-input::placeholder { font-size: 9px; }
+
+    #send-btn {
+      height: 50px;
+      padding: 0 14px;
+      font-size: 11px;
+    }
+
+    /* Footer — reduced 60% */
+    .input-foot {
+      font-size: 4px;
+      margin-top: 0.2rem;
+      opacity: 0.35;
+    }
+
+    .foot-right { display: none; }
+
+    /* Topics modal — side panel from right with left border and blur */
+    #topics-modal {
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: auto !important;
+      width: 85vw;
+      max-width: 360px;
+      padding: 0 1rem 2rem;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      z-index: 900;
+      border-left: 1px solid var(--amber-dim);
+    }
+
+    #topics-modal.open {
+      display: block;
+      transform: translateX(0);
+    }
+
+    /* Fixed header inside topics panel */
+    .modal-header-fixed {
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      padding: 1rem 0 0.75rem;
+      z-index: 910;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .modal-close-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: var(--amber-dim);
+    }
+
+    .modal-close-x {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .modal-title { font-size: 20px !important; margin-bottom: 0.25rem; padding-top: 2.5rem; }
+    .modal-subtitle { font-size: 9px; margin-bottom: 1rem; }
+
+    .topics-grid {
+      grid-template-columns: 1fr !important;
+      gap: 0;
+    }
+
+    .topic-section {
+      border-right: none !important;
+      padding: 0.75rem 0;
+    }
+
+    .section-label { font-size: 8px; }
+    .topic-btn {
+      font-size: 13px;
+      padding: 6px 0;
+      background: transparent;
+      border: none;
+      text-decoration: underline;
+      text-decoration-color: var(--amber-dim);
+      text-underline-offset: 3px;
+      text-align: left;
+      margin-bottom: 4px;
+    }
+
+    .topic-btn:hover {
+      background: transparent;
+      border: none;
+      color: var(--amber-bright);
+      text-decoration-color: var(--amber-bright);
+    }
+
+    .topic-btn:active {
+      background: var(--amber);
+      color: var(--bg);
+      text-decoration: none;
+      padding: 6px 8px;
+      margin-left: -8px;
+      margin-right: -8px;
+    }
+
+    /* Topics backdrop — blur + darken */
+    .topics-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      z-index: 899;
+    }
+    .topics-backdrop.visible { display: block; }
+
+    /* Password screen */
+    #pw-screen .case-label {
+      font-size: 9px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .pw-box { padding: 1rem 1.25rem; }
+    #pw-screen h1 { font-size: 36px !important; }
+    #pw-screen .subtitle { font-size: 12px; margin-bottom: 1.5rem; }
+    #pw-input { width: 200px; font-size: 20px; }
+  }
+
+  /* Mobile profile — hidden by default, shown via mobile CSS */
+  .mobile-profile { display: none; }
 </style>
 </head>
 <body>
 
 <!-- PASSWORD SCREEN -->
 <div id="pw-screen">
-  <div class="case-label">Restricted Access / Fictional Analytical Record</div>
+  <div class="case-label">Restricted Access<br>Fictional Analytical Record</div>
   <h1>THE DEPOSITION</h1>
   <div class="subtitle">AN UNGUARDED ACCOUNT</div>
   <div class="pw-box">
@@ -932,15 +1258,20 @@
   </div>
 </div>
 
+<!-- Backdrops for mobile panels -->
+<div class="topics-backdrop" id="topics-backdrop" onclick="closeTopics()"></div>
+<div class="profile-backdrop" id="profile-backdrop" onclick="closeProfileSheet()"></div>
+
 <!-- TOPICS MODAL -->
 <div id="topics-modal">
-  <button class="modal-close" onclick="closeTopics()">
-    <span class="modal-close-label">CLOSE</span>
-    <span class="modal-close-x">&times;</span>
-  </button>
-
-  <div class="modal-title">SUGGESTED TOPICS</div>
-  <div class="modal-subtitle">SELECT A TOPIC AND TRUMP WILL EXPLAIN HIMSELF — HIS REAL REASONING, HIS FORMATION, HIS ACTUAL MOTIVATIONS.</div>
+  <div class="modal-header-fixed">
+    <button class="modal-close" onclick="closeTopics()">
+      <span class="modal-close-label">CLOSE</span>
+      <span class="modal-close-x">&times;</span>
+    </button>
+    <div class="modal-title">SUGGESTED TOPICS</div>
+    <div class="modal-subtitle">SELECT A TOPIC AND TRUMP WILL EXPLAIN HIMSELF — HIS REAL REASONING, HIS FORMATION, HIS ACTUAL MOTIVATIONS.</div>
+  </div>
 
   <div class="topics-grid" id="topics-grid">
     <!-- Sections rendered dynamically via JS -->
@@ -1039,6 +1370,46 @@
     <div class="input-row">
       <textarea id="msg-input" placeholder="Ask him anything — a decision, a news story, why he did something..."></textarea>
       <button id="send-btn" onclick="sendMessage()"><span>ASK</span><span class="ask-arrow"></span></button>
+    </div>
+    <div class="mobile-profile" id="mobile-profile-selector">
+      <div class="profile-header" onclick="toggleProfileSelector()">
+        <span class="profile-header-label">PSYCHOLOGICAL PROFILE:</span>
+        <span class="profile-header-current" id="mobile-profile-current">UNDISCLOSED</span>
+      </div>
+      <div class="profile-options" id="mobile-profile-options">
+        <div class="profile-sheet-close" onclick="closeProfileSheet()">
+          <span class="profile-sheet-close-label">CLOSE</span>
+          <span class="profile-sheet-close-x">&times;</span>
+        </div>
+        <div class="profile-option selected" onclick="selectProfile(this, 'UNDISCLOSED', '', true)">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">UNDISCLOSED</div>
+            <div class="profile-option-desc">No psychological lens applied.</div>
+          </div>
+        </div>
+        <div class="profile-option" onclick="selectProfile(this, 'NARCISSISTIC ADAPTATION', 'A deeply ingrained pattern rooted in formation and upbringing. Apply this lens: blind spots rather than deliberate concealment. The mechanisms are automatic — built by Fred, reinforced by Cohn, never examined. He does not see what he does because the architecture was designed to prevent seeing.', true)">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">NARCISSISTIC ADAPTATION</div>
+            <div class="profile-option-desc">A deeply ingrained pattern rooted in formation and upbringing. Blind spots rather than deliberate concealment.</div>
+          </div>
+        </div>
+        <div class="profile-option" onclick="selectProfile(this, 'MALIGNANT NARCISSISM', 'The documented clinical profile: NPD with antisocial features, paranoia, and sadism. Apply this lens: rules don\'t apply because they genuinely never registered as real. Other people exist as instruments. The cruelty is not a byproduct — it is a feature that produces pleasure.', true)">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">MALIGNANT NARCISSISM</div>
+            <div class="profile-option-desc">The documented clinical profile. NPD, antisocial features, paranoia, sadism.</div>
+          </div>
+        </div>
+        <div class="profile-option" onclick="selectProfile(this, 'TERMINAL POWER PATHOLOGY', 'No clinical precedent. Apply this lens: unchecked power has severed consequence, legacy, and reality friction. Other people have ceased to register as fully real. The feedback loops that once connected action to outcome are broken. What remains is pure mechanism — appetite and execution with nothing in between.', true)">
+          <div class="profile-radio"></div>
+          <div class="profile-option-text">
+            <div class="profile-option-label">TERMINAL POWER PATHOLOGY</div>
+            <div class="profile-option-desc">No clinical precedent. Unchecked power has severed consequence and reality friction.</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="input-foot">
       <div class="foot-left">
@@ -1452,16 +1823,31 @@
   let activeProfileLabel = 'UNDISCLOSED';
 
   function toggleProfileSelector() {
-    document.getElementById('profile-selector').classList.toggle('open');
+    if (window.innerWidth <= 640) {
+      const mobileSel = document.getElementById('mobile-profile-selector');
+      mobileSel.classList.toggle('open');
+      document.getElementById('profile-backdrop').classList.toggle('visible', mobileSel.classList.contains('open'));
+    } else {
+      const sel = document.getElementById('profile-selector');
+      sel.classList.toggle('open');
+    }
   }
 
-  function selectProfile(el, label, prefix) {
+  function selectProfile(el, label, prefix, isMobile) {
+    // Update all profile options across both desktop and mobile selectors
     document.querySelectorAll('.profile-option').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     activeProfileLabel = label;
     activeProfile = prefix;
     document.getElementById('profile-current').textContent = label;
+    const mobileCurrent = document.getElementById('mobile-profile-current');
+    if (mobileCurrent) mobileCurrent.textContent = label;
     document.getElementById('profile-selector').classList.remove('open');
+    if (isMobile) {
+      const mobileSel = document.getElementById('mobile-profile-selector');
+      if (mobileSel) mobileSel.classList.remove('open');
+    }
+    document.getElementById('profile-backdrop').classList.remove('visible');
   }
   const messagesPane = document.getElementById('messages-pane');
 
@@ -1483,10 +1869,13 @@
   function updatePwCursor() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    ctx.font = '24px VT323';
+    ctx.font = getComputedStyle(pwInput).fontSize + ' VT323';
     const textWidth = ctx.measureText(pwInput.value).width;
     const letterSpacingExtra = pwInput.value.length * 4.8;
-    pwCursor.style.left = (textWidth + letterSpacingExtra) + 'px';
+    const totalTextWidth = textWidth + letterSpacingExtra;
+    const inputWidth = pwInput.offsetWidth;
+    const startX = (inputWidth - totalTextWidth) / 2;
+    pwCursor.style.left = (startX + totalTextWidth) + 'px';
   }
 
   pwInput.addEventListener('input', updatePwCursor);
@@ -1561,13 +1950,22 @@
     }
   });
 
-  // Topics modal
+  // Topics modal / side panel
   function openTopics() {
     document.getElementById('topics-modal').classList.add('open');
+    document.getElementById('topics-backdrop').classList.add('visible');
   }
 
   function closeTopics() {
     document.getElementById('topics-modal').classList.remove('open');
+    document.getElementById('topics-backdrop').classList.remove('visible');
+  }
+
+  // Profile bottom sheet (mobile)
+  function closeProfileSheet() {
+    document.getElementById('profile-selector').classList.remove('open');
+    document.getElementById('mobile-profile-selector').classList.remove('open');
+    document.getElementById('profile-backdrop').classList.remove('visible');
   }
 
   // Fire a topic from the modal
