@@ -1333,19 +1333,22 @@
 <div id="subject-screen">
   <div class="subject-title">Select the Subject</div>
   <div class="subject-list">
+    <div class="subject-item" onclick="selectSubject('borgnine')"><span>Ernest</span> Borgnine</div>
     <div class="subject-item" onclick="selectSubject('bush')"><span>Kate</span> Bush</div>
-    <div class="subject-item inactive"><span>Dick</span> Cavett</div>
+    <div class="subject-item" onclick="selectSubject('cavett')"><span>Dick</span> Cavett</div>
     <div class="subject-item" onclick="selectSubject('cruise')"><span>Tom</span> Cruise</div>
     <div class="subject-item" onclick="selectSubject('curtis')"><span>Ian</span> Curtis</div>
     <div class="subject-item" onclick="selectSubject('dali')"><span>Salvador</span> Dali</div>
-    <div class="subject-item inactive"><span>Peter</span> Gabriel</div>
+    <div class="subject-item" onclick="selectSubject('gabriel')"><span>Peter</span> Gabriel</div>
     <div class="subject-item" onclick="selectSubject('herzog')"><span>Werner</span> Herzog</div>
+    <div class="subject-item" onclick="selectSubject('prince')"><span>Prince</span></div>
+    <div class="subject-item" onclick="selectSubject('porridge')"><span>Genesis</span> P-Orridge</div>
     <div class="subject-item" onclick="selectSubject('nixon')"><span>Richard</span> Nixon</div>
-    <div class="subject-item inactive"><span>Prince</span></div>
-    <div class="subject-item inactive"><span>Rod</span> Serling</div>
-    <div class="subject-item inactive"><span>John</span> Steinbeck</div>
-    <div class="subject-item inactive"><span>Taylor</span> Swift</div>
+    <div class="subject-item" onclick="selectSubject('russell')"><span>Ken</span> Russell</div>
+    <div class="subject-item" onclick="selectSubject('serling')"><span>Rod</span> Serling</div>
+    <div class="subject-item" onclick="selectSubject('steinbeck')"><span>John</span> Steinbeck</div>
     <div class="subject-item" onclick="selectSubject('trump')"><span>Donald</span> Trump</div>
+    <div class="subject-item" onclick="selectSubject('katt_williams')"><span>Katt</span> Williams</div>
   </div>
 </div>
 
@@ -1371,8 +1374,8 @@
 
 <!-- MAIN APP -->
 <div id="app">
-  <div class="portrait" id="portrait">
-    <img src="/portrait.png" alt="Subject portrait" />
+  <div class="portrait" id="portrait" style="display:none">
+    <img src="" alt="Subject portrait" />
   </div>
 
   <div class="text-toggle">
@@ -1459,7 +1462,7 @@
     </div>
     </div>
     <div class="input-row">
-      <textarea id="msg-input" placeholder="Ask him anything — a decision, a news story, why he did something..."></textarea>
+      <textarea id="msg-input" placeholder="Ask anything — a decision, a news story, why they did something..."></textarea>
       <button id="send-btn" onclick="sendMessage()"><span>ASK</span><span class="ask-arrow"></span></button>
     </div>
     <div class="mobile-profile" id="mobile-profile-selector">
@@ -1517,8 +1520,8 @@
 
 <script>
   const MODE_HINTS = {
-    scenario: "Ask about a recent event, or a decision he made. He'll tell you what was actually going on underneath it.",
-    fireside: "Pick a theme or topic. He'll trace it back through his life — his father, his upbringing, how he got to where he is."
+    scenario: "Ask about a recent event, or a decision they made. They'll tell you what was actually going on underneath it.",
+    fireside: "Pick a theme or topic. They'll trace it back through their life — formation, upbringing, how they got to where they are."
   };
 
   // Topic pools — each section has 7-8 topics, 5 show per session
@@ -1923,6 +1926,15 @@
     herzog: '',
     bush: '',
     cruise: '',
+    gabriel: '',
+    steinbeck: '',
+    prince: '',
+    porridge: '',
+    russell: '',
+    serling: '',
+    katt_williams: '',
+    borgnine: '',
+    cavett: '',
   };
 
   const SUBJECT_NAMES = {
@@ -1933,6 +1945,15 @@
     herzog: 'HERZOG',
     bush: 'BUSH',
     cruise: 'CRUISE',
+    gabriel: 'GABRIEL',
+    steinbeck: 'STEINBECK',
+    prince: 'PRINCE',
+    porridge: 'P-ORRIDGE',
+    russell: 'RUSSELL',
+    serling: 'SERLING',
+    katt_williams: 'WILLIAMS',
+    borgnine: 'BORGNINE',
+    cavett: 'CAVETT',
   };
 
   function selectSubject(subject) {
