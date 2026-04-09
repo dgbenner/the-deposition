@@ -64,13 +64,14 @@
     color: var(--amber-dim);
     text-transform: uppercase;
     margin-bottom: 1.5rem;
+    text-align: center;
   }
 
   #pw-screen h1 {
     font-family: var(--font-display);
     font-size: clamp(48px, 10vw, 80px);
     letter-spacing: 0.15em;
-    color: var(--amber-bright);
+    color: var(--amber);
     text-shadow: 0 0 20px rgba(232,160,32,0.3);
     line-height: 1;
     margin-bottom: 0.5rem;
@@ -152,6 +153,66 @@
     letter-spacing: 0.08em;
     margin-top: 0;
     opacity: 0.5;
+  }
+
+  /* SUBJECT SELECTION SCREEN */
+  #subject-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .subject-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--amber-dim);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .subject-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 300px;
+  }
+
+  .subject-item {
+    font-family: var(--font-display);
+    font-size: 24px;
+    letter-spacing: 0.08em;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: var(--amber);
+    transition: background 0.1s, color 0.1s;
+    text-align: center;
+  }
+
+  .subject-item:hover {
+    background: var(--amber);
+    color: var(--bg);
+  }
+
+  .subject-item:active {
+    background: var(--amber-bright);
+    color: var(--bg);
+  }
+
+  .subject-item.inactive {
+    color: var(--amber-dim);
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .subject-item.inactive:hover {
+    background: transparent;
+    color: var(--amber-dim);
   }
 
   /* Portrait */
@@ -246,7 +307,7 @@
     font-family: var(--font-display);
     font-size: clamp(16px, 3vw, 26px);
     letter-spacing: 0.12em;
-    color: var(--amber-bright);
+    color: var(--amber);
     text-shadow: 0 0 12px rgba(232,160,32,0.2);
     line-height: 1;
   }
@@ -1224,6 +1285,16 @@
     }
     .topics-backdrop.visible { display: block; }
 
+    /* Subject screen */
+    .subject-list { width: 250px; }
+    .subject-item { font-size: 20px; padding: 8px 12px; }
+    .subject-title { font-size: 10px; }
+
+    .subject-item:active {
+      background: var(--amber);
+      color: var(--bg);
+    }
+
     /* Password screen */
     #pw-screen .case-label {
       font-size: 9px;
@@ -1255,6 +1326,26 @@
     </div>
     <div id="pw-error"></div>
     <div id="pw-hint">Press Enter to continue</div>
+  </div>
+</div>
+
+<!-- SUBJECT SELECTION SCREEN -->
+<div id="subject-screen">
+  <div class="subject-title">Select the Subject</div>
+  <div class="subject-list">
+    <div class="subject-item" onclick="selectSubject('bush')"><span>Kate</span> Bush</div>
+    <div class="subject-item inactive"><span>Dick</span> Cavett</div>
+    <div class="subject-item" onclick="selectSubject('cruise')"><span>Tom</span> Cruise</div>
+    <div class="subject-item" onclick="selectSubject('curtis')"><span>Ian</span> Curtis</div>
+    <div class="subject-item" onclick="selectSubject('dali')"><span>Salvador</span> Dali</div>
+    <div class="subject-item inactive"><span>Peter</span> Gabriel</div>
+    <div class="subject-item" onclick="selectSubject('herzog')"><span>Werner</span> Herzog</div>
+    <div class="subject-item" onclick="selectSubject('nixon')"><span>Richard</span> Nixon</div>
+    <div class="subject-item inactive"><span>Prince</span></div>
+    <div class="subject-item inactive"><span>Rod</span> Serling</div>
+    <div class="subject-item inactive"><span>John</span> Steinbeck</div>
+    <div class="subject-item inactive"><span>Taylor</span> Swift</div>
+    <div class="subject-item" onclick="selectSubject('trump')"><span>Donald</span> Trump</div>
   </div>
 </div>
 
@@ -1306,7 +1397,7 @@
     <div id="messages"></div>
 
     <div id="loading">
-      <div class="msg-label">TRUMP</div>
+      <div class="msg-label" id="loading-label">TRUMP</div>
       <span class="cursor-blink"></span>
     </div>
 
@@ -1822,6 +1913,60 @@
   let activeProfile = '';
   let activeProfileLabel = 'UNDISCLOSED';
 
+  let activeSubject = 'trump';
+
+  const SUBJECT_PORTRAITS = {
+    trump: '/portrait.png',
+    nixon: '/portrait-nixon.png',
+    dali: '/portrait-dali.png',
+    curtis: '/portrait-curtis.png',
+    herzog: '',
+    bush: '',
+    cruise: '',
+  };
+
+  const SUBJECT_NAMES = {
+    trump: 'TRUMP',
+    nixon: 'NIXON',
+    dali: 'DALÍ',
+    curtis: 'CURTIS',
+    herzog: 'HERZOG',
+    bush: 'BUSH',
+    cruise: 'CRUISE',
+  };
+
+  function selectSubject(subject) {
+    activeSubject = subject;
+    // Update portrait
+    const portraitEl = document.querySelector('.portrait');
+    const portraitImg = document.querySelector('.portrait img');
+    if (SUBJECT_PORTRAITS[subject]) {
+      portraitImg.src = SUBJECT_PORTRAITS[subject];
+      portraitEl.style.display = '';
+    } else {
+      portraitEl.style.display = 'none';
+    }
+    // Update labels
+    const loadingLabel = document.getElementById('loading-label');
+    if (loadingLabel) loadingLabel.textContent = SUBJECT_NAMES[subject] || 'SUBJECT';
+
+    // Show/hide Trump-specific UI
+    const isTrump = subject === 'trump';
+    document.querySelector('.input-spacer').style.display = isTrump ? '' : 'none';
+    document.getElementById('profile-selector').style.display = isTrump ? '' : 'none';
+    const mobileProfile = document.getElementById('mobile-profile-selector');
+    if (mobileProfile) mobileProfile.style.display = isTrump ? '' : 'none';
+
+    document.getElementById('subject-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    setMode('scenario');
+    document.getElementById('msg-input').focus();
+    if (isTrump) {
+      renderSections();
+      loadDynamicTopics();
+    }
+  }
+
   function toggleProfileSelector() {
     if (window.innerWidth <= 640) {
       const mobileSel = document.getElementById('mobile-profile-selector');
@@ -1896,11 +2041,7 @@
     if (res.ok) {
       password = val;
       document.getElementById('pw-screen').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-      setMode('scenario');
-      document.getElementById('msg-input').focus();
-      renderSections();
-      loadDynamicTopics();
+      document.getElementById('subject-screen').style.display = 'flex';
     } else if (res.status === 403) {
       pwError.textContent = 'DAILY LIMIT REACHED — TRY AGAIN TOMORROW';
       pwInput.value = '';
@@ -1997,7 +2138,7 @@
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, mode, password, largeText, profile: activeProfileLabel })
+        body: JSON.stringify({ messages: history, mode, password, largeText, profile: activeProfileLabel, subject: activeSubject })
       });
 
       const data = await res.json();
@@ -2126,7 +2267,7 @@
     const container = document.getElementById('messages');
     const div = document.createElement('div');
     div.className = `msg msg-${role}`;
-    const label = role === 'user' ? 'YOU' : 'TRUMP';
+    const label = role === 'user' ? 'YOU' : (SUBJECT_NAMES[activeSubject] || 'SUBJECT');
 
     if (role === 'user') {
       const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -2162,7 +2303,7 @@
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, mode, password, largeText, profile: activeProfileLabel })
+        body: JSON.stringify({ messages: history, mode, password, largeText, profile: activeProfileLabel, subject: activeSubject })
       });
 
       const data = await res.json();
