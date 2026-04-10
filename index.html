@@ -1342,8 +1342,8 @@
     <div class="subject-item" onclick="selectSubject('gabriel')"><span>Peter</span> Gabriel</div>
     <div class="subject-item" onclick="selectSubject('herzog')"><span>Werner</span> Herzog</div>
     <div class="subject-item" onclick="selectSubject('prince')"><span>Prince</span></div>
-    <div class="subject-item" onclick="selectSubject('porridge')"><span>Genesis</span> P-Orridge</div>
     <div class="subject-item" onclick="selectSubject('nixon')"><span>Richard</span> Nixon</div>
+    <div class="subject-item" onclick="selectSubject('porridge')"><span>Genesis</span> P-Orridge</div>
     <div class="subject-item" onclick="selectSubject('russell')"><span>Ken</span> Russell</div>
     <div class="subject-item" onclick="selectSubject('serling')"><span>Rod</span> Serling</div>
     <div class="subject-item" onclick="selectSubject('steinbeck')"><span>John</span> Steinbeck</div>
@@ -1519,10 +1519,88 @@
 </div>
 
 <script>
-  const MODE_HINTS = {
-    scenario: "Ask about a recent event, or a decision they made. They'll tell you what was actually going on underneath it.",
-    fireside: "Pick a theme or topic. They'll trace it back through their life — formation, upbringing, how they got to where they are."
+  const SUBJECT_PRONOUNS = {
+    bush: { they: 'she', them: 'her', their: 'her', theyll: "she'll" },
+    porridge: { they: 'they', them: 'them', their: 'their', theyll: "they'll" },
   };
+  const DEFAULT_PRONOUNS = { they: 'he', them: 'him', their: 'his', theyll: "he'll" };
+
+  function getPronouns() { return SUBJECT_PRONOUNS[activeSubject] || DEFAULT_PRONOUNS; }
+
+  const SUBJECT_UI = {
+    borgnine: {
+      hint: "Ask about a role, a person he knew, or what it was actually like behind the image.",
+      placeholder: "A film, a co-star, the Navy, Marty, Ethel Merman — anything you want to know about the man behind the roles…"
+    },
+    bush: {
+      hint: "Ask about a song, a silence, or why she disappeared. She'll tell you what was actually underneath it.",
+      placeholder: "A song, the long silences, the dancing, the control — anything you want to understand about this woman's work…"
+    },
+    cavett: {
+      hint: "Ask about a guest, a conversation, or what he was carrying while everyone else was talking.",
+      placeholder: "A guest, a famous interview, the depression, Nebraska, Carrie — ask anything of the man who spent his life asking everyone else…"
+    },
+    cruise: {
+      hint: "Ask about a role, the stunts, or the childhood he never talks about. He'll tell you what was actually driving it.",
+      placeholder: "A film, the stunts, his father, Scientology, the marriages — anything you want to understand about the man who controls the danger because he grew up inside it…"
+    },
+    curtis: {
+      hint: "Ask about a song, a person he loved, or the night he died. He'll tell you what was actually happening underneath.",
+      placeholder: "A song, the epilepsy, Deborah, Annik, the last night — anything you want to understand about the music and the man who couldn't find a way through…"
+    },
+    dali: {
+      hint: "Ask about a painting, an obsession, or the brother who had his name before he did. He'll tell you what was actually underneath the spectacle.",
+      placeholder: "A painting, Gala, Lorca, the mustache, the divine — anything you want to understand about the man performing his own myth…"
+    },
+    gabriel: {
+      hint: "Ask about a song, the costumes, or what he found when he finally looked underneath. He'll tell you what was actually there.",
+      placeholder: "A song, Genesis, WOMAD, Biko, the therapy, the rage — anything you want to understand about the man who wore masks until he didn't have to…"
+    },
+    herzog: {
+      hint: "Ask about a film, an obsession, or what growing up in a village with no cinema made him. He'll tell you what was actually driving it.",
+      placeholder: "A film, Kinski, the stolen camera, the jungle, the walk to Paris — anything you want to understand about the man who decided the world's rules were someone else's problem…"
+    },
+    prince: {
+      hint: "Ask about a song, the symbol, or what it means to spend a lifetime fighting to own your own name. He'll tell you what was actually underneath it.",
+      placeholder: "A song, the vault, Warner Bros, the faith, the symbol — anything you want to understand about the man who was named after someone else's dream…"
+    },
+    nixon: {
+      hint: "Ask about a decision, an enemy, or what it actually felt like to be Richard Nixon. He'll tell you what was really going on underneath.",
+      placeholder: "Watergate, China, the tapes, his father, the enemies list — anything you want to understand about the most self-aware man ever to destroy himself in public…"
+    },
+    porridge: {
+      hint: "Ask about the music, the body, or what four years of institutional torture made them. They'll tell you what the war was actually about.",
+      placeholder: "The music, Lady Jaye, the surgeries, COUM, the exile — anything you want to understand about thee person who decided to short-circuit everything, including themselves…"
+    },
+    russell: {
+      hint: "Ask about a film, the excess, or what a childhood spent in the cinema instead of the house taught him. He'll tell you what the spectacle was actually for.",
+      placeholder: "A film, The Devils, the composers, the Catholic eye, the BBC — anything you want to understand about the boy who learned that chaos could be made beautiful…"
+    },
+    serling: {
+      hint: "Ask about an episode, the censors, or what he saw in the Philippines that never left him. He'll tell you what the Twilight Zone was actually for.",
+      placeholder: "An episode, the war, Emmett Till, Walking Distance, the sponsors — anything you want to understand about the man who learned to say the unsayable by making it science fiction…"
+    },
+    steinbeck: {
+      hint: "Ask about a book, a person he lost, or what the valley he never stopped writing about actually meant to him. He'll tell you what was underneath the work.",
+      placeholder: "The Grapes of Wrath, East of Eden, Ed Ricketts, the Nobel, Carol — anything you want to understand about the man who left California and spent the rest of his life trying to get back…"
+    },
+    trump: {
+      hint: "Ask about a decision, an enemy, or what Fred Trump actually made him. He'll tell you what was really driving it.",
+      placeholder: "A decision, Fred, Roy Cohn, the money, January 6th — anything you want to understand about the man trying to legislate a childhood myth into national reality…"
+    },
+    katt_williams: {
+      hint: "Ask about the comedy, the industry, or what growing up the way he did made him immune to. He'll tell you what he actually sees.",
+      placeholder: "The comedy, the industry, Club Shay Shay, the children, Haiti — anything you want to understand about the man who did the math and refused to get it wrong…"
+    }
+  };
+
+  function getModeHints() {
+    const p = getPronouns();
+    return {
+      scenario: `Ask about a recent event, or a decision ${p.they} made. ${p.theyll.charAt(0).toUpperCase() + p.theyll.slice(1)} tell you what was actually going on underneath it.`,
+      fireside: `Pick a theme or topic. ${p.theyll.charAt(0).toUpperCase() + p.theyll.slice(1)} trace it back through ${p.their} life — formation, upbringing, how ${p.they} got to where ${p.they} ${p.they === 'they' ? 'are' : 'is'}.`
+    };
+  }
 
   // Topic pools per subject — each section has topics, 6 sections and 5 topics show per session
   const SUBJECT_TOPICS = {};
@@ -4273,7 +4351,10 @@
 
     document.getElementById('subject-screen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
-    setMode('scenario');
+    // Set per-subject UI text
+    const ui = SUBJECT_UI[subject] || {};
+    if (ui.hint) document.getElementById('mode-hint').textContent = ui.hint;
+    if (ui.placeholder) document.getElementById('msg-input').placeholder = ui.placeholder;
     document.getElementById('msg-input').focus();
 
     if (hasTopics) renderSections();
@@ -4371,7 +4452,12 @@
     mode = m;
     document.getElementById('btn-scenario').classList.toggle('active', m === 'scenario');
     document.getElementById('btn-fireside').classList.toggle('active', m === 'fireside');
-    document.getElementById('mode-hint').textContent = MODE_HINTS[m];
+    const ui = SUBJECT_UI[activeSubject];
+    if (ui && ui.hint) {
+      document.getElementById('mode-hint').textContent = ui.hint;
+    } else {
+      document.getElementById('mode-hint').textContent = getModeHints()[m];
+    }
   }
 
   // Scroll helpers
