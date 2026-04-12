@@ -1383,6 +1383,7 @@
   <div class="subject-title">Select the Subject</div>
   <div class="subject-list">
     <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.png" alt=""></div><div><span>Ernest</span> Borgnine</div></div>
+    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.png" alt=""></div><div><span>William</span> Burroughs</div></div>
     <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.png" alt=""></div><div><span>Kate</span> Bush</div></div>
     <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.png" alt=""></div><div><span>Dick</span> Cavett</div></div>
     <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.png" alt=""></div><div><span>Tom</span> Cruise</div></div>
@@ -1645,6 +1646,10 @@
     lynch: {
       hint: "Ask about a film, the meditation, or the red ants under the perfect lawn. He'll tell you where the ideas actually come from.",
       placeholder: "A film, Twin Peaks, Eraserhead, Philadelphia, the daily TM, the darkness underneath the bliss — anything you want to understand about the man who made the most disturbing images in American cinema and woke up happy every day…"
+    },
+    burroughs: {
+      hint: "Ask about a book, a theory, or the night in Mexico City. He'll tell you what the Ugly Spirit actually was.",
+      placeholder: "Naked Lunch, Joan, the cut-up, Billy, Tangier, the cats in Lawrence — anything you want to understand about the Harvard WASP who killed his wife and spent 46 years writing his way out…"
     }
   };
 
@@ -4356,6 +4361,7 @@
     borgnine: '/portrait-borgnine.png',
     cavett: '/portrait-cavett.png',
     lynch: '/portrait-lynch.png',
+    burroughs: '/portrait-burroughs.png',
   };
 
   const SUBJECT_NAMES = {
@@ -4376,6 +4382,7 @@
     borgnine: 'BORGNINE',
     cavett: 'CAVETT',
     lynch: 'LYNCH',
+    burroughs: 'BURROUGHS',
   };
 
   function selectSubject(subject) {
