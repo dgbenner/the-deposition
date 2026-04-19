@@ -209,54 +209,51 @@
 
   .subject-info-icon {
     position: absolute;
-    top: 4px;
-    right: 8px;
-    width: 16px;
-    height: 16px;
+    top: 2px;
+    right: 2px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 10px;
     color: var(--amber-dim);
-    opacity: 0.6;
+    opacity: 0.55;
     cursor: help;
-    border-radius: 50%;
-    border: 1px solid var(--amber-dim);
     line-height: 1;
-    transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+    transition: opacity 0.15s, color 0.15s;
     z-index: 2;
+  }
+
+  .subject-info-icon::before {
+    content: 'i';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1;
+    padding-bottom: 1px;
   }
 
   .subject-info-icon:hover {
     opacity: 1;
     color: var(--amber);
-    border-color: var(--amber);
-  }
-
-  .subject-begin {
-    position: absolute;
-    bottom: 6px;
-    right: 8px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--amber-dim);
-    text-transform: uppercase;
-    opacity: 0.75;
-    transition: opacity 0.15s, color 0.15s;
-    pointer-events: none;
-  }
-
-  .subject-item:hover .subject-begin {
-    color: var(--bg);
-    opacity: 1;
   }
 
   .subject-item:hover .subject-info-icon {
     color: var(--bg);
-    border-color: var(--bg);
-    opacity: 0.5;
+    opacity: 0.45;
+  }
+
+  .subject-item:hover .subject-info-icon:hover {
+    color: var(--bg);
+    opacity: 1;
   }
 
   /* Tooltip */
@@ -1483,24 +1480,24 @@
 <div id="subject-screen">
   <div class="subject-title">Select the Subject</div>
   <div class="subject-list">
-    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.png" alt=""></div><div class="subject-name"><span>Ernest</span> Borgnine</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'borgnine')" onmouseenter="showTooltip(event, 'borgnine')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.png" alt=""></div><div class="subject-name"><span>William</span> Burroughs</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'burroughs')" onmouseenter="showTooltip(event, 'burroughs')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.png" alt=""></div><div class="subject-name"><span>Kate</span> Bush</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'bush')" onmouseenter="showTooltip(event, 'bush')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.png" alt=""></div><div class="subject-name"><span>Dick</span> Cavett</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'cavett')" onmouseenter="showTooltip(event, 'cavett')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.png" alt=""></div><div class="subject-name"><span>Tom</span> Cruise</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'cruise')" onmouseenter="showTooltip(event, 'cruise')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.png" alt=""></div><div class="subject-name"><span>Ian</span> Curtis</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'curtis')" onmouseenter="showTooltip(event, 'curtis')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.png" alt=""></div><div class="subject-name"><span>Salvador</span> Dali</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'dali')" onmouseenter="showTooltip(event, 'dali')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.png" alt=""></div><div class="subject-name"><span>Peter</span> Gabriel</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'gabriel')" onmouseenter="showTooltip(event, 'gabriel')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.png" alt=""></div><div class="subject-name"><span>Werner</span> Herzog</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'herzog')" onmouseenter="showTooltip(event, 'herzog')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.png" alt=""></div><div class="subject-name"><span>David</span> Lynch</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'lynch')" onmouseenter="showTooltip(event, 'lynch')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.png" alt=""></div><div class="subject-name"><span>Richard</span> Nixon</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'nixon')" onmouseenter="showTooltip(event, 'nixon')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.png" alt=""></div><div class="subject-name"><span>Genesis</span> P-Orridge</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'porridge')" onmouseenter="showTooltip(event, 'porridge')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.png" alt=""></div><div class="subject-name"><span>Prince</span></div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'prince')" onmouseenter="showTooltip(event, 'prince')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.png" alt=""></div><div class="subject-name"><span>Ken</span> Russell</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'russell')" onmouseenter="showTooltip(event, 'russell')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.png" alt=""></div><div class="subject-name"><span>Rod</span> Serling</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'serling')" onmouseenter="showTooltip(event, 'serling')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.png" alt=""></div><div class="subject-name"><span>John</span> Steinbeck</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'steinbeck')" onmouseenter="showTooltip(event, 'steinbeck')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.png" alt=""></div><div class="subject-name"><span>Donald</span> Trump</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'trump')" onmouseenter="showTooltip(event, 'trump')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
-    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.png" alt=""></div><div class="subject-name"><span>Katt</span> Williams</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'katt_williams')" onmouseenter="showTooltip(event, 'katt_williams')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.png" alt=""></div><div class="subject-name"><span>Ernest</span> Borgnine</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'borgnine')" onmouseenter="showTooltip(event, 'borgnine')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.png" alt=""></div><div class="subject-name"><span>William</span> Burroughs</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'burroughs')" onmouseenter="showTooltip(event, 'burroughs')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.png" alt=""></div><div class="subject-name"><span>Kate</span> Bush</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'bush')" onmouseenter="showTooltip(event, 'bush')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.png" alt=""></div><div class="subject-name"><span>Dick</span> Cavett</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'cavett')" onmouseenter="showTooltip(event, 'cavett')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.png" alt=""></div><div class="subject-name"><span>Tom</span> Cruise</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'cruise')" onmouseenter="showTooltip(event, 'cruise')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.png" alt=""></div><div class="subject-name"><span>Ian</span> Curtis</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'curtis')" onmouseenter="showTooltip(event, 'curtis')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.png" alt=""></div><div class="subject-name"><span>Salvador</span> Dali</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'dali')" onmouseenter="showTooltip(event, 'dali')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.png" alt=""></div><div class="subject-name"><span>Peter</span> Gabriel</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'gabriel')" onmouseenter="showTooltip(event, 'gabriel')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.png" alt=""></div><div class="subject-name"><span>Werner</span> Herzog</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'herzog')" onmouseenter="showTooltip(event, 'herzog')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.png" alt=""></div><div class="subject-name"><span>David</span> Lynch</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'lynch')" onmouseenter="showTooltip(event, 'lynch')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.png" alt=""></div><div class="subject-name"><span>Richard</span> Nixon</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'nixon')" onmouseenter="showTooltip(event, 'nixon')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.png" alt=""></div><div class="subject-name"><span>Genesis</span> P-Orridge</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'porridge')" onmouseenter="showTooltip(event, 'porridge')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.png" alt=""></div><div class="subject-name"><span>Prince</span></div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'prince')" onmouseenter="showTooltip(event, 'prince')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.png" alt=""></div><div class="subject-name"><span>Ken</span> Russell</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'russell')" onmouseenter="showTooltip(event, 'russell')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.png" alt=""></div><div class="subject-name"><span>Rod</span> Serling</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'serling')" onmouseenter="showTooltip(event, 'serling')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.png" alt=""></div><div class="subject-name"><span>John</span> Steinbeck</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'steinbeck')" onmouseenter="showTooltip(event, 'steinbeck')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.png" alt=""></div><div class="subject-name"><span>Donald</span> Trump</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'trump')" onmouseenter="showTooltip(event, 'trump')" onmouseleave="hideTooltip()"></span></div>
+    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.png" alt=""></div><div class="subject-name"><span>Katt</span> Williams</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'katt_williams')" onmouseenter="showTooltip(event, 'katt_williams')" onmouseleave="hideTooltip()"></span></div>
   </div>
 </div>
 
