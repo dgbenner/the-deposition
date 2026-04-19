@@ -200,6 +200,105 @@
     align-items: center;
     gap: 14px;
     min-height: 72px;
+    position: relative;
+  }
+
+  .subject-name {
+    flex: 1;
+  }
+
+  .subject-info-icon {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--amber-dim);
+    opacity: 0.6;
+    cursor: help;
+    border-radius: 50%;
+    border: 1px solid var(--amber-dim);
+    line-height: 1;
+    transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+    z-index: 2;
+  }
+
+  .subject-info-icon:hover {
+    opacity: 1;
+    color: var(--amber);
+    border-color: var(--amber);
+  }
+
+  .subject-begin {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--amber-dim);
+    text-transform: uppercase;
+    opacity: 0.75;
+    transition: opacity 0.15s, color 0.15s;
+    pointer-events: none;
+  }
+
+  .subject-item:hover .subject-begin {
+    color: var(--bg);
+    opacity: 1;
+  }
+
+  .subject-item:hover .subject-info-icon {
+    color: var(--bg);
+    border-color: var(--bg);
+    opacity: 0.5;
+  }
+
+  /* Tooltip */
+  #subject-tooltip {
+    position: fixed;
+    display: none;
+    background: var(--bg);
+    border: 1px solid var(--amber-dim);
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 12px 14px;
+    width: 300px;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    pointer-events: none;
+  }
+
+  #subject-tooltip.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  #subject-tooltip ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #subject-tooltip li {
+    padding: 4px 0 4px 14px;
+    position: relative;
+    letter-spacing: 0.02em;
+  }
+
+  #subject-tooltip li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--amber-dim);
   }
 
   .subject-portrait {
@@ -1384,26 +1483,29 @@
 <div id="subject-screen">
   <div class="subject-title">Select the Subject</div>
   <div class="subject-list">
-    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.png" alt=""></div><div><span>Ernest</span> Borgnine</div></div>
-    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.png" alt=""></div><div><span>William</span> Burroughs</div></div>
-    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.png" alt=""></div><div><span>Kate</span> Bush</div></div>
-    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.png" alt=""></div><div><span>Dick</span> Cavett</div></div>
-    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.png" alt=""></div><div><span>Tom</span> Cruise</div></div>
-    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.png" alt=""></div><div><span>Ian</span> Curtis</div></div>
-    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.png" alt=""></div><div><span>Salvador</span> Dali</div></div>
-    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.png" alt=""></div><div><span>Peter</span> Gabriel</div></div>
-    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.png" alt=""></div><div><span>Werner</span> Herzog</div></div>
-    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.png" alt=""></div><div><span>David</span> Lynch</div></div>
-    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.png" alt=""></div><div><span>Richard</span> Nixon</div></div>
-    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.png" alt=""></div><div><span>Genesis</span> P-Orridge</div></div>
-    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.png" alt=""></div><div><span>Prince</span></div></div>
-    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.png" alt=""></div><div><span>Ken</span> Russell</div></div>
-    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.png" alt=""></div><div><span>Rod</span> Serling</div></div>
-    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.png" alt=""></div><div><span>John</span> Steinbeck</div></div>
-    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.png" alt=""></div><div><span>Donald</span> Trump</div></div>
-    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.png" alt=""></div><div><span>Katt</span> Williams</div></div>
+    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.png" alt=""></div><div class="subject-name"><span>Ernest</span> Borgnine</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'borgnine')" onmouseenter="showTooltip(event, 'borgnine')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.png" alt=""></div><div class="subject-name"><span>William</span> Burroughs</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'burroughs')" onmouseenter="showTooltip(event, 'burroughs')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.png" alt=""></div><div class="subject-name"><span>Kate</span> Bush</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'bush')" onmouseenter="showTooltip(event, 'bush')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.png" alt=""></div><div class="subject-name"><span>Dick</span> Cavett</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'cavett')" onmouseenter="showTooltip(event, 'cavett')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.png" alt=""></div><div class="subject-name"><span>Tom</span> Cruise</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'cruise')" onmouseenter="showTooltip(event, 'cruise')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.png" alt=""></div><div class="subject-name"><span>Ian</span> Curtis</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'curtis')" onmouseenter="showTooltip(event, 'curtis')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.png" alt=""></div><div class="subject-name"><span>Salvador</span> Dali</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'dali')" onmouseenter="showTooltip(event, 'dali')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.png" alt=""></div><div class="subject-name"><span>Peter</span> Gabriel</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'gabriel')" onmouseenter="showTooltip(event, 'gabriel')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.png" alt=""></div><div class="subject-name"><span>Werner</span> Herzog</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'herzog')" onmouseenter="showTooltip(event, 'herzog')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.png" alt=""></div><div class="subject-name"><span>David</span> Lynch</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'lynch')" onmouseenter="showTooltip(event, 'lynch')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.png" alt=""></div><div class="subject-name"><span>Richard</span> Nixon</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'nixon')" onmouseenter="showTooltip(event, 'nixon')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.png" alt=""></div><div class="subject-name"><span>Genesis</span> P-Orridge</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'porridge')" onmouseenter="showTooltip(event, 'porridge')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.png" alt=""></div><div class="subject-name"><span>Prince</span></div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'prince')" onmouseenter="showTooltip(event, 'prince')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.png" alt=""></div><div class="subject-name"><span>Ken</span> Russell</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'russell')" onmouseenter="showTooltip(event, 'russell')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.png" alt=""></div><div class="subject-name"><span>Rod</span> Serling</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'serling')" onmouseenter="showTooltip(event, 'serling')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.png" alt=""></div><div class="subject-name"><span>John</span> Steinbeck</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'steinbeck')" onmouseenter="showTooltip(event, 'steinbeck')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.png" alt=""></div><div class="subject-name"><span>Donald</span> Trump</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'trump')" onmouseenter="showTooltip(event, 'trump')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
+    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.png" alt=""></div><div class="subject-name"><span>Katt</span> Williams</div><span class="subject-info-icon" onclick="event.stopPropagation(); showTooltip(event, 'katt_williams')" onmouseenter="showTooltip(event, 'katt_williams')" onmouseleave="hideTooltip()">i</span><span class="subject-begin">Begin</span></div>
   </div>
 </div>
+
+<!-- Subject tooltip -->
+<div id="subject-tooltip"><ul></ul></div>
 
 <!-- Backdrops for mobile panels -->
 <div class="topics-backdrop" id="topics-backdrop" onclick="closeTopics()"></div>
@@ -1579,6 +1681,61 @@
   const DEFAULT_PRONOUNS = { they: 'he', them: 'him', their: 'his', theyll: "he'll" };
 
   function getPronouns() { return SUBJECT_PRONOUNS[activeSubject] || DEFAULT_PRONOUNS; }
+
+  const SUBJECT_TOOLTIPS = {
+    borgnine: ["Character actor, 40-year career", "Oscar winner for Marty (1955)", "The warmest man in Hollywood spent a decade playing villains"],
+    burroughs: ["Beat Generation novelist, Naked Lunch", "Shot and killed his wife, Mexico City, 1951", "Spent 46 years writing his way out of it"],
+    bush: ["British singer-songwriter, Wuthering Heights", "Produced her own albums, toured once in 35 years", "Still trying to get back to unselfconscious dancing"],
+    cavett: ["Late-night talk show host, 1968–1996", "Last interviewer of Hendrix, Joplin, and Lennon", "Carried clinical depression through every conversation"],
+    cruise: ["Hollywood action star, Mission: Impossible", "15 schools in 14 years, a violent father, Scientology", "Does his own stunts because he grew up in uncontrollable danger"],
+    curtis: ["Singer, Joy Division", "Wrote She's Lost Control before his own epilepsy diagnosis", "Died at 23, the night before Joy Division's American tour"],
+    dali: ["Surrealist painter, The Persistence of Memory", "Born to replace a dead brother who had his name", "Performed his own myth until he couldn't stop"],
+    gabriel: ["Genesis frontman, then So and Sledgehammer", "Four years at a brutal English boarding school", "Discovered in therapy he contained rage he didn't know about"],
+    herzog: ["German filmmaker, Fitzcarraldo, Grizzly Man", "Stole his first camera; dragged a real ship over a real mountain", "Walked 600 miles in winter to keep a film critic alive"],
+    lynch: ["Filmmaker, Twin Peaks, Blue Velvet", "Meditated daily for 50 years; said he was the happiest person he knew", "Made the most disturbing images in American cinema"],
+    nixon: ["37th President of the United States", "Opened China, created the EPA, ended the draft", "Destroyed himself over a third-rate burglary"],
+    porridge: ["Founded industrial music with Throbbing Gristle", "Surgically modified their body to resemble their late partner", "Received the Burroughs mandate: short-circuit everything"],
+    prince: ["Musician, Purple Rain, Sign o' the Times", "Named after his father's stage name and unfulfilled ambitions", "Died alone at Paisley Park; the vault has never been fully opened"],
+    russell: ["British filmmaker, The Devils, Tommy", "Escaped his childhood in the cinema every day", "So extreme the BBC never hired him again"],
+    serling: ["Creator of The Twilight Zone", "Watched his best friend die in the Philippines, 1945", "Built science fiction as the only honest route past the censors"],
+    steinbeck: ["Novelist, The Grapes of Wrath, East of Eden", "His entire moral universe came from one book given to him at age nine", "Won the Nobel; a Times editorial asked the next day if he deserved it"],
+    trump: ["45th and 47th President", "Shaped by his father Fred, Roy Cohn, and Norman Vincent Peale", "Has been legislating a childhood myth into national reality ever since"],
+    katt_williams: ["Stand-up comedian, The Pimp Chronicles", "Emancipated at 13, homeless in Miami for four years", "Warned about Diddy on a podcast — Diddy arrested eight months later"]
+  };
+
+  // Tooltip behavior
+  let tooltipTimer = null;
+  function showTooltip(event, subjectId) {
+    event.stopPropagation();
+    const tooltip = document.getElementById('subject-tooltip');
+    const bullets = SUBJECT_TOOLTIPS[subjectId];
+    if (!bullets) return;
+    tooltip.querySelector('ul').innerHTML = bullets.map(b => '<li>' + b.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</li>').join('');
+
+    // Position above the icon; flip below if not enough room
+    const icon = event.currentTarget;
+    const rect = icon.getBoundingClientRect();
+    tooltip.classList.add('visible');
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const margin = 8;
+    let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+    left = Math.max(margin, Math.min(left, window.innerWidth - tooltipRect.width - margin));
+    let top = rect.top - tooltipRect.height - 10;
+    if (top < margin) top = rect.bottom + 10;
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+
+  function hideTooltip() {
+    document.getElementById('subject-tooltip').classList.remove('visible');
+  }
+
+  // Mobile: tap outside to dismiss
+  document.addEventListener('click', (e) => {
+    if (!e.target.classList || !e.target.classList.contains('subject-info-icon')) {
+      hideTooltip();
+    }
+  });
 
   const SUBJECT_UI = {
     borgnine: {
