@@ -101,6 +101,16 @@
     font-size: 12px;
     letter-spacing: 0.15em;
     color: var(--amber-dim);
+    transition: color 0.2s ease;
+  }
+
+  #pw-screen .prompt[data-state="verifying"] {
+    color: var(--amber);
+    animation: blink 0.9s step-end infinite;
+  }
+
+  #pw-screen .prompt[data-state="recognized"] {
+    color: var(--amber-bright);
   }
 
   #pw-input {
@@ -251,7 +261,7 @@
     font-size: 10px;
     letter-spacing: 0.01em;
     line-height: 1.45;
-    color: var(--amber-dim);
+    color: var(--amber);
     text-transform: none;
   }
 
@@ -279,13 +289,23 @@
   .subject-desc-line {
     padding: 2px 0 2px 10px;
     position: relative;
+    opacity: 0;
   }
+
+  .subject-list.expanded .subject-desc-line {
+    opacity: 1;
+    transition: opacity 0.22s ease;
+  }
+
+  .subject-list.expanded .subject-desc-line:nth-child(1) { transition-delay: 0.15s; }
+  .subject-list.expanded .subject-desc-line:nth-child(2) { transition-delay: 0.22s; }
+  .subject-list.expanded .subject-desc-line:nth-child(3) { transition-delay: 0.29s; }
 
   .subject-desc-line::before {
     content: '›';
     position: absolute;
     left: 0;
-    color: var(--amber-dim);
+    color: var(--amber);
     opacity: 0.7;
     font-weight: bold;
   }
@@ -331,54 +351,9 @@
     flex: 1;
   }
 
-  .subject-info-icon {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--amber-dim);
-    opacity: 0.55;
-    cursor: help;
-    line-height: 1;
-    transition: opacity 0.15s, color 0.15s;
-    z-index: 2;
-  }
+  .subject-item:hover
 
-  .subject-info-icon::before {
-    content: 'i';
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 1px solid currentColor;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    line-height: 1;
-    padding-bottom: 1px;
-  }
-
-  .subject-info-icon:hover {
-    opacity: 1;
-    color: var(--amber);
-  }
-
-  .subject-item:hover .subject-info-icon {
-    color: var(--bg);
-    opacity: 0.45;
-  }
-
-  .subject-item:hover .subject-info-icon:hover {
-    color: var(--bg);
-    opacity: 1;
-  }
+  .subject-item:hover
 
   /* Tooltip */
   #subject-tooltip {
@@ -989,12 +964,6 @@
 
   .foot-right { text-align: right; }
 
-  .blink-cursor::after {
-    content: '_';
-    animation: blink 1s step-end infinite;
-    color: var(--amber);
-  }
-
   /* Psychological profile selector */
   .profile-selector {
     text-align: right;
@@ -1590,7 +1559,7 @@
   <h1>THE OTHER ROOM</h1>
   <div class="subtitle">THE CONVERSATION NO ONE WAS INVITED TO</div>
   <div class="pw-box">
-    <div class="prompt">ENTER ACCESS CODE</div>
+    <div class="prompt">ENTER PRIVATE CODE</div>
     <div id="pw-input-wrap">
       <input type="text" id="pw-input" placeholder="" autocomplete="off" />
       <div id="pw-cursor"></div>
@@ -1608,24 +1577,24 @@
   </button>
   <div class="subject-title">Select the subject and enter the room</div>
   <div class="subject-list">
-    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ernest</span> Borgnine</div><div class="subject-desc"><div class="subject-desc-line">Character actor, 40-year career</div><div class="subject-desc-line">Oscar winner for Marty (1955)</div><div class="subject-desc-line">The warmest man in Hollywood spent a decade playing villains</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>William</span> Burroughs</div><div class="subject-desc"><div class="subject-desc-line">Beat Generation novelist, Naked Lunch</div><div class="subject-desc-line">Shot and killed his wife, Mexico City, 1951</div><div class="subject-desc-line">Spent 46 years writing his way out of it</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Kate</span> Bush</div><div class="subject-desc"><div class="subject-desc-line">British singer-songwriter, Wuthering Heights</div><div class="subject-desc-line">Produced her own albums, toured once in 35 years</div><div class="subject-desc-line">Still trying to get back to unselfconscious dancing</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Dick</span> Cavett</div><div class="subject-desc"><div class="subject-desc-line">Late-night talk show host, 1968–1996</div><div class="subject-desc-line">Last interviewer of Hendrix, Joplin, and Lennon</div><div class="subject-desc-line">Carried clinical depression through every conversation</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Tom</span> Cruise</div><div class="subject-desc"><div class="subject-desc-line">Hollywood action star, Mission: Impossible</div><div class="subject-desc-line">15 schools in 14 years, a violent father, Scientology</div><div class="subject-desc-line">Does his own stunts because he grew up in uncontrollable danger</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ian</span> Curtis</div><div class="subject-desc"><div class="subject-desc-line">Singer, Joy Division</div><div class="subject-desc-line">Wrote She's Lost Control before his own epilepsy diagnosis</div><div class="subject-desc-line">Died at 23, the night before Joy Division's American tour</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Salvador</span> Dali</div><div class="subject-desc"><div class="subject-desc-line">Surrealist painter, The Persistence of Memory</div><div class="subject-desc-line">Born to replace a dead brother who had his name</div><div class="subject-desc-line">Performed his own myth until he couldn't stop</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Peter</span> Gabriel</div><div class="subject-desc"><div class="subject-desc-line">Genesis frontman, then So and Sledgehammer</div><div class="subject-desc-line">Four years at a brutal English boarding school</div><div class="subject-desc-line">Discovered in therapy he contained rage he didn't know about</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Werner</span> Herzog</div><div class="subject-desc"><div class="subject-desc-line">German filmmaker, Fitzcarraldo, Grizzly Man</div><div class="subject-desc-line">Stole his first camera; dragged a real ship over a real mountain</div><div class="subject-desc-line">Walked 600 miles in winter to keep a film critic alive</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>David</span> Lynch</div><div class="subject-desc"><div class="subject-desc-line">Filmmaker, Twin Peaks, Blue Velvet</div><div class="subject-desc-line">Meditated daily for 50 years; said he was the happiest person he knew</div><div class="subject-desc-line">Made the most disturbing images in American cinema</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Richard</span> Nixon</div><div class="subject-desc"><div class="subject-desc-line">37th President of the United States</div><div class="subject-desc-line">Opened China, created the EPA, ended the draft</div><div class="subject-desc-line">Destroyed himself over a third-rate burglary</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Genesis</span> P-Orridge</div><div class="subject-desc"><div class="subject-desc-line">Founded industrial music with Throbbing Gristle</div><div class="subject-desc-line">Surgically modified their body to resemble their late partner</div><div class="subject-desc-line">Received the Burroughs mandate: short-circuit everything</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Prince</span></div><div class="subject-desc"><div class="subject-desc-line">Musician, Purple Rain, Sign o' the Times</div><div class="subject-desc-line">Named after his father's stage name and unfulfilled ambitions</div><div class="subject-desc-line">Died alone at Paisley Park; the vault has never been fully opened</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ken</span> Russell</div><div class="subject-desc"><div class="subject-desc-line">British filmmaker, The Devils, Tommy</div><div class="subject-desc-line">Escaped his childhood in the cinema every day</div><div class="subject-desc-line">So extreme the BBC never hired him again</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Rod</span> Serling</div><div class="subject-desc"><div class="subject-desc-line">Creator of The Twilight Zone</div><div class="subject-desc-line">Watched his best friend die in the Philippines, 1945</div><div class="subject-desc-line">Built science fiction as the only honest route past the censors</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>John</span> Steinbeck</div><div class="subject-desc"><div class="subject-desc-line">Novelist, The Grapes of Wrath, East of Eden</div><div class="subject-desc-line">His entire moral universe came from one book given to him at age nine</div><div class="subject-desc-line">Won the Nobel; a Times editorial asked the next day if he deserved it</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Donald</span> Trump</div><div class="subject-desc"><div class="subject-desc-line">45th and 47th President</div><div class="subject-desc-line">Shaped by his father Fred, Roy Cohn, and Norman Vincent Peale</div><div class="subject-desc-line">Has been legislating a childhood myth into national reality ever since</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.png" alt=""></div><div class="subject-text"><div class="subject-name"><span>Katt</span> Williams</div><div class="subject-desc"><div class="subject-desc-line">Stand-up comedian, The Pimp Chronicles</div><div class="subject-desc-line">Emancipated at 13, homeless in Miami for four years</div><div class="subject-desc-line">Warned about Diddy on a podcast — Diddy arrested eight months later</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ernest</span> Borgnine</div><div class="subject-desc"><div class="subject-desc-line">Character actor, 40-year career</div><div class="subject-desc-line">Oscar winner for Marty (1955)</div><div class="subject-desc-line">The warmest man in Hollywood spent a decade playing villains</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>William</span> Burroughs</div><div class="subject-desc"><div class="subject-desc-line">Beat Generation novelist, Naked Lunch</div><div class="subject-desc-line">Shot and killed his wife, Mexico City, 1951</div><div class="subject-desc-line">Spent 46 years writing his way out of it</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Kate</span> Bush</div><div class="subject-desc"><div class="subject-desc-line">British singer-songwriter, Wuthering Heights</div><div class="subject-desc-line">Produced her own albums, toured once in 35 years</div><div class="subject-desc-line">Still trying to get back to unselfconscious dancing</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Dick</span> Cavett</div><div class="subject-desc"><div class="subject-desc-line">Late-night talk show host, 1968–1996</div><div class="subject-desc-line">Last interviewer of Hendrix, Joplin, and Lennon</div><div class="subject-desc-line">Carried clinical depression through every conversation</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Tom</span> Cruise</div><div class="subject-desc"><div class="subject-desc-line">Hollywood action star, Mission: Impossible</div><div class="subject-desc-line">15 schools in 14 years, a violent father, Scientology</div><div class="subject-desc-line">Does his own stunts because he grew up in uncontrollable danger</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ian</span> Curtis</div><div class="subject-desc"><div class="subject-desc-line">Singer, Joy Division</div><div class="subject-desc-line">Wrote She's Lost Control before his own epilepsy diagnosis</div><div class="subject-desc-line">Died at 23, the night before Joy Division's American tour</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Salvador</span> Dali</div><div class="subject-desc"><div class="subject-desc-line">Surrealist painter, The Persistence of Memory</div><div class="subject-desc-line">Born to replace a dead brother who had his name</div><div class="subject-desc-line">Performed his own myth until he couldn't stop</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Peter</span> Gabriel</div><div class="subject-desc"><div class="subject-desc-line">Genesis frontman, then So and Sledgehammer</div><div class="subject-desc-line">Four years at a brutal English boarding school</div><div class="subject-desc-line">Discovered in therapy he contained rage he didn't know about</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Werner</span> Herzog</div><div class="subject-desc"><div class="subject-desc-line">German filmmaker, Fitzcarraldo, Grizzly Man</div><div class="subject-desc-line">Stole his first camera; dragged a real ship over a real mountain</div><div class="subject-desc-line">Walked 600 miles in winter to keep a film critic alive</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>David</span> Lynch</div><div class="subject-desc"><div class="subject-desc-line">Filmmaker, Twin Peaks, Blue Velvet</div><div class="subject-desc-line">Meditated daily for 50 years; said he was the happiest person he knew</div><div class="subject-desc-line">Made the most disturbing images in American cinema</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Richard</span> Nixon</div><div class="subject-desc"><div class="subject-desc-line">37th President of the United States</div><div class="subject-desc-line">Opened China, created the EPA, ended the draft</div><div class="subject-desc-line">Destroyed himself over a third-rate burglary</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Genesis</span> P-Orridge</div><div class="subject-desc"><div class="subject-desc-line">Founded industrial music with Throbbing Gristle</div><div class="subject-desc-line">Surgically modified their body to resemble their late partner</div><div class="subject-desc-line">Received the Burroughs mandate: short-circuit everything</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Prince</span></div><div class="subject-desc"><div class="subject-desc-line">Musician, Purple Rain, Sign o' the Times</div><div class="subject-desc-line">Named after his father's stage name and unfulfilled ambitions</div><div class="subject-desc-line">Died alone at Paisley Park; the vault has never been fully opened</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ken</span> Russell</div><div class="subject-desc"><div class="subject-desc-line">British filmmaker, The Devils, Tommy</div><div class="subject-desc-line">Escaped his childhood in the cinema every day</div><div class="subject-desc-line">So extreme the BBC never hired him again</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Rod</span> Serling</div><div class="subject-desc"><div class="subject-desc-line">Creator of The Twilight Zone</div><div class="subject-desc-line">Watched his best friend die in the Philippines, 1945</div><div class="subject-desc-line">Built science fiction as the only honest route past the censors</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>John</span> Steinbeck</div><div class="subject-desc"><div class="subject-desc-line">Novelist, The Grapes of Wrath, East of Eden</div><div class="subject-desc-line">His entire moral universe came from one book given to him at age nine</div><div class="subject-desc-line">Won the Nobel; a Times editorial asked the next day if he deserved it</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Donald</span> Trump</div><div class="subject-desc"><div class="subject-desc-line">45th and 47th President</div><div class="subject-desc-line">Shaped by his father Fred, Roy Cohn, and Norman Vincent Peale</div><div class="subject-desc-line">Has been legislating a childhood myth into national reality ever since</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Katt</span> Williams</div><div class="subject-desc"><div class="subject-desc-line">Stand-up comedian, The Pimp Chronicles</div><div class="subject-desc-line">Emancipated at 13, homeless in Miami for four years</div><div class="subject-desc-line">Warned about Diddy on a podcast — Diddy arrested eight months later</div></div></div></div>
   </div>
 </div>
 
@@ -4639,24 +4608,24 @@
   let activeSubject = 'trump';
 
   const SUBJECT_PORTRAITS = {
-    trump: '/portrait.png',
-    nixon: '/portrait-nixon.png',
-    dali: '/portrait-dali.png',
-    curtis: '/portrait-curtis.png',
-    herzog: '/portrait-herzog.png',
-    bush: '/portrait-bush.png',
-    cruise: '/portrait-cruise.png',
-    gabriel: '/portrait-gabriel.png',
-    steinbeck: '/portrait-steinbeck.png',
-    prince: '/portrait-prince.png',
-    porridge: '/portrait-porridge.png',
-    russell: '/portrait-russell.png',
-    serling: '/portrait-serling.png',
-    katt_williams: '/portrait-katt_williams.png',
-    borgnine: '/portrait-borgnine.png',
-    cavett: '/portrait-cavett.png',
-    lynch: '/portrait-lynch.png',
-    burroughs: '/portrait-burroughs.png',
+    trump: '/portrait.webp',
+    nixon: '/portrait-nixon.webp',
+    dali: '/portrait-dali.webp',
+    curtis: '/portrait-curtis.webp',
+    herzog: '/portrait-herzog.webp',
+    bush: '/portrait-bush.webp',
+    cruise: '/portrait-cruise.webp',
+    gabriel: '/portrait-gabriel.webp',
+    steinbeck: '/portrait-steinbeck.webp',
+    prince: '/portrait-prince.webp',
+    porridge: '/portrait-porridge.webp',
+    russell: '/portrait-russell.webp',
+    serling: '/portrait-serling.webp',
+    katt_williams: '/portrait-katt_williams.webp',
+    borgnine: '/portrait-borgnine.webp',
+    cavett: '/portrait-cavett.webp',
+    lynch: '/portrait-lynch.webp',
+    burroughs: '/portrait-burroughs.webp',
   };
 
   const SUBJECT_NAMES = {
@@ -4779,10 +4748,29 @@
   pwInput.focus();
   updatePwCursor();
 
+  // Warm the verify endpoint on page load so first real request is fast
+  fetch('/api/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: '__warmup__' })
+  }).catch(() => {});
+
+  const pwPrompt = document.querySelector('#pw-screen .prompt');
+
+  function setPromptState(text, state) {
+    pwPrompt.textContent = text;
+    pwPrompt.dataset.state = state || '';
+  }
+
   pwInput.addEventListener('keydown', async (e) => {
     if (e.key !== 'Enter') return;
     const val = pwInput.value.trim();
     if (!val) return;
+
+    // Hide cursor, lock input, show VERIFYING state
+    pwInput.disabled = true;
+    pwCursor.style.display = 'none';
+    setPromptState('VERIFYING', 'verifying');
 
     const res = await fetch('/api/verify', {
       method: 'POST',
@@ -4792,15 +4780,28 @@
 
     if (res.ok) {
       password = val;
-      document.getElementById('pw-screen').style.display = 'none';
-      document.getElementById('subject-screen').style.display = 'flex';
+      setPromptState('RECOGNIZED', 'recognized');
+      setTimeout(() => {
+        document.getElementById('pw-screen').style.display = 'none';
+        document.getElementById('subject-screen').style.display = 'flex';
+      }, 700);
     } else if (res.status === 403) {
+      setPromptState('ENTER PRIVATE CODE', '');
+      pwCursor.style.display = '';
+      pwInput.disabled = false;
+      pwInput.focus();
       pwError.textContent = 'DAILY LIMIT REACHED — TRY AGAIN TOMORROW';
       pwInput.value = '';
+      updatePwCursor();
       setTimeout(() => { pwError.textContent = ''; }, 3500);
     } else {
+      setPromptState('ENTER PRIVATE CODE', '');
+      pwCursor.style.display = '';
+      pwInput.disabled = false;
+      pwInput.focus();
       pwError.textContent = 'ACCESS DENIED';
       pwInput.value = '';
+      updatePwCursor();
       setTimeout(() => { pwError.textContent = ''; }, 2000);
     }
   });
