@@ -1768,13 +1768,6 @@
 </div>
 
 <script>
-  const SUBJECT_PRONOUNS = {
-    bush: { they: 'she', them: 'her', their: 'her', theyll: "she'll" },
-    porridge: { they: 'they', them: 'them', their: 'their', theyll: "they'll" },
-  };
-  const DEFAULT_PRONOUNS = { they: 'he', them: 'him', their: 'his', theyll: "he'll" };
-
-  function getPronouns() { return SUBJECT_PRONOUNS[activeSubject] || DEFAULT_PRONOUNS; }
 
   const SUBJECT_TOOLTIPS = {
     borgnine: ["Character actor, 40-year career", "Oscar winner for Marty (1955)", "The warmest man in Hollywood spent a decade playing villains"],
@@ -1916,14 +1909,6 @@
       placeholder: "Naked Lunch, Joan, the cut-up, Billy, Tangier, the cats in Lawrence — anything you want to understand about the Harvard WASP who killed his wife and spent 46 years writing his way out…"
     }
   };
-
-  function getModeHints() {
-    const p = getPronouns();
-    return {
-      scenario: `Ask about a recent event, or a decision ${p.they} made. ${p.theyll.charAt(0).toUpperCase() + p.theyll.slice(1)} tell you what was actually going on underneath it.`,
-      fireside: `Pick a theme or topic. ${p.theyll.charAt(0).toUpperCase() + p.theyll.slice(1)} trace it back through ${p.their} life — formation, upbringing, how ${p.they} got to where ${p.they} ${p.they === 'they' ? 'are' : 'is'}.`
-    };
-  }
 
   // Topic pools per subject — each section has topics, 6 sections and 5 topics show per session
   const SUBJECT_TOPICS = {};
@@ -4812,11 +4797,7 @@
     document.getElementById('btn-scenario').classList.toggle('active', m === 'scenario');
     document.getElementById('btn-fireside').classList.toggle('active', m === 'fireside');
     const ui = SUBJECT_UI[activeSubject];
-    if (ui && ui.hint) {
-      document.getElementById('mode-hint').textContent = ui.hint;
-    } else {
-      document.getElementById('mode-hint').textContent = getModeHints()[m];
-    }
+    if (ui && ui.hint) document.getElementById('mode-hint').textContent = ui.hint;
   }
 
   // Scroll helpers
