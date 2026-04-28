@@ -1709,16 +1709,18 @@
 
   /* --- Send button stays amber — primary action, no override --- */
 
-  /* --- Tone toggle (corner button, always visible on this branch) --- */
+  /* --- Tone toggle (vertically centered on right edge) --- */
   #tone-toggle {
     position: fixed;
-    top: 8px;
-    right: 8px;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
     z-index: 99999;
     background: rgba(15, 13, 10, 0.85);
     color: var(--amber);
     border: 1px solid var(--amber-dim);
-    padding: 5px 10px;
+    border-right: none;
+    padding: 6px 10px;
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.18em;
@@ -1733,7 +1735,7 @@
   @media (max-width: 640px) {
     body.tone-experiment .msg-construct .msg-text { font-size: 15px; }
     body.tone-experiment #app.large-text .msg-construct .msg-text { font-size: 16px !important; }
-    #tone-toggle { font-size: 9px; padding: 4px 7px; }
+    #tone-toggle { font-size: 9px; padding: 5px 8px; }
   }
 </style>
 </head>
@@ -1748,7 +1750,7 @@
 </script>
 
 <!-- Tone experiment toggle (branch-only; remove before merging) -->
-<button id="tone-toggle" onclick="toggleTone()" title="Toggle tone experiment">TONE: NEW</button>
+<button id="tone-toggle" onclick="toggleTone()" title="Toggle tone experiment">TONE: TEST</button>
 
 <!-- PASSWORD SCREEN -->
 <div id="pw-screen">
@@ -1972,14 +1974,14 @@
   (function syncToneButtonLabel() {
     const on = document.body.classList.contains('tone-experiment');
     const btn = document.getElementById('tone-toggle');
-    if (btn) btn.textContent = 'TONE: ' + (on ? 'NEW' : 'ORIGINAL');
+    if (btn) btn.textContent = 'TONE: ' + (on ? 'TEST' : 'ORIGINAL');
   })();
 
   function toggleTone() {
     const on = !document.body.classList.contains('tone-experiment');
     document.body.classList.toggle('tone-experiment', on);
     localStorage.setItem('toneExperiment', on ? '1' : '0');
-    document.getElementById('tone-toggle').textContent = 'TONE: ' + (on ? 'NEW' : 'ORIGINAL');
+    document.getElementById('tone-toggle').textContent = 'TONE: ' + (on ? 'TEST' : 'ORIGINAL');
   }
 
   const SUBJECT_TOOLTIPS = {
