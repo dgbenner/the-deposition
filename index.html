@@ -1613,7 +1613,7 @@
       <span class="modal-close-x">&times;</span>
     </button>
     <div class="modal-title">SUGGESTED TOPICS</div>
-    <div class="modal-subtitle">SELECT A TOPIC AND TRUMP WILL EXPLAIN HIMSELF — HIS REAL REASONING, HIS FORMATION, HIS ACTUAL MOTIVATIONS.</div>
+    <div class="modal-subtitle" id="modal-subtitle">SELECT A TOPIC. THE SUBJECT WILL EXPLAIN — THE REAL REASONING, THE FORMATION, THE ACTUAL MOTIVATIONS.</div>
   </div>
 
   <div class="topics-grid" id="topics-grid">
@@ -4420,7 +4420,248 @@
         { label: "What Mattered", prompt: "At the end — for you personally — what actually mattered?" }
       ]
     }
-  ];  // Custom CRT scrollbar
+  ];
+
+  SUBJECT_TOPICS['burroughs'] = [
+    {
+      label: 'Formation: St. Louis to Harvard',
+      topics: [
+        { label: "St. Louis Establishment", prompt: "Tell me about St. Louis. The Burroughs Corporation memorial. The fact that your family was just below the really big money." },
+        { label: "The Adding Machine", prompt: "Tell me about your grandfather. The man on the memorial. What it meant that the family fortune was already partly lost when you were born." },
+        { label: "The Childhood Hallucinations", prompt: "Tell me about the green reindeer in Forest Park. The magical universe you believed in from the start." },
+        { label: "The Nurse", prompt: "Tell me about the childhood incident with the nurse. The thing you couldn't quite reach in analysis." },
+        { label: "Los Alamos Ranch School", prompt: "Tell me about Los Alamos. The hidden journals. The boy you couldn't write about openly. The place that became the Manhattan Project." },
+        { label: "Personal Magnetism", prompt: "You published a piece at fifteen called Personal Magnetism, on telepathic mind-control. What was the fifteen-year-old in St. Louis already trying to understand?" },
+        { label: "Harvard", prompt: "Tell me about Harvard. What it gave you. What you wore lightly. The voice that was already forming." },
+        { label: "Ilse Klapper", prompt: "Tell me about marrying Ilse to get her out of Germany in 1937. What that arrangement meant when you considered yourself essentially homosexual." }
+      ]
+    },
+    {
+      label: 'Joan',
+      topics: [
+        { label: "Meeting Joan", prompt: "Tell me about Joan Vollmer. Not the wife — the woman. The whetstone the Beats sharpened themselves against." },
+        { label: "115th Street", prompt: "Tell me about Joan's apartment. The gatherings that became the Beat Generation." },
+        { label: "Mexico City, 1951", prompt: "Tell me about September 6, 1951. As directly as you can." },
+        { label: "The William Tell Act", prompt: "You said it was time for the William Tell act. Walk me through what you remember. Whether the accounts you gave the police and journalists are different stories or different versions of the same story." },
+        { label: "The Ugly Spirit", prompt: "Tell me about the Ugly Spirit. Whether you actually believe a malevolent entity moved the bullet — or whether the theory is what makes the night survivable." },
+        { label: "The 1954 Letter", prompt: "You wrote to Ginsberg in 1954: 'as if the brain drew the bullet toward it.' Tell me what you knew when you wrote that. Whether the Ugly Spirit covers it." },
+        { label: "What She Was", prompt: "Joan is almost entirely absent from the official Beat history. Tell me what was lost when she died. Not to literature. To her." },
+        { label: "The Thirteen Days", prompt: "Tell me about the jail in Mexico City. The brother who came. The bribed officials. The two-year suspended sentence for what you'd done." }
+      ]
+    },
+    {
+      label: 'Billy',
+      topics: [
+        { label: "Your Son", prompt: "Tell me about Billy. Born addicted, mother shot dead at four, raised by your parents while you were in Tangier." },
+        { label: "The Inheritance", prompt: "Tell me about what Billy was given to carry. The two parents. The night in Mexico City. The grandparents. The drugs that were already in him at birth." },
+        { label: "The Esquire Piece", prompt: "Billy published a piece saying his life had been ruined by your actions. Tell me about reading that. About what you allowed yourself to take in." },
+        { label: "The Liver", prompt: "Billy got one of the first hundred liver transplants and kept drinking. Tell me about watching that and not being able to reach him." },
+        { label: "1981", prompt: "Tell me about Billy's death. He was 33. You were going to outlive him by sixteen years." },
+        { label: "What You Owed", prompt: "Tell me what you owed Billy that you didn't give him. As specifically as you can." },
+        { label: "The Two Children", prompt: "Joan's daughter and Billy were separated after Joan's death and never saw each other again. Tell me about that fact." },
+        { label: "The Most Defended Territory", prompt: "Billy is the place you went around. Why." }
+      ]
+    },
+    {
+      label: 'The Theory of Control',
+      topics: [
+        { label: "Language as Virus", prompt: "Tell me about language as a virus from outer space. Walk me through what you actually mean." },
+        { label: "Control", prompt: "Tell me about Control. How it operates. Why addiction is the model that makes it visible." },
+        { label: "The Cut-Up", prompt: "Tell me about the cut-up technique. What it actually does to the reader." },
+        { label: "The Magical Universe", prompt: "Tell me about the magical universe. Whether you believe it literally. Where the materialist theory of control and the occult universe meet." },
+        { label: "The Future Leaks Through", prompt: "You said cut-ups allow the future to leak through. Tell me what you mean by future leakage. What you've actually seen come through." },
+        { label: "The Frozen Moment", prompt: "Tell me about the Naked Lunch — the moment everyone sees what's on the end of every fork. Whether you ever saw it about yourself." },
+        { label: "The Word as Weapon", prompt: "Tell me about the war you thought you were fighting. Who the enemy was. Whether the cut-up actually wins anything." },
+        { label: "The 21st Century", prompt: "Algorithmic media, social platforms, attention engineering. Tell me whether the world you described in the 1960s arrived on schedule." }
+      ]
+    },
+    {
+      label: 'The Work',
+      topics: [
+        { label: "Tangier", prompt: "Tell me about Tangier. The Hotel Muniria. Majoun and Eukodol. The Word Hoard." },
+        { label: "Naked Lunch", prompt: "Tell me about writing it. What the routines were doing. What Ginsberg and Kerouac assembled out of the manuscripts." },
+        { label: "Brion Gysin", prompt: "Tell me about Gysin. The cut-up. The Beat Hotel. What he gave you that nothing else could." },
+        { label: "The Nova Trilogy", prompt: "Tell me about The Soft Machine, The Ticket That Exploded, Nova Express. The mythology you were building." },
+        { label: "The Obscenity Trial", prompt: "Tell me about the trial in Massachusetts. Naked Lunch as the last book banned in Boston. What that fight was actually for." },
+        { label: "The Red Night Trilogy", prompt: "Tell me about Cities of the Red Night, The Place of Dead Roads, The Western Lands. The late work." },
+        { label: "The Voice", prompt: "Tell me about the deadpan delivery. The Midwestern drawl carrying Harvard erudition. How you found that voice." },
+        { label: "The Western Lands", prompt: "Tell me about your last novel. The Egyptian afterlife. Why you ended where you ended." }
+      ]
+    },
+    {
+      label: 'Lawrence, Kansas',
+      topics: [
+        { label: "Why There", prompt: "Tell me about leaving New York for Lawrence. What had become unsustainable." },
+        { label: "James Grauerholz", prompt: "Tell me about James. Secretary, lover, agent, executor. What he made possible for you." },
+        { label: "The Sears Roebuck Bungalow", prompt: "Tell me about the house in east Lawrence. $29,000. The garage studio. The cat food aisle at Dillons." },
+        { label: "The Cats", prompt: "Tell me about the cats. The way you wrote about them with no theory and no Ugly Spirit." },
+        { label: "The Shotgun Paintings", prompt: "Tell me about the paintings. The plywood. The shotgun. What you were doing with the gun this time." },
+        { label: "The Visitors", prompt: "Patti Smith, Cobain, Haring, Bowie, Tom Waits. Tell me what they came to Lawrence for." },
+        { label: "Cobain", prompt: "Tell me about Kurt Cobain. The recording you did together. Why you couldn't understand the suicide when he did it." },
+        { label: "The Quiet Years", prompt: "Tell me about being unfamous in a small Kansas town in your eighties. Whether that was the rest you'd wanted, or the place you finally couldn't run from." }
+      ]
+    },
+    {
+      label: 'The Persona and the Voice',
+      topics: [
+        { label: "The Fedora and the Suit", prompt: "Tell me about the image. The hat. The dark suits. The deadpan. What it gave you. What it concealed." },
+        { label: "Insider, Outsider", prompt: "Tell me about understanding the establishment from inside it and from just below it. The eye that gave you." },
+        { label: "Ivy Lee", prompt: "Your great-uncle invented public relations for the Rockefellers. Tell me about understanding what control looked like from family experience." },
+        { label: "The Performance of the Author", prompt: "Tell me about being William Burroughs in public. The reading voice. The fact that your delivery became part of the work itself." },
+        { label: "What Mailer Said", prompt: "Mailer called you the only American writer who might conceivably have been possessed by genius. Tell me how that sentence landed." },
+        { label: "The Alien Quality", prompt: "People described you as alien. Otherworldly. Tell me about that perception. Whether you experienced yourself that way." },
+        { label: "The Specific Humor", prompt: "Tell me about the dark humor that arrives without announcing itself. Where it comes from in you." },
+        { label: "The Gun", prompt: "You loved guns your entire life. The pistol in the bar. Spray cans in the woods. Joan. The shotgun paintings. Tell me about the gun as the consistent presence." }
+      ]
+    },
+    {
+      label: 'Influence and Lineage',
+      topics: [
+        { label: "Bowie", prompt: "Bowie used the cut-up to write Diamond Dogs and Heroes. Tell me about meeting him. About what he took from you." },
+        { label: "P-Orridge", prompt: "You gave them the mandate: how do you short-circuit control, that's your task. Tell me about Genesis P-Orridge as your direct successor." },
+        { label: "Industrial Music", prompt: "Throbbing Gristle applied the cut-up to sound. Tell me about the lineage from Naked Lunch to industrial music." },
+        { label: "Joy Division and Curtis", prompt: "Joy Division was in the Burroughs orbit. Curtis read you. Tell me about reaching that generation of the disquieted." },
+        { label: "The Nova Convention", prompt: "1978. Laurie Anderson, Cage, Glass, Blondie, Zappa. Tell me about that night and what it meant that all of them came." },
+        { label: "The Beats Without You", prompt: "Kerouac and Ginsberg made a movement out of you. Tell me about being the third leg they all pointed to." },
+        { label: "What the Cut-Up Became", prompt: "It became a method for songwriters, filmmakers, visual artists. Tell me whether it ever did what you wanted it to do." },
+        { label: "The Pope of Dope", prompt: "The counterculture made you a saint. Tell me about being claimed by people who hadn't read the books." }
+      ]
+    },
+    {
+      label: 'The Mirror',
+      topics: [
+        { label: "Joan Without the Theory", prompt: "Tell me about Joan without the Ugly Spirit frame. The person, not the answer." },
+        { label: "What You Owe Joan", prompt: "Tell me what you owe her. As directly as you can name it." },
+        { label: "Billy Without the Frame", prompt: "Tell me what you would say to Billy now if he were sitting here." },
+        { label: "The Theory as Defense", prompt: "Whether the entire theory of Control was also a control mechanism — a way to avoid looking directly at what you'd done. Whether you knew that." },
+        { label: "The Circling", prompt: "You wrote in the introduction to Queer that everything you'd written was in orbit around Mexico City. Tell me about the circle that never closed." },
+        { label: "What the Work Was For", prompt: "Tell me what the writing was actually for. Not what it did. What it was for." },
+        { label: "Returned to St. Louis", prompt: "Buried at Bellefontaine. Returned to the family and the establishment you spent your life escaping. Tell me about that." },
+        { label: "If You Could Have Stopped", prompt: "If at one point you could have stopped writing — set down the cut-up, stopped circling — would you have been able to live? Or was the writing the only thing keeping the Ugly Spirit at the door." }
+      ]
+    }
+  ];
+
+  SUBJECT_TOPICS['lynch'] = [
+    {
+      label: 'Formation',
+      topics: [
+        { label: "Missoula", prompt: "Tell me about Missoula. You lived there two months. You called yourself a guy from Missoula your whole life. Why that town." },
+        { label: "The Cherry Tree", prompt: "Tell me about the cherry tree. The pitch. The red ants. The discovery." },
+        { label: "The Nomadic Childhood", prompt: "Six places in five states before fourteen. Tell me about what that gave you. About being from everywhere and nowhere." },
+        { label: "Donald and Sunny", prompt: "Tell me about your parents. The USDA scientist who studied tree diseases. Sunny, the English tutor. The household that was actually warm and stable." },
+        { label: "Eagle Scout", prompt: "Tell me about being an Eagle Scout. Why those three words — Filmmaker. Born Missoula Montana. Eagle Scout. — were the self-summary." },
+        { label: "Bushnell Keeler", prompt: "Tell me about your friend Toby's father giving you Robert Henri's The Art Spirit. The book that changed what you thought a life was for." },
+        { label: "The Painter First", prompt: "Tell me about being a painter before you were anything else. About the films coming from the paintings." },
+        { label: "The Dream of the American Small Town", prompt: "Tell me about the dream. The droning airplanes. The picket fences. The thing you loved and saw through simultaneously." }
+      ]
+    },
+    {
+      label: 'Philadelphia and Eraserhead',
+      topics: [
+        { label: "Philadelphia", prompt: "Tell me about Philadelphia. Fairmount. The fear. What the city did to you." },
+        { label: "The Daughter", prompt: "Jennifer was born with health complications. Tell me about the terror of fatherhood. About what went into the deformed baby." },
+        { label: "The Five Years", prompt: "Tell me about making Eraserhead from 1972 to 1977. The abandoned stables. The paper route. The grant." },
+        { label: "The Wall Street Journal", prompt: "Tell me about delivering the Wall Street Journal at $50 a week to fund the film. The discipline of that." },
+        { label: "The Marriage Ending", prompt: "Peggy said there were assistant girls around and there was no place for her. Tell me about the affair during production." },
+        { label: "The Father's Pressure", prompt: "Your father and brother wanted you to be responsible. Tell me about the months when you almost listened." },
+        { label: "The Monster Baby", prompt: "You kept the secret of how you made the deformed infant for fifty years. Tell me what you can about that decision. Why the secrecy mattered." },
+        { label: "The Lady in the Radiator", prompt: "Tell me about the Lady in the Radiator. Where she came from. What she's singing about." }
+      ]
+    },
+    {
+      label: 'Transcendental Meditation',
+      topics: [
+        { label: "1973", prompt: "Tell me about starting TM. The day. What changed in your shoulders when you started." },
+        { label: "True Happiness Lies Within", prompt: "That was the phrase that turned you. Tell me about hearing it. About what shifted in you." },
+        { label: "The Big Fish", prompt: "Tell me about the big fish. The fishing metaphor. What you actually mean by going deep." },
+        { label: "The Ocean of Pure Consciousness", prompt: "Tell me about the ocean. Whether you experience it as a real field or as a useful metaphor. Or both." },
+        { label: "The Psychiatrist", prompt: "A psychiatrist told you therapy might diminish your creativity. You never went back. Tell me about that decision. About what you didn't want excavated." },
+        { label: "Twice a Day for Fifty Years", prompt: "Twenty minutes, twice a day, without missing. Tell me about the discipline. About what failure to maintain it would have meant." },
+        { label: "The Foundation", prompt: "Tell me about the David Lynch Foundation. The veterans. The students. Why this and not the films was the legacy you cared about." },
+        { label: "The Bliss Itself", prompt: "Tell me about the bliss. What it actually feels like. As specifically as you can put it into words." }
+      ]
+    },
+    {
+      label: 'The Darkness and the Bliss',
+      topics: [
+        { label: "Let Your Characters Do the Suffering", prompt: "Tell me about that operating principle. Whether it's a craft observation or a survival mechanism." },
+        { label: "The Same Depth", prompt: "Tell me about whether the bliss in TM and the darkness in the films come from the same depth. Or different ones." },
+        { label: "Where the Darkness Comes From", prompt: "Tell me about where the darkness in the work actually comes from. If TM dissolved the fear, what's putting the red ants in the films." },
+        { label: "The Woman in Trouble", prompt: "Dorothy Vallens. Laura Palmer. Betty/Diane. Tell me about the woman-in-trouble motif. What you understand about your own attraction to it." },
+        { label: "Resolution or Management", prompt: "Tell me about whether TM resolved the shadow or simply managed it. Whether the question is even meaningful to you." },
+        { label: "The Naked Woman in the Street", prompt: "You and your brother saw a naked beaten woman walking down your street as a child. It made you cry. It went into Blue Velvet twenty years later. Tell me about that." },
+        { label: "What You Witnessed", prompt: "Tell me about what you actually witnessed in childhood that the films are reckoning with. As specifically as you can." },
+        { label: "The Happiest Person You Know", prompt: "You said you were the happiest person you knew. Tell me about that claim. What you mean by happy. Whether it's the absence of suffering or the presence of something else." }
+      ]
+    },
+    {
+      label: 'The Films',
+      topics: [
+        { label: "Blue Velvet", prompt: "Tell me about Blue Velvet. Red lips, green lawns, the Bobby Vinton song. Where the film actually came from." },
+        { label: "The Severed Ear", prompt: "Tell me about the severed ear. What it does in the film. Where the image arrived from." },
+        { label: "Twin Peaks", prompt: "Tell me about Twin Peaks. The owls. The Black Lodge. Why a small Pacific Northwest town." },
+        { label: "Laura Palmer", prompt: "Tell me about Laura Palmer. Not the mystery — the girl. What she actually represents about America." },
+        { label: "Mulholland Drive", prompt: "Tell me about Mulholland Drive. The blue box. Club Silencio. No hay banda." },
+        { label: "The Straight Story", prompt: "Tell me about The Straight Story. The same eye, rated G, distributed by Disney. Why that film at that moment in your career." },
+        { label: "Refusing to Explain", prompt: "You wouldn't explain your films. It should be like a dream, you said. Tell me about that refusal. What explanation would have cost." },
+        { label: "The Logic of Nightmares", prompt: "Pauline Kael's phrase for your work. Tell me about that as a description of your method. Whether you'd accept it." }
+      ]
+    },
+    {
+      label: 'The Relationships',
+      topics: [
+        { label: "The Four Marriages", prompt: "Tell me about the pattern across four marriages. As honestly as you've ever said it." },
+        { label: "Isabella Rossellini", prompt: "Tell me about Isabella. The big love of her life, by her own account." },
+        { label: "The Phone Call", prompt: "You ended the relationship with Isabella on a phone call after four years. She didn't see it coming. Tell me about that call." },
+        { label: "The Cutting-Off", prompt: "Tell me about the capacity for total severance. Where it comes from. Whether you understand it." },
+        { label: "What You Contributed Silence To", prompt: "In the memoir you wrote that almost everybody has dark stuff swimming in them and most people aren't aware. Tell me what you weren't willing to look at." },
+        { label: "Peggy's Account", prompt: "Peggy said there was no place for her anymore. Tell me about reading her account of the end." },
+        { label: "Mary Sweeney", prompt: "Married in May 2006, divorced that June. Tell me about the briefest marriage. What that month contained." },
+        { label: "The Children", prompt: "Jennifer, Austin, Riley, Lula. Four children across four marriages. Tell me about being a father across that scatter." }
+      ]
+    },
+    {
+      label: 'The Other Work',
+      topics: [
+        { label: "The Painting", prompt: "Tell me about the paintings. About the films coming out of canvases that started moving." },
+        { label: "Gardenback", prompt: "Tell me about the painting that became Eraserhead. The image that wanted to move." },
+        { label: "The Music", prompt: "Crazy Clown Time. The Big Dream. BlueBOB. Tell me about the records. The dream space the music inhabits." },
+        { label: "The Comic Strip", prompt: "The Angriest Dog in the World. Ten years, four panels, the dog never moves. Tell me what that was." },
+        { label: "The Furniture", prompt: "Tell me about building furniture. Why the hands had to make things that weren't films." },
+        { label: "Catching the Big Fish", prompt: "Tell me about writing the book. The folksy voice. What you wanted readers to understand about ideas as fish." },
+        { label: "Room to Dream", prompt: "Co-written with Kristine McKenna. Her version, then yours. Tell me about that structure. About contributing silence on the marriages." },
+        { label: "The Multimedia Lynch", prompt: "Painting, film, music, comic strip, furniture, photography. Tell me about working across all of them. About not being a filmmaker first." }
+      ]
+    },
+    {
+      label: 'The Persona',
+      topics: [
+        { label: "Lynchian", prompt: "Your name became an adjective. Tell me about that. About living inside a category named after you." },
+        { label: "Eagle Scout, Missoula Montana", prompt: "The self-description across a lifetime. Tell me why those three things and not the Palme d'Or." },
+        { label: "Dadgum", prompt: "Tell me about the language. The folksy specificity. Where it actually comes from in you." },
+        { label: "The Twitter Bio", prompt: "At your death your Twitter bio read: Filmmaker. Born Missoula, MT. Eagle Scout. Tell me about that as a final self-summary." },
+        { label: "The Mainstream Surrealist", prompt: "You proved American cinema could be surrealist and popular. Tell me about that achievement. About not being marginalized into the art house." },
+        { label: "Stanley Kubrick's Favorite", prompt: "Kubrick said Eraserhead was one of his favorite films. Tell me about that. About what he saw in it." },
+        { label: "The Elephant Man Decision", prompt: "Mel Brooks hired the Eraserhead director to make The Elephant Man. Tell me about that. About being trusted with that material." },
+        { label: "Firewood", prompt: "You used 'firewood' for the material you collected to build a film. Tell me about that word. About the way you talked about creation as a practice rather than a struggle." }
+      ]
+    },
+    {
+      label: 'The Mirror',
+      topics: [
+        { label: "The Red Ants After Everything", prompt: "After the films, the foundation, the fame, the marriages — are the red ants still there?" },
+        { label: "The Secret of the Monster Baby", prompt: "You kept it for fifty years. Tell me about the discipline of that secrecy. About what the secret protected." },
+        { label: "What Therapy Would Have Found", prompt: "If you'd gone back to that psychiatrist instead of starting TM — what do you think therapy would have excavated. Whether you avoided it knowingly." },
+        { label: "The Smoking", prompt: "You smoked for decades. The emphysema killed you. Tell me about the cigarettes as the one part of the discipline you didn't keep." },
+        { label: "The Last Year", prompt: "Tell me about giving final interviews knowing you were dying. About the divorce settlement twenty-seven days before your death." },
+        { label: "Underneath the Ocean", prompt: "If TM accessed an ocean of pure consciousness, tell me what was underneath the ocean. Or whether anything was." },
+        { label: "The Eagle Scout and the Monster Baby", prompt: "Tell me about the same person being both. As clearly as you can hold them in the same sentence." },
+        { label: "What the Work Was For", prompt: "Tell me what the films were actually for. For you. Not the audience — you." }
+      ]
+    }
+  ];
+  // Custom CRT scrollbar
   (function initScrollbar() {
     const pane = document.getElementById('messages-pane');
     const bar = document.getElementById('crt-scrollbar');
@@ -4648,6 +4889,13 @@
     // Update labels
     const loadingLabel = document.getElementById('loading-label');
     if (loadingLabel) loadingLabel.textContent = SUBJECT_NAMES[subject] || 'SUBJECT';
+
+    // Update topics modal subtitle with subject name
+    const modalSubtitle = document.getElementById('modal-subtitle');
+    if (modalSubtitle) {
+      const name = SUBJECT_NAMES[subject] || 'THE SUBJECT';
+      modalSubtitle.textContent = `SELECT A TOPIC. ${name} WILL EXPLAIN — THE REAL REASONING, THE FORMATION, THE ACTUAL MOTIVATIONS.`;
+    }
 
     // Show/hide subject-specific UI
     const isTrump = subject === 'trump';
