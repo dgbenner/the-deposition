@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE OTHER ROOM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1549,9 +1549,206 @@
 
   /* Mobile profile — hidden by default, shown via mobile CSS */
   .mobile-profile { display: none; }
+
+  /* ============================================================
+     TONE EXPERIMENT — color rebalance + serif body pairing
+     Activated by body.tone-experiment class. Toggle via #tone-toggle.
+     Goal: olive-green for UI chrome, cream serif for reading content,
+     amber reserved for brand mark and primary actions.
+     ============================================================ */
+
+  body.tone-experiment {
+    --olive:           #A8B070;
+    --olive-muted:     #7A8050;
+    --olive-faint:     #3a3f24;
+    --cream:           #E8DFC8;
+    --cream-muted:     #A89F88;
+    --bg:              #0F0D0A;
+    --bg-2:            #1A1612;
+    --bg-elevated:     #221C16;
+    --border:          #2A2520;
+    --border-emphasis: #3D352D;
+    --font-body:       'Source Serif Pro', Georgia, 'Times New Roman', serif;
+    color: var(--olive);
+  }
+
+  /* --- Subject screen --- */
+  body.tone-experiment #subject-screen .subtitle { color: var(--olive); }
+  body.tone-experiment .subject-title { color: var(--olive-muted); }
+  body.tone-experiment .subject-name { color: var(--olive); }
+  body.tone-experiment .subject-name span { color: var(--olive-muted); }
+  body.tone-experiment .subject-desc-line,
+  body.tone-experiment .subject-desc-line::before {
+    color: var(--olive-muted);
+  }
+  body.tone-experiment .subject-item { border-color: var(--border); }
+  body.tone-experiment .subject-item:hover { border-color: var(--amber); }
+  body.tone-experiment .subject-item:hover .subject-name,
+  body.tone-experiment .subject-item:hover .subject-name span {
+    color: var(--amber-bright);
+  }
+  body.tone-experiment .subject-item:hover .subject-desc-line,
+  body.tone-experiment .subject-item:hover .subject-desc-line::before {
+    color: var(--cream-muted);
+  }
+  body.tone-experiment #expand-toggle,
+  body.tone-experiment .expand-toggle {
+    color: var(--olive-muted);
+    border-color: var(--olive-muted);
+  }
+  body.tone-experiment #expand-toggle:hover,
+  body.tone-experiment .expand-toggle:hover {
+    color: var(--amber);
+    border-color: var(--amber);
+  }
+
+  /* --- Chat header --- */
+  body.tone-experiment .header-meta { color: var(--olive-muted); }
+  /* h1 "THE OTHER ROOM" stays amber — brand mark */
+  body.tone-experiment .mode-hint { color: var(--olive); }
+
+  /* --- Messages: cream serif body --- */
+  body.tone-experiment .msg-label { color: var(--olive-muted); }
+  body.tone-experiment .msg-construct { border-left-color: var(--olive-muted); }
+  body.tone-experiment .msg-construct .msg-text {
+    font-family: var(--font-body);
+    color: var(--cream);
+    font-size: 17px;
+    line-height: 1.65;
+    letter-spacing: 0.005em;
+    text-shadow: none;
+    max-width: 65ch;
+  }
+  body.tone-experiment #app.large-text .msg-construct .msg-text {
+    font-size: 22px;
+    line-height: 1.55;
+  }
+  body.tone-experiment .msg-user .msg-label { color: var(--olive-muted); }
+  body.tone-experiment .msg-user .msg-text {
+    color: var(--cream-muted);
+    font-family: var(--font-body);
+  }
+  body.tone-experiment #app.large-text .msg-user .msg-text {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  body.tone-experiment #loading { border-left-color: var(--olive-muted); }
+  body.tone-experiment .cursor-blink { background: var(--olive); }
+  body.tone-experiment .typing-cursor { background: var(--olive); }
+
+  /* --- Topics modal --- */
+  body.tone-experiment .modal-title { color: var(--olive); text-shadow: none; }
+  body.tone-experiment .modal-subtitle { color: var(--olive-muted); }
+  body.tone-experiment .section-label { color: var(--olive-muted); }
+  body.tone-experiment .topic-section { border-color: var(--border); }
+  body.tone-experiment .topic-btn {
+    color: var(--olive);
+    border-color: var(--olive-faint);
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+    padding: 11px 14px;
+  }
+  body.tone-experiment .topic-btn:hover {
+    color: var(--amber-bright);
+    border-color: var(--amber);
+    background: transparent;
+  }
+  body.tone-experiment .topic-btn:active {
+    background: var(--amber-faint);
+    color: var(--amber-bright);
+  }
+
+  /* --- Topics tab (the trigger that opens the modal) --- */
+  body.tone-experiment .topics-tab {
+    color: var(--olive);
+    border-color: var(--olive-muted);
+  }
+  body.tone-experiment .topics-tab span { color: var(--olive); }
+  body.tone-experiment .topics-tab:hover {
+    background: transparent;
+    border-color: var(--amber);
+  }
+  body.tone-experiment .topics-tab:hover span { color: var(--amber); }
+
+  /* --- Text-size toggle --- */
+  body.tone-experiment .text-toggle button {
+    color: var(--olive-muted);
+    border-color: var(--olive-faint);
+    background: transparent;
+  }
+  body.tone-experiment .text-toggle button.active {
+    background: transparent;
+    color: var(--amber);
+    border-color: var(--amber);
+  }
+  body.tone-experiment .text-toggle button:hover:not(.active) {
+    color: var(--olive);
+    border-color: var(--olive-muted);
+  }
+
+  /* --- Chat input --- */
+  body.tone-experiment #msg-input {
+    color: var(--cream);
+    border-color: var(--olive-faint);
+    background: var(--bg-2);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  body.tone-experiment #msg-input:focus { border-color: var(--olive-muted); }
+  body.tone-experiment #msg-input::placeholder {
+    color: var(--olive-muted);
+    font-family: var(--font-body);
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  /* --- Send button stays amber — primary action, no override --- */
+
+  /* --- Tone toggle (corner button, always visible on this branch) --- */
+  #tone-toggle {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    z-index: 99999;
+    background: rgba(15, 13, 10, 0.85);
+    color: var(--amber);
+    border: 1px solid var(--amber-dim);
+    padding: 5px 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background 0.12s, color 0.12s;
+  }
+  #tone-toggle:hover { background: var(--amber-dim); color: var(--bg); }
+  body.tone-experiment #tone-toggle { color: var(--olive); border-color: var(--olive-muted); }
+  body.tone-experiment #tone-toggle:hover { background: var(--olive-muted); color: var(--bg); }
+
+  @media (max-width: 640px) {
+    body.tone-experiment .msg-construct .msg-text { font-size: 15px; }
+    body.tone-experiment #app.large-text .msg-construct .msg-text { font-size: 16px !important; }
+    #tone-toggle { font-size: 9px; padding: 4px 7px; }
+  }
 </style>
 </head>
 <body>
+<script>
+  // Apply tone class as early as possible to avoid FOUC on this branch.
+  (function () {
+    const stored = localStorage.getItem('toneExperiment');
+    const on = stored === null ? true : stored === '1';
+    if (on) document.body.classList.add('tone-experiment');
+  })();
+</script>
+
+<!-- Tone experiment toggle (branch-only; remove before merging) -->
+<button id="tone-toggle" onclick="toggleTone()" title="Toggle tone experiment">TONE: NEW</button>
 
 <!-- PASSWORD SCREEN -->
 <div id="pw-screen">
@@ -1768,6 +1965,22 @@
 </div>
 
 <script>
+
+  // ----- Tone experiment toggle (branch-only) -----
+  // Class is set in an inline script at <body> start to avoid FOUC.
+  // This block just syncs the button label to current state.
+  (function syncToneButtonLabel() {
+    const on = document.body.classList.contains('tone-experiment');
+    const btn = document.getElementById('tone-toggle');
+    if (btn) btn.textContent = 'TONE: ' + (on ? 'NEW' : 'ORIGINAL');
+  })();
+
+  function toggleTone() {
+    const on = !document.body.classList.contains('tone-experiment');
+    document.body.classList.toggle('tone-experiment', on);
+    localStorage.setItem('toneExperiment', on ? '1' : '0');
+    document.getElementById('tone-toggle').textContent = 'TONE: ' + (on ? 'NEW' : 'ORIGINAL');
+  }
 
   const SUBJECT_TOOLTIPS = {
     borgnine: ["Character actor, 40-year career", "Oscar winner for Marty (1955)", "The warmest man in Hollywood spent a decade playing villains"],
