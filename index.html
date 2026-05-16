@@ -12,9 +12,9 @@
   :root {
     --bg: #0a0a08;
     --bg-2: #0f0f0c;
-    --amber: #f0b840;
-    --amber-dim: #c07d13;
-    --amber-bright: #ffcc66;
+    --amber: #ffce4a;
+    --amber-dim: #d68e1f;
+    --amber-bright: #ffe07a;
     --amber-faint: #4a3210;
     --cool: #c0d0e0;
     --cool-dim: #8090a0;
@@ -4958,6 +4958,14 @@
     document.getElementById('app').classList.toggle('large-text', large);
     document.getElementById('btn-large').classList.toggle('active', large);
     document.getElementById('btn-compact').classList.toggle('active', !large);
+  }
+
+  // Localhost bypass — skip the gate when running under python http.server
+  // where /api/verify doesn't exist. No effect on the live vercel.app domain.
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    password = 'localdev';
+    document.getElementById('pw-screen').style.display = 'none';
+    document.getElementById('subject-screen').style.display = 'flex';
   }
 
   // Password gate
