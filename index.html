@@ -184,36 +184,47 @@
     padding-top: 5rem;
   }
 
+  /* Subject screen header — centered title with toggle absolutely
+     positioned at right so it never offsets the title's center */
+  .subject-header {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 1.5rem;
+    margin-bottom: 2.5rem;
+    box-sizing: border-box;
+  }
+
   .subject-title {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.25em;
     color: var(--amber-dim);
     text-transform: uppercase;
-    margin-bottom: 2rem;
     text-align: center;
+    line-height: 1.7;
   }
 
   /* Expand details toggle */
   .expand-details-toggle {
-    position: fixed;
-    top: 1.5rem;
+    position: absolute;
     right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     background: var(--bg);
     border: 1px solid var(--border);
     color: var(--amber-dim);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 6px 12px;
+    padding: 8px 16px;
     cursor: pointer;
     transition: color 0.15s, border-color 0.15s;
     z-index: 20;
-    box-shadow: 0 0 10px 4px var(--bg);
   }
 
   .expand-details-toggle:hover {
@@ -223,8 +234,8 @@
 
   .expand-check {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 13px;
+    height: 13px;
     border: 1px solid var(--amber-dim);
     position: relative;
     flex-shrink: 0;
@@ -249,6 +260,28 @@
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 8px;
+  }
+
+  /* Stage / known name — shown only when expanded, sits between the
+     real name (bold above) and the description bullets (below) */
+  .subject-stage-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-style: italic;
+    letter-spacing: 0.06em;
+    color: var(--amber-dim);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    text-transform: none;
+  }
+
+  .subject-list.expanded .subject-stage-name {
+    max-height: 24px;
+    opacity: 1;
+    margin-top: 4px;
+    transition: max-height 0.35s ease, opacity 0.25s ease 0.05s, margin-top 0.35s ease;
   }
 
   /* Card description (hidden by default, shown when expanded) */
@@ -320,7 +353,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: column;
     grid-template-rows: repeat(6, auto);
-    gap: 6px 40px;
+    gap: 14px 40px;
     max-width: 1100px;
     width: 100%;
     padding: 0 1.5rem;
@@ -1571,30 +1604,32 @@
 
 <!-- SUBJECT SELECTION SCREEN -->
 <div id="subject-screen">
-  <button class="expand-details-toggle" id="expand-details-toggle" onclick="toggleSubjectDetails()">
-    <span class="expand-check"></span>
-    <span>Expand details</span>
-  </button>
-  <div class="subject-title">Select the subject and enter the room</div>
+  <div class="subject-header">
+    <div class="subject-title">Select a subject<br>and enter the other room</div>
+    <button class="expand-details-toggle" id="expand-details-toggle" onclick="toggleSubjectDetails()">
+      <span class="expand-check"></span>
+      <span>Expand details</span>
+    </button>
+  </div>
   <div class="subject-list">
-    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ernest</span> Borgnine</div><div class="subject-desc"><div class="subject-desc-line">Character actor, 40-year career</div><div class="subject-desc-line">Oscar winner for Marty (1955)</div><div class="subject-desc-line">The warmest man in Hollywood spent a decade playing villains</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>William</span> Burroughs</div><div class="subject-desc"><div class="subject-desc-line">Beat Generation novelist, Naked Lunch</div><div class="subject-desc-line">Shot and killed his wife, Mexico City, 1951</div><div class="subject-desc-line">Spent 46 years writing his way out of it</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Kate</span> Bush</div><div class="subject-desc"><div class="subject-desc-line">British singer-songwriter, Wuthering Heights</div><div class="subject-desc-line">Produced her own albums, toured once in 35 years</div><div class="subject-desc-line">Still trying to get back to unselfconscious dancing</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Dick</span> Cavett</div><div class="subject-desc"><div class="subject-desc-line">Late-night talk show host, 1968–1996</div><div class="subject-desc-line">Last interviewer of Hendrix, Joplin, and Lennon</div><div class="subject-desc-line">Carried clinical depression through every conversation</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Tom</span> Cruise</div><div class="subject-desc"><div class="subject-desc-line">Hollywood action star, Mission: Impossible</div><div class="subject-desc-line">15 schools in 14 years, a violent father, Scientology</div><div class="subject-desc-line">Does his own stunts because he grew up in uncontrollable danger</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ian</span> Curtis</div><div class="subject-desc"><div class="subject-desc-line">Singer, Joy Division</div><div class="subject-desc-line">Wrote She's Lost Control before his own epilepsy diagnosis</div><div class="subject-desc-line">Died at 23, the night before Joy Division's American tour</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Salvador</span> Dali</div><div class="subject-desc"><div class="subject-desc-line">Surrealist painter, The Persistence of Memory</div><div class="subject-desc-line">Born to replace a dead brother who had his name</div><div class="subject-desc-line">Performed his own myth until he couldn't stop</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Peter</span> Gabriel</div><div class="subject-desc"><div class="subject-desc-line">Genesis frontman, then So and Sledgehammer</div><div class="subject-desc-line">Four years at a brutal English boarding school</div><div class="subject-desc-line">Discovered in therapy he contained rage he didn't know about</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Werner</span> Herzog</div><div class="subject-desc"><div class="subject-desc-line">German filmmaker, Fitzcarraldo, Grizzly Man</div><div class="subject-desc-line">Stole his first camera; dragged a real ship over a real mountain</div><div class="subject-desc-line">Walked 600 miles in winter to keep a film critic alive</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>David</span> Lynch</div><div class="subject-desc"><div class="subject-desc-line">Filmmaker, Twin Peaks, Blue Velvet</div><div class="subject-desc-line">Meditated daily for 50 years; said he was the happiest person he knew</div><div class="subject-desc-line">Made the most disturbing images in American cinema</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Richard</span> Nixon</div><div class="subject-desc"><div class="subject-desc-line">37th President of the United States</div><div class="subject-desc-line">Opened China, created the EPA, ended the draft</div><div class="subject-desc-line">Destroyed himself over a third-rate burglary</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Genesis</span> P-Orridge</div><div class="subject-desc"><div class="subject-desc-line">Founded industrial music with Throbbing Gristle</div><div class="subject-desc-line">Surgically modified their body to resemble their late partner</div><div class="subject-desc-line">Received the Burroughs mandate: short-circuit everything</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Prince</span></div><div class="subject-desc"><div class="subject-desc-line">Musician, Purple Rain, Sign o' the Times</div><div class="subject-desc-line">Named after his father's stage name and unfulfilled ambitions</div><div class="subject-desc-line">Died alone at Paisley Park; the vault has never been fully opened</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Ken</span> Russell</div><div class="subject-desc"><div class="subject-desc-line">British filmmaker, The Devils, Tommy</div><div class="subject-desc-line">Escaped his childhood in the cinema every day</div><div class="subject-desc-line">So extreme the BBC never hired him again</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Rod</span> Serling</div><div class="subject-desc"><div class="subject-desc-line">Creator of The Twilight Zone</div><div class="subject-desc-line">Watched his best friend die in the Philippines, 1945</div><div class="subject-desc-line">Built science fiction as the only honest route past the censors</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>John</span> Steinbeck</div><div class="subject-desc"><div class="subject-desc-line">Novelist, The Grapes of Wrath, East of Eden</div><div class="subject-desc-line">His entire moral universe came from one book given to him at age nine</div><div class="subject-desc-line">Won the Nobel; a Times editorial asked the next day if he deserved it</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Donald</span> Trump</div><div class="subject-desc"><div class="subject-desc-line">45th and 47th President</div><div class="subject-desc-line">Shaped by his father Fred, Roy Cohn, and Norman Vincent Peale</div><div class="subject-desc-line">Has been trying to rebuild his father's 1950s Queens at national scale</div></div></div></div>
-    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.webp" alt=""></div><div class="subject-text"><div class="subject-name"><span>Katt</span> Williams</div><div class="subject-desc"><div class="subject-desc-line">Stand-up comedian, The Pimp Chronicles</div><div class="subject-desc-line">Emancipated at 13, homeless in Miami for four years</div><div class="subject-desc-line">Warned about Diddy on a podcast — Diddy arrested eight months later</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('borgnine')"><div class="subject-portrait"><img src="/thumb-borgnine.webp" alt=""></div><div class="subject-text"><div class="subject-name">Ermes Effron Borgnino</div><div class="subject-stage-name">Ernest Borgnine</div><div class="subject-desc"><div class="subject-desc-line">Character actor, 40-year career</div><div class="subject-desc-line">Oscar winner for Marty (1955)</div><div class="subject-desc-line">The warmest man in Hollywood spent a decade playing villains</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('burroughs')"><div class="subject-portrait"><img src="/thumb-burroughs.webp" alt=""></div><div class="subject-text"><div class="subject-name">William Seward Burroughs II</div><div class="subject-stage-name">William Burroughs</div><div class="subject-desc"><div class="subject-desc-line">Beat Generation novelist, Naked Lunch</div><div class="subject-desc-line">Shot and killed his wife, Mexico City, 1951</div><div class="subject-desc-line">Spent 46 years writing his way out of it</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('bush')"><div class="subject-portrait"><img src="/thumb-bush.webp" alt=""></div><div class="subject-text"><div class="subject-name">Catherine Bush</div><div class="subject-stage-name">Kate Bush</div><div class="subject-desc"><div class="subject-desc-line">British singer-songwriter, Wuthering Heights</div><div class="subject-desc-line">Produced her own albums, toured once in 35 years</div><div class="subject-desc-line">Still trying to get back to unselfconscious dancing</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('cavett')"><div class="subject-portrait"><img src="/thumb-cavett.webp" alt=""></div><div class="subject-text"><div class="subject-name">Richard Alva Cavett</div><div class="subject-stage-name">Dick Cavett</div><div class="subject-desc"><div class="subject-desc-line">Late-night talk show host, 1968–1996</div><div class="subject-desc-line">Last interviewer of Hendrix, Joplin, and Lennon</div><div class="subject-desc-line">Carried clinical depression through every conversation</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('cruise')"><div class="subject-portrait"><img src="/thumb-cruise.webp" alt=""></div><div class="subject-text"><div class="subject-name">Thomas Cruise Mapother IV</div><div class="subject-stage-name">Tom Cruise</div><div class="subject-desc"><div class="subject-desc-line">Hollywood action star, Mission: Impossible</div><div class="subject-desc-line">15 schools in 14 years, a violent father, Scientology</div><div class="subject-desc-line">Does his own stunts because he grew up in uncontrollable danger</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('curtis')"><div class="subject-portrait"><img src="/thumb-curtis.webp" alt=""></div><div class="subject-text"><div class="subject-name">Ian Kevin Curtis</div><div class="subject-stage-name">Ian Curtis</div><div class="subject-desc"><div class="subject-desc-line">Singer, Joy Division</div><div class="subject-desc-line">Wrote She's Lost Control before his own epilepsy diagnosis</div><div class="subject-desc-line">Died at 23, the night before Joy Division's American tour</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('dali')"><div class="subject-portrait"><img src="/thumb-dali.webp" alt=""></div><div class="subject-text"><div class="subject-name">Salvador Domingo Felipe Jacinto Dalí i Domènech</div><div class="subject-stage-name">Salvador Dalí</div><div class="subject-desc"><div class="subject-desc-line">Surrealist painter, The Persistence of Memory</div><div class="subject-desc-line">Born to replace a dead brother who had his name</div><div class="subject-desc-line">Performed his own myth until he couldn't stop</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('gabriel')"><div class="subject-portrait"><img src="/thumb-gabriel.webp" alt=""></div><div class="subject-text"><div class="subject-name">Peter Brian Gabriel</div><div class="subject-stage-name">Peter Gabriel</div><div class="subject-desc"><div class="subject-desc-line">Genesis frontman, then So and Sledgehammer</div><div class="subject-desc-line">Four years at a brutal English boarding school</div><div class="subject-desc-line">Discovered in therapy he contained rage he didn't know about</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('herzog')"><div class="subject-portrait"><img src="/thumb-herzog.webp" alt=""></div><div class="subject-text"><div class="subject-name">Werner Herzog Stipetić</div><div class="subject-stage-name">Werner Herzog</div><div class="subject-desc"><div class="subject-desc-line">German filmmaker, Fitzcarraldo, Grizzly Man</div><div class="subject-desc-line">Stole his first camera; dragged a real ship over a real mountain</div><div class="subject-desc-line">Walked 600 miles in winter to keep a film critic alive</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('lynch')"><div class="subject-portrait"><img src="/thumb-lynch.webp" alt=""></div><div class="subject-text"><div class="subject-name">David Keith Lynch</div><div class="subject-stage-name">David Lynch</div><div class="subject-desc"><div class="subject-desc-line">Filmmaker, Twin Peaks, Blue Velvet</div><div class="subject-desc-line">Meditated daily for 50 years; said he was the happiest person he knew</div><div class="subject-desc-line">Made the most disturbing images in American cinema</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('nixon')"><div class="subject-portrait"><img src="/thumb-nixon.webp" alt=""></div><div class="subject-text"><div class="subject-name">Richard Milhous Nixon</div><div class="subject-stage-name">Richard Nixon</div><div class="subject-desc"><div class="subject-desc-line">37th President of the United States</div><div class="subject-desc-line">Opened China, created the EPA, ended the draft</div><div class="subject-desc-line">Destroyed himself over a third-rate burglary</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('porridge')"><div class="subject-portrait"><img src="/thumb-porridge.webp" alt=""></div><div class="subject-text"><div class="subject-name">Neil Andrew Megson</div><div class="subject-stage-name">Genesis P-Orridge</div><div class="subject-desc"><div class="subject-desc-line">Founded industrial music with Throbbing Gristle</div><div class="subject-desc-line">Surgically modified their body to resemble their late partner</div><div class="subject-desc-line">Received the Burroughs mandate: short-circuit everything</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('prince')"><div class="subject-portrait"><img src="/thumb-prince.webp" alt=""></div><div class="subject-text"><div class="subject-name">Prince Rogers Nelson</div><div class="subject-stage-name">Prince</div><div class="subject-desc"><div class="subject-desc-line">Musician, Purple Rain, Sign o' the Times</div><div class="subject-desc-line">Named after his father's stage name and unfulfilled ambitions</div><div class="subject-desc-line">Died alone at Paisley Park; the vault has never been fully opened</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('russell')"><div class="subject-portrait"><img src="/thumb-russell.webp" alt=""></div><div class="subject-text"><div class="subject-name">Henry Kenneth Alfred Russell</div><div class="subject-stage-name">Ken Russell</div><div class="subject-desc"><div class="subject-desc-line">British filmmaker, The Devils, Tommy</div><div class="subject-desc-line">Escaped his childhood in the cinema every day</div><div class="subject-desc-line">So extreme the BBC never hired him again</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('serling')"><div class="subject-portrait"><img src="/thumb-serling.webp" alt=""></div><div class="subject-text"><div class="subject-name">Rodman Edward Serling</div><div class="subject-stage-name">Rod Serling</div><div class="subject-desc"><div class="subject-desc-line">Creator of The Twilight Zone</div><div class="subject-desc-line">Watched his best friend die in the Philippines, 1945</div><div class="subject-desc-line">Built science fiction as the only honest route past the censors</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('steinbeck')"><div class="subject-portrait"><img src="/thumb-steinbeck.webp" alt=""></div><div class="subject-text"><div class="subject-name">John Ernst Steinbeck III</div><div class="subject-stage-name">John Steinbeck</div><div class="subject-desc"><div class="subject-desc-line">Novelist, The Grapes of Wrath, East of Eden</div><div class="subject-desc-line">His entire moral universe came from one book given to him at age nine</div><div class="subject-desc-line">Won the Nobel; a Times editorial asked the next day if he deserved it</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('trump')"><div class="subject-portrait"><img src="/thumb-trump.webp" alt=""></div><div class="subject-text"><div class="subject-name">Donald John Trump</div><div class="subject-stage-name">Donald Trump</div><div class="subject-desc"><div class="subject-desc-line">45th and 47th President</div><div class="subject-desc-line">Shaped by his father Fred, Roy Cohn, and Norman Vincent Peale</div><div class="subject-desc-line">Has been trying to rebuild his father's 1950s Queens at national scale</div></div></div></div>
+    <div class="subject-item" onclick="selectSubject('katt_williams')"><div class="subject-portrait"><img src="/thumb-katt_williams.webp" alt=""></div><div class="subject-text"><div class="subject-name">Micah Sierra Williams</div><div class="subject-stage-name">Katt Williams</div><div class="subject-desc"><div class="subject-desc-line">Stand-up comedian, The Pimp Chronicles</div><div class="subject-desc-line">Emancipated at 13, homeless in Miami for four years</div><div class="subject-desc-line">Warned about Diddy on a podcast — Diddy arrested eight months later</div></div></div></div>
   </div>
 </div>
 
